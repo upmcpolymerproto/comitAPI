@@ -10,7 +10,7 @@ const Token = require("../models/token");
 module.exports.authorization = new Strategy((token, done) => {
     Token.decode(token)
         .then(user => done(null, user))
-        .catch(error => done(error));
+        .catch(error => done(null, false, error.message));
 });
 
 module.exports.renewal = new Strategy((token, done) => {
@@ -27,7 +27,7 @@ module.exports.renewal = new Strategy((token, done) => {
                 return Promise.reject(new Error('Error: User ' + currentUser.upn + ' was not found in Active Directory'));
             }
         })
-        .catch(error => done(error));
+        .catch(error => done(null, false, error.message));
 });
 
 module.exports.authentication = new BearerStrategy(config.passport, (token, done) => {
@@ -51,5 +51,5 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
             }
             return done(null, currentUser);
         })
-        .catch(error => done(error));
+        .catch(error => done(null, false, error.message));
 });

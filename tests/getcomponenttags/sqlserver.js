@@ -37,10 +37,11 @@ module.exports.destroy = () =>
         'DELETE FROM [Type]'
         );
 
-
-// module.exports.connect()
-//     .then(() => module.exports.destroy())
-//     .then(() => module.exports.create())
-//     .then(() => sql.close())
-//     .then(() => console.log('done'))
-//     .catch(err => console.log(err));
+if (String(process.argv[2]).toLowerCase() === 'debug') {
+    module.exports.connect()
+        .then(() => module.exports.destroy())
+        .then(() => module.exports.create())
+        .then(() => sql.close())
+        .then(() => console.log('done'))
+        .catch(err => console.log(err));
+}
