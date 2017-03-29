@@ -39,8 +39,8 @@ const fetchTags = (contains) =>
     });
 
 module.exports = (request, response, next) => {
-  var contains = request.params.contains;
-  if (contains == null || contains.length === 0) {
+  let contains = (request.params.contains != null) ? String(request.params.contains).trim() : '';
+  if (contains === '') {
     let error = new Error('Please provide a valid parameter');
     console.log(error); //replace with call to log service
     response.status(400).send(error.message);

@@ -137,6 +137,93 @@ describe('GetComponentTags', function () {
 
         });
 
+        it('should return Status = 200 and [New Jersey] when called with " jersey"', (done) => {
+            const tags = [new Tag('NJ', 'New Jersey')];
+            const request = {
+                params: {
+                    contains: ' jersey'
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 200
+                response.status.should.have.been.calledWith(200);
+
+                // response should be equal to tags
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.length.should.equal(1);
+                tags.should.eql(calledWith);
+                done();
+            });
+
+        });
+
+        it('should return Status = 200 and [Rhode Island] when called with "rhode "', (done) => {
+            const tags = [new Tag('RI', 'Rhode Island')];
+            const request = {
+                params: {
+                    contains: 'rhode '
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 200
+                response.status.should.have.been.calledWith(200);
+
+                // response should be equal to tags
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.length.should.equal(1);
+                tags.should.eql(calledWith);
+                done();
+            });
+
+        });
+
+        it('should return Status = 200 and [Rhode Island] when called with "ode is"', (done) => {
+            const tags = [new Tag('RI', 'Rhode Island')];
+            const request = {
+                params: {
+                    contains: 'ode is'
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 200
+                response.status.should.have.been.calledWith(200);
+
+                // response should be equal to tags
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.length.should.equal(1);
+                tags.should.eql(calledWith);
+                done();
+            });
+
+        });
+
         it('should return Status = 200 and [] when called with 0', (done) => {
             const tags = [];
             const request = {
@@ -402,6 +489,33 @@ describe('GetComponentTags', function () {
     });
 
     describe('Calling GetComponentTags with an invalid parameter', function () {
+
+        it('should return Status = 400 and Error when called with " " (blank space)', (done) => {
+            const request = {
+                params: {
+                    contains: ' '
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be an error message
+                response.send.should.have.been.calledOnce;
+                let calledWith = response.send.firstCall.args[0];
+                calledWith.should.be.a('string');
+                done();
+            });
+
+        });
 
         it('should return Status = 400 and Error when called with "" (empty string)', (done) => {
             const request = {
