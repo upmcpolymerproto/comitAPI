@@ -6,20 +6,38 @@ const Tag = require('../models/tag')
 
 const escapeCharacter = '\\';
 
+// temporary solution to return FAKE data
+const FAKE = (contains) =>
+  new Promise((resolve, reject) => {
+    const randomWords = require('random-words');
+    let n = 10000;
+    let tags = [];
+    for(let i = 0; i < n; i++){
+      tags.push(new Tag(Math.floor(Math.random()*n), randomWords({ min: 1, max: 5, join: '_'})));
+    }
+
+    let filtered = [];
+    for(let i = 0; i < tags.length; i++){
+      if(tags[i].name.includes(contains)){
+        filtered.push(tags[i]);
+      }
+    }
+    resolve(filtered);
+  });
+
 /**
  * Escapes the following symbols in the given string: % _ [
  * @param {string} stringToEscape The string to be escaped.
  * @return {Promise} A promise that will either resolve to the escaped string, or reject with an error.
  */
-const escape = (stringToEscape) => {
-  return new Promise((resolve, reject) => {
+const escape = (stringToEscape) =>
+  new Promise((resolve, reject) => {
     let result = stringToEscape
       .replace('%', escapeCharacter + '%')
       .replace('_', escapeCharacter + '_')
       .replace('[', escapeCharacter + '[');
     resolve(result);
   })
-}
 
 /**
  * Queries the Tag table of the SQL Server database
@@ -47,7 +65,7 @@ module.exports = (request, response, next) => {
   } else {
     sql.connect(config.sql)
       .then(() => escape(String(contains)))
-      .then(escaped => fetchTags(escaped))
+      .then(escaped => FAKE(escaped))
       .then(filtered => response.status(200).json(filtered))
       .catch(error => {
         console.log(error); //replace with call to log service

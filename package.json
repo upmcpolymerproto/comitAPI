@@ -17,7 +17,8 @@
     "mssql": "^3.3.0",
     "passport": "^0.3.2",
     "passport-azure-ad": "^3.0.5",
-    "passport-http-bearer": "^1.0.1"
+    "passport-http-bearer": "^1.0.1",
+    "random-words": "0.0.1"
   },
   "devDependencies": {
     "adal-node": "^0.1.22"
