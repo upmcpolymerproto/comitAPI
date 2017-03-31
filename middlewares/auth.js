@@ -18,13 +18,13 @@ module.exports.renewal = new Strategy((token, done) => {
     Token.decode(token, true)
         .then(user => {
             currentUser = user;
-            return activedirectory.isUserActive(currentUser.upn);
+            return activedirectory.isUserActive(currentUser.id);
         })
         .then(isActive => {
             if (isActive) {
                 return done(null, currentUser);
             } else {
-                return Promise.reject(new Error('Error: User ' + currentUser.upn + ' was not found in Active Directory'));
+                return Promise.reject(new Error('Error: User ' + currentUser.id + ' was not found in Active Directory'));
             }
         })
         .catch(error => done(null, false, error.message));
@@ -37,11 +37,14 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
             if (user) {
                 currentUser = new User(
                     token.upn,
+                    token.given_name,
+                    token.family_name,
+                    user.mail,
                     user
                 );
-                return activedirectory.getGroupMembershipForUser(currentUser.upn);
+                return activedirectory.getGroupMembershipForUser(currentUser.id);
             } else {
-                return Promise.reject(new Error('Error: User ' + currentUser.upn + ' was not found in Active Directory'));
+                return Promise.reject(new Error('Error: User ' + currentUser.id + ' was not found in Active Directory'));
             }
         })
         .then(groups => {
