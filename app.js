@@ -22,7 +22,7 @@ const app = express();
 // define middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: '*/*' }));
-app.use(cors);
+app.use(cors());
 
 // define passport middleware
 passport.use('authentication', authentication);

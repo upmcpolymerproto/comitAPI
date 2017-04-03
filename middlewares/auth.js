@@ -30,10 +30,10 @@ module.exports.renewal = new Strategy((token, done) => {
         .catch(error => done(null, false, error.message));
 });
 
-module.exports.authentication = new BearerStrategy(config.passport, (token, done) => {
+module.exports.authentication = new BearerStrategy(config.passport, (token, done) => {    
     let currentUser;
     activedirectory.findUser(token.upn)
-        .then(user => {
+        .then(user => {            
             if (user) {
                 currentUser = new User(
                     token.upn,
@@ -47,12 +47,12 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
                 return Promise.reject(new Error('Error: User ' + currentUser.id + ' was not found in Active Directory'));
             }
         })
-        .then(groups => {
+        .then(groups => {            
             if (groups) {
                 currentUser.groups = [];
                 groups.forEach((group) => currentUser.groups.push(group.cn));
             }
             return done(null, currentUser);
-        })
-        .catch(error => done(null, false, error.message));
+        }) // TODO this exception is not bubbling up to parent
+        .catch(error => done(null, false, error.message));        
 });
