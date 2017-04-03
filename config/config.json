@@ -1,0 +1,34 @@
+{
+    "activedirectory": {
+        "url": "ldap://acct.upmchs.net:389",
+        "baseDN": "DC=ACCT,DC=UPMCHS,DC=NET",
+        "username": "<insert your username here>",
+        "password": "<insert your password here>"
+    },
+    "passport": {
+        "identityMetadata": "https://login.microsoftonline.com/upmchs.onmicrosoft.com/v2.0/.well-known/openid-configuration",
+        "clientID": "5b4207fc-0086-415d-a6e8-3d27835c26c4",
+        "audience": "spn:00000002-0000-0000-c000-000000000000",
+        "validateIssuer": true,
+        "issuer": "https://sts.windows.net/8b3dd73e-4e72-4679-b191-56da1588712b/",
+        "passReqToCallback": false
+    },
+    "token": {
+        "algorithm": "HS512",
+        "issuer": "THIS_SHOULD_BE_A_UUID",
+        "expiresIn": "3600s",
+        "maxAge": "1y"
+    },
+    "keys": {
+        "secret": "secret"
+    },
+    "sql": {
+        "user": "admin",
+        "password": "admin",
+        "server": "AZ-EA-IIB-DEV04",
+        "database": "comit",
+        "options": {
+            "encrypt": true
+        }
+    }
+}
