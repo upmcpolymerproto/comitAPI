@@ -6,6 +6,16 @@ const Component = require('../models/component');
 const Permission = require('../models/permission');
 const ComponentPermission = require('../models/componentpermission');
 
+const coalesce = (permissions, newPermissions) => {
+    for (let i = 0; i < permissions.length; i++) {
+        // supersede if new permission is true
+        if (newPermissions[i].hasPermission) {
+            permissions[i] = newPermissions[i];
+        }
+    }
+    return permissions;
+}
+
 const getGroupIdsBySystem = (system, groups) =>
     new sql.Request()
         .input('system', system)
@@ -36,19 +46,19 @@ const getComponentsByGroupId = (id) =>
         .then(rows => {
             let permissions = [];
             let components = [];
-            rows.forEach(row => {                
+            rows.forEach(row => {
                 // coalesce system permissions throughout the group
-                if (permissions.length === 0) {
-                    permissions.push(new Permission(row.PermissionId, "View_Data", row.View_Data));
-                    permissions.push(new Permission(row.PermissionId, "View_Messages", row.View_Messages));
-                    permissions.push(new Permission(row.PermissionId, "Delete_Messages", row.Delete_Messages));
-                    permissions.push(new Permission(row.PermissionId, "Replay_Messages", row.Replay_Messages));
+                let newPermissions = []
+                newPermissions.push(new Permission(row.PermissionId, "View_Data", row.View_Data));
+                newPermissions.push(new Permission(row.PermissionId, "View_Messages", row.View_Messages));
+                newPermissions.push(new Permission(row.PermissionId, "Delete_Messages", row.Delete_Messages));
+                newPermissions.push(new Permission(row.PermissionId, "Replay_Messages", row.Replay_Messages));
+                if (permissions.length > 0) {
+                    permissions = coalesce(permissions, newPermissions);
                 } else {
-                    permissions[0].hasPermission = permissions[0].hasPermission || row.View_Data;
-                    permissions[1].hasPermission = permissions[1].hasPermission || row.View_Messages;
-                    permissions[2].hasPermission = permissions[2].hasPermission || row.Delete_Messages;
-                    permissions[3].hasPermission = permissions[3].hasPermission || row.Replay_Messages;
+                    permissions = newPermissions;
                 }
+
                 // store each component and its permission throughout the group
                 let component = new Component(row.ComponentId, row.Name[2]);
                 let componentPermissions = [];
@@ -58,7 +68,7 @@ const getComponentsByGroupId = (id) =>
                 componentPermissions.push(new Permission(row.PermissionId, "Clear", row.Clear));
                 componentPermissions.push(new Permission(row.PermissionId, "View", row.View));
                 components.push(new ComponentPermission(component, componentPermissions));
-            });            
+            });
             return {
                 components: components,
                 permissions: permissions
@@ -71,13 +81,6 @@ const getComponentsByGroupIds = (ids) => {
         promises.push(getComponentsByGroupId(ids[i]));
     }
     return Promise.all(promises);
-}
-
-const coalesce = (permissions, newPermissions) => {
-    for (let i = 0; i < permissions.length; i++) {
-        permissions[i] = permissions[i].hasPermission || newPermissions[i].hasPermission;
-    }
-    return permissions;
 }
 
 const coalescePermissions = (groups) =>

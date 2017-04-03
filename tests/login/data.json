@@ -1,0 +1,169 @@
+{
+    "System": [
+        {
+            "Id": "CoMIT",
+            "Name": "CoMIT",
+            "Description": "corporate message interface toolkit"
+        },
+        {
+            "Id": "MARS",
+            "Name": "MARS",
+            "Description": "medical archive systems, inc."
+        }
+    ],
+    "Group": [
+        {
+            "Id": "ETI - Software Integration",
+            "Name": "ETI - Software Integration",
+            "RoleId": "",
+            "SystemId": "CoMIT"
+        },
+        {
+            "Id": "ETI - All",
+            "Name": "ETI - All",
+            "RoleId": "",
+            "SystemId": "CoMIT"
+        }
+    ],
+    "Tag": [
+        {
+            "Id": "CoMIT Viewer",
+            "Name": "CoMIT Viewer",
+            "Description": "",
+            "GroupId": "ETI - All",
+            "PermissionId": "viewer"
+        },
+        {
+            "Id": "CoMIT Developer",
+            "Name": "CoMIT Developer",
+            "Description": "",
+            "GroupId": "ETI - Software Integration",
+            "PermissionId": "developer"
+        }
+    ],
+    "ComponentTag": [
+        {
+            "Id": "1",
+            "TagId": "CoMIT Viewer",
+            "ComponentId": "EPIC"
+        },
+        {
+            "Id": "2",
+            "TagId": "CoMIT Viewer",
+            "ComponentId": "Medipac"
+        },
+        {
+            "Id": "3",
+            "TagId": "CoMIT Viewer",
+            "ComponentId": "EMPI"
+        },
+        {
+            "Id": "4",
+            "TagId": "CoMIT Viewer",
+            "ComponentId": "dbMotion"
+        },
+        {
+            "Id": "5",
+            "TagId": "CoMIT Developer",
+            "ComponentId": "EPIC"
+        },
+        {
+            "Id": "6",
+            "TagId": "CoMIT Developer",
+            "ComponentId": "Medipac"
+        },
+        {
+            "Id": "7",
+            "TagId": "CoMIT Developer",
+            "ComponentId": "EMPI"
+        },
+        {
+            "Id": "8",
+            "TagId": "CoMIT Developer",
+            "ComponentId": "dbMotion"
+        }
+    ],
+    "Component": [
+        {
+            "Id": "EPIC",
+            "Name": "EPIC",
+            "Description": "",
+            "SystemId": "CoMIT",
+            "TypeId": "flow"
+        },
+        {
+            "Id": "Medipac",
+            "Name": "Medipac",
+            "Description": "",
+            "SystemId": "CoMIT",
+            "TypeId": "flow"
+        },
+        {
+            "Id": "EMPI",
+            "Name": "EMPI",
+            "Description": "",
+            "SystemId": "CoMIT",
+            "TypeId": "flow"
+        },
+        {
+            "Id": "dbMotion",
+            "Name": "dbMotion",
+            "Description": "",
+            "SystemId": "CoMIT",
+            "TypeId": "flow"
+        },
+        {
+            "Id": "MARS",
+            "Name": "MARS",
+            "Description": "",
+            "SystemId": "MARS",
+            "TypeId": ""
+        },
+        {
+            "Id": "Epiphany",
+            "Name": "Epiphany",
+            "Description": "",
+            "SystemId": "MARS",
+            "TypeId": ""
+        }
+    ],
+    "Permission": [
+        {
+            "Id": "developer",
+            "Read": "1",
+            "Write": "1",
+            "Start": "1",
+            "Clear": "1",
+            "View": "1",
+            "View_Data": "0",
+            "View_Messages": "0",
+            "Delete_Messages": "1",
+            "Replay_Messages": "0"
+        },
+        {
+            "Id": "viewer",
+            "Read": "1",
+            "Write": "0",
+            "Start": "0",
+            "Clear": "0",
+            "View": "1",
+            "View_Data": "0",
+            "View_Messages": "1",
+            "Delete_Messages": "0",
+            "Replay_Messages": "0"
+        }
+    ],
+    "Type": [
+        {
+            "Id": "flow",
+            "Name": "flow",
+            "Description": ""
+        },
+        {
+            "Id": "application",
+            "Name": "application",
+            "Description": ""
+        }
+    ],
+    "Role": []
+}
