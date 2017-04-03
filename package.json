@@ -1,7 +1,7 @@
 {
-  "name": "comit",
+  "name": "galaxyapi",
   "version": "1.0.0",
-  "description": "Service Layer for Comit",
+  "description": "Service Layer for Galaxy",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -12,6 +12,7 @@
   "dependencies": {
     "activedirectory": "^0.7.2",
     "body-parser": "^1.17.1",
+    "cors": "^2.8.3",
     "express": "^4.15.2",
     "jsonwebtoken": "^7.3.0",
     "mssql": "^3.3.0",
