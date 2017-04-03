@@ -7,7 +7,7 @@
     },
     "passport": {
         "identityMetadata": "https://login.microsoftonline.com/upmchs.onmicrosoft.com/v2.0/.well-known/openid-configuration",
-        "clientID": "5b4207fc-0086-415d-a6e8-3d27835c26c4",
+        "clientID": "03d4c382-8e60-4858-982e-b6745b0491fc",
         "audience": "spn:00000002-0000-0000-c000-000000000000",
         "validateIssuer": true,
         "issuer": "https://sts.windows.net/8b3dd73e-4e72-4679-b191-56da1588712b/",
