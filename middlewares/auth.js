@@ -53,6 +53,6 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
                 groups.forEach((group) => currentUser.groups.push(group.cn));
             }
             return done(null, currentUser);
-        }) // TODO this exception is not bubbling up to parent
+        })
         .catch(error => done(null, false, JSON.stringify(error.message)));
 });
