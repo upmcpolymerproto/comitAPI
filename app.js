@@ -22,7 +22,7 @@ const app = express();
 // define middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: '*/*' }));
-app.use(cors);
+app.use(cors());
 
 // define passport middleware
 passport.use('authentication', authentication);
@@ -35,5 +35,5 @@ app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
 
 app.listen(port, (error => {
-    console.log('CoMIT API listening on port ' + port);
+    console.log('Galaxy API listening on port ' + port);
 }));
