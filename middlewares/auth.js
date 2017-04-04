@@ -10,7 +10,7 @@ const Token = require("../models/token");
 module.exports.authorization = new Strategy((token, done) => {
     Token.decode(token)
         .then(user => done(null, user))
-        .catch(error => done(null, false, error.message));
+        .catch(error => done(null, false, JSON.stringify(error.message)));
 });
 
 module.exports.renewal = new Strategy((token, done) => {
@@ -27,7 +27,7 @@ module.exports.renewal = new Strategy((token, done) => {
                 return Promise.reject(new Error('Error: User ' + currentUser.id + ' was not found in Active Directory'));
             }
         })
-        .catch(error => done(null, false, error.message));
+        .catch(error => done(null, false, JSON.stringify(error.message)));
 });
 
 module.exports.authentication = new BearerStrategy(config.passport, (token, done) => {
@@ -44,7 +44,7 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
                 );
                 return activedirectory.getGroupMembershipForUser(currentUser.id);
             } else {
-                return Promise.reject(new Error('Error: User ' + currentUser.id + ' was not found in Active Directory'));
+                return Promise.reject(new Error('Error: User was not found in Active Directory'));
             }
         })
         .then(groups => {
@@ -54,5 +54,5 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
             }
             return done(null, currentUser);
         })
-        .catch(error => done(null, false, error.message));
+        .catch(error => done(null, false, JSON.stringify(error.message)));
 });
