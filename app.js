@@ -15,6 +15,7 @@ const renewal = require('./middlewares/auth').renewal;
 const login = require('./services/login');
 const renew = require('./services/renew');
 const getcomponenttags = require('./services/getcomponenttags');
+const email = require('./services/email');
 
 // create express
 const app = express();
@@ -33,6 +34,7 @@ passport.use('renewal', renewal);
 app.post('/login', passport.authenticate('authentication', { session: false }), login);
 app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
+app.post('/email', email);
 
 app.listen(port, (error => {
     console.log('Galaxy API listening on port ' + port);
