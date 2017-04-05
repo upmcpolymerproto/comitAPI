@@ -23,16 +23,16 @@ module.exports.create = () =>
             promises.push(new sql.Request()
                 .input('Id', dummy.Group[i].Id)
                 .input('Name', dummy.Group[i].Name)
-                .input('RoleId', dummy.Group[i].RoleId)
                 .input('SystemId', dummy.Group[i].SystemId)
-                .query('INSERT INTO [Group] (Id, Name, RoleId, SystemId) VALUES (@Id, @Name, @RoleId, @SystemId)'));
+                .query('INSERT INTO [Group] (Id, Name, SystemId) VALUES (@Id, @Name, @SystemId)'));
         }
         for (let i = 0; i < dummy.Role.length; i++) {
             promises.push(new sql.Request()
                 .input('Id', dummy.Role[i].Id)
                 .input('Name', dummy.Role[i].Name)
                 .input('Description', dummy.Role[i].Description)
-                .query('INSERT INTO [Role] (Id, Name, Description) VALUES (@Id, @Name, @Description)'));
+                .input('GroupId', dummy.Role[i].GroupId)
+                .query('INSERT INTO [Role] (Id, Name, Description, GroupId) VALUES (@Id, @Name, @Description, @GroupId)'));
         }
         for (let i = 0; i < dummy.Tag.length; i++) {
             promises.push(new sql.Request()
@@ -40,8 +40,7 @@ module.exports.create = () =>
                 .input('Name', dummy.Tag[i].Name)
                 .input('Description', dummy.Tag[i].Description)
                 .input('GroupId', dummy.Tag[i].GroupId)
-                .input('PermissionId', dummy.Tag[i].PermissionId)
-                .query('INSERT INTO [Tag] (Id, Name, Description, GroupId, PermissionId) VALUES (@Id, @Name, @Description, @GroupId, @PermissionId)'));
+                .query('INSERT INTO [Tag] (Id, Name, Description, GroupId) VALUES (@Id, @Name, @Description, @GroupId)'));
         }
         for (let i = 0; i < dummy.ComponentTag.length; i++) {
             promises.push(new sql.Request()
@@ -59,19 +58,34 @@ module.exports.create = () =>
                 .input('TypeId', dummy.Component[i].TypeId)
                 .query('INSERT INTO [Component] (Id, Name, Description, SystemId, TypeId) VALUES (@Id, @Name, @Description, @SystemId, @TypeId)'));
         }
+        for (let i = 0; i < dummy.TagPermission.length; i++) {
+            promises.push(new sql.Request()
+                .input('Id', dummy.TagPermission[i].Id)
+                .input('TagId', dummy.TagPermission[i].TagId)
+                .input('PermissionId', dummy.TagPermission[i].PermissionId)
+                .query('INSERT INTO [TagPermission] (Id, TagId, PermissionId) VALUES (@Id, @TagId, @PermissionId)'));
+        }
+        for (let i = 0; i < dummy.GroupPermission.length; i++) {
+            promises.push(new sql.Request()
+                .input('Id', dummy.GroupPermission[i].Id)
+                .input('GroupId', dummy.GroupPermission[i].GroupId)
+                .input('PermissionId', dummy.GroupPermission[i].PermissionId)
+                .query('INSERT INTO [GroupPermission] (Id, GroupId, PermissionId) VALUES (@Id, @GroupId, @PermissionId)'));
+        }
         for (let i = 0; i < dummy.Permission.length; i++) {
             promises.push(new sql.Request()
                 .input('Id', dummy.Permission[i].Id)
-                .input('Read', dummy.Permission[i].Read)
-                .input('Write', dummy.Permission[i].Write)
-                .input('Start', dummy.Permission[i].Start)
-                .input('Clear', dummy.Permission[i].Clear)
-                .input('View', dummy.Permission[i].View)
-                .input('View_Data', dummy.Permission[i].View_Data)
-                .input('View_Messages', dummy.Permission[i].View_Messages)
-                .input('Delete_Messages', dummy.Permission[i].Delete_Messages)
-                .input('Replay_Messages', dummy.Permission[i].Replay_Messages)
-                .query('INSERT INTO [Permission] (Id, [Read], Write, Start, Clear, [View], View_Data, View_Messages, Delete_Messages, Replay_Messages) VALUES (@Id, @Read, @Write, @Start, @Clear, @View, @View_Data, @View_Messages, @Delete_Messages, @Replay_Messages)'));
+                .input('PermissionTypeId', dummy.Permission[i].PermissionTypeId)
+                .input('Value', dummy.Permission[i].Value)
+                .query('INSERT INTO [Permission] (Id, PermissionTypeId, [Value]) VALUES (@Id, @PermissionTypeId, @Value)'));
+        }
+        for (let i = 0; i < dummy.PermissionType.length; i++) {
+            promises.push(new sql.Request()
+                .input('Id', dummy.PermissionType[i].Id)
+                .input('Code', dummy.PermissionType[i].Code)
+                .input('Name', dummy.PermissionType[i].Name)
+                .input('isSystemPermission', dummy.PermissionType[i].isSystemPermission)
+                .query('INSERT INTO [PermissionType] (Id, Code, Name, isSystemPermission) VALUES (@Id, @Code, @Name, @isSystemPermission)'));
         }
         for (let i = 0; i < dummy.Type.length; i++) {
             promises.push(new sql.Request()
@@ -94,6 +108,9 @@ module.exports.destroy = () =>
         'DELETE FROM [ComponentTag] ' +
         'DELETE FROM [Component]' +
         'DELETE FROM [Permission]' +
+        'DELETE FROM [TagPermission]' +
+        'DELETE FROM [GroupPermission]' +
+        'DELETE FROM [PermissionType]' +
         'DELETE FROM [Role]' +
         'DELETE FROM [Type]'
         );
