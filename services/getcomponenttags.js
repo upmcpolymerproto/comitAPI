@@ -6,25 +6,6 @@ const Tag = require('../models/tag')
 
 const escapeCharacter = '\\';
 
-// temporary solution to return FAKE data
-const FAKE = (contains) =>
-  new Promise((resolve, reject) => {
-    const randomWords = require('random-words');
-    let n = 10000;
-    let tags = [];
-    for(let i = 0; i < n; i++){
-      tags.push(new Tag(Math.floor(Math.random()*n), randomWords({ min: 1, max: 5, join: '_'})));
-    }
-
-    let filtered = [];
-    for(let i = 0; i < tags.length; i++){
-      if(tags[i].name.includes(contains)){
-        filtered.push(tags[i]);
-      }
-    }
-    resolve(filtered);
-  });
-
 /**
  * Escapes the following symbols in the given string: % _ [
  * @param {string} stringToEscape The string to be escaped.
