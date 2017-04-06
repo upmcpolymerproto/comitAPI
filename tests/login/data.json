@@ -167,7 +167,7 @@
         {
             "Id": "9",
             "TagId": "comit developer",
-            "PermissionId": "Modify Component Information-false"
+            "PermissionId": "Modify Component Information-true"
         },
         {
             "Id": "10",
@@ -177,17 +177,17 @@
         {
             "Id": "11",
             "TagId": "comit developer",
-            "PermissionId": "Start/Stop Components-false"
+            "PermissionId": "Start/Stop Components-true"
         },
         {
             "Id": "12",
             "TagId": "comit developer",
-            "PermissionId": "Clear Queues-false"
+            "PermissionId": "Clear Queues-true"
         },
         {
             "Id": "13",
             "TagId": "comit developer",
-            "PermissionId": "Delete First Message in Queue-false"
+            "PermissionId": "Delete First Message in Queue-true"
         },
         {
             "Id": "14",
@@ -247,9 +247,44 @@
             "PermissionId": "Modify Roles-false"
         },
         {
-            "Id": "1",
+            "Id": "9",
             "GroupId": "ETI - Software Integration",
             "PermissionId": "All-true"
+        },
+        {
+            "Id": "10",
+            "GroupId": "ETI - All",
+            "PermissionId": "View All Components-true"
+        },
+        {
+            "Id": "11",
+            "GroupId": "ETI - All",
+            "PermissionId": "Start/Stop All Components-true"
+        },
+        {
+            "Id": "12",
+            "GroupId": "ETI - All",
+            "PermissionId": "Show Stage Components-true"
+        },
+        {
+            "Id": "13",
+            "GroupId": "ETI - All",
+            "PermissionId": "Create Categories-true"
+        },
+        {
+            "Id": "14",
+            "GroupId": "ETI - All",
+            "PermissionId": "Modify Categories-true"
+        },
+        {
+            "Id": "15",
+            "GroupId": "ETI - All",
+            "PermissionId": "Modify Permissions-true"
+        },
+        {
+            "Id": "16",
+            "GroupId": "ETI - All",
+            "PermissionId": "Modify Roles-true"
         }
     ],
     "Permission": [

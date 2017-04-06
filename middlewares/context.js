@@ -6,17 +6,59 @@ const Component = require('../models/component');
 const Permission = require('../models/permission');
 const ComponentPermission = require('../models/componentpermission');
 
-const coalesce = (permissions, newPermissions) => {
-    for (let i = 0; i < permissions.length; i++) {
-        // supersede if new permission is true
-        if (newPermissions[i].hasPermission) {
-            permissions[i] = newPermissions[i];
+const combine = (arrays) => {
+    let result = [];
+    for (let i = 0; i < arrays.length; i++) {
+        let set = arrays[i];
+        for (let j = 0; j < set.length; j++) {
+            if (!result.includes(set[j])) {
+                result.push(set[j]);
+            }
         }
     }
+    return result;
+}
+
+const collapsePermissions = (permissionSets) => {
+    let permissions = {};
+    for (let i = 0; i < permissionSets.length; i++) {
+        let permissionSet = permissionSets[i];
+        for (let j = 0; j < permissionSet.length; j++) {
+            let permission = permissionSet[j];
+            // insert permission if it does not exist yet OR overwrite permission if new permission is true
+            if (!permissions[permission.code] || permission.hasPermission) {
+                permissions[permission.code] = permission;
+            }
+        }
+    }
+    //convert from object to an array
+    permissions = Object.keys(permissions).map(key => permissions[key]);
     return permissions;
 }
 
-const getGroupIdsBySystem = (system, groups) =>
+const collapseComponentPermissions = (componentPermissionSets) => {
+    let componentPemissions = {};
+    for (let i = 0; i < componentPermissionSets.length; i++) {
+        let componentPermissionSet = componentPermissionSets[i];
+        for (let j = 0; j < componentPermissionSet.length; j++) {
+            let component = componentPermissionSet[j].component;            
+            if (componentPemissions[component.id]) {
+                // collapse the componet's permissions
+                let permissionSets = [componentPemissions[component.id].permissions, componentPermissionSet[j].permissions];
+                let permissions = collapsePermissions(permissionSets);
+                componentPemissions[component.id].permissions = permissions;
+            } else {
+                // insert component permission if it does not exist yet 
+                componentPemissions[component.id] = componentPermissionSet[j]
+            }
+        }
+    }
+    //convert from object to an array
+    componentPemissions = Object.keys(componentPemissions).map(key => componentPemissions[key]);
+    return componentPemissions;
+}
+
+const getGroupsBySystem = (system, groups) =>
     new sql.Request()
         .input('system', system)
         .query(
@@ -33,95 +75,115 @@ const getGroupIdsBySystem = (system, groups) =>
             return ids;
         });
 
-const getComponentsByGroupId = (id) =>
-    new sql.Request()
-        .input('id', id)
-        .query(
-        "SELECT * FROM [Group] " +
-        "INNER JOIN [Tag] on [Group].[Id] = [Tag].[Groupid] " +
-        "INNER JOIN [ComponentTag] on [Tag].[Id] = [ComponentTag].[TagId]" +
-        "INNER JOIN [Component] on [ComponentTag].[ComponentId] = [Component].[Id]" +
-        "INNER JOIN [Permission] on [Tag].[PermissionId] = [Permission].[Id]" +
-        "WHERE [Group].[Id] = @id")
-        .then(rows => {
-            let permissions = [];
-            let components = [];
-            rows.forEach(row => {
-                // coalesce system permissions throughout the group
-                let newPermissions = []
-                newPermissions.push(new Permission(row.PermissionId, "View_Data", row.View_Data));
-                newPermissions.push(new Permission(row.PermissionId, "View_Messages", row.View_Messages));
-                newPermissions.push(new Permission(row.PermissionId, "Delete_Messages", row.Delete_Messages));
-                newPermissions.push(new Permission(row.PermissionId, "Replay_Messages", row.Replay_Messages));
-                if (permissions.length > 0) {
-                    permissions = coalesce(permissions, newPermissions);
-                } else {
-                    permissions = newPermissions;
-                }
-
-                // store each component and its permission throughout the group
-                let component = new Component(row.ComponentId, row.Name[2]);
-                let componentPermissions = [];
-                componentPermissions.push(new Permission(row.PermissionId, "Read", row.Read));
-                componentPermissions.push(new Permission(row.PermissionId, "Write", row.Write));
-                componentPermissions.push(new Permission(row.PermissionId, "Start", row.Start));
-                componentPermissions.push(new Permission(row.PermissionId, "Clear", row.Clear));
-                componentPermissions.push(new Permission(row.PermissionId, "View", row.View));
-                components.push(new ComponentPermission(component, componentPermissions));
-            });
-            return {
-                components: components,
-                permissions: permissions
-            }
-        });
-
-const getComponentsByGroupIds = (ids) => {
+const getSystemPermissionsByGroups = (groups) => {
     let promises = [];
-    for (let i = 0; i < ids.length; i++) {
-        promises.push(getComponentsByGroupId(ids[i]));
+    for (let i = 0; i < groups.length; i++) {
+        promises.push(getSystemPermissionsByGroup(groups[i]));
     }
-    return Promise.all(promises);
+    return Promise.all(promises)
+        .then(permissionSets => collapsePermissions(permissionSets));
 }
 
-const coalescePermissions = (groups) =>
-    new Promise((resolve, reject) => {
-        let components = {};
-        let permissions = [];
-        groups.forEach(group => {
-            // coalesce system permissions for each group
-            if (permissions.length > 0) {
-                permissions = coalesce(permissions, group.permissions);
-            } else {
-                permissions = group.permissions
-            }
-
-            // coalesce component permissions for each group
-            group.components.forEach(componentPermission => {
-                let name = componentPermission.component.name
-                if (name in components) {
-                    components[name].permissions = coalesce(components[name].permissions, componentPermission.permissions);
-                } else {
-                    components[name] = componentPermission;
-                }
+const getSystemPermissionsByGroup = (group) =>
+    new sql.Request()
+        .input('groupId', group)
+        .query(
+        'SELECT [Permission].[Id], [Code], [Name], [Value] FROM [GroupPermission]' +
+        'INNER JOIN [Permission] ON [GroupPermission].[PermissionId] = [Permission].[Id]' +
+        'INNER JOIN [PermissionType] ON [Permission].[PermissionTypeId] = [PermissionType].[Id]' +
+        'WHERE [GroupPermission].[GroupId] = @groupId')
+        .then(rows => {
+            let permissions = [];
+            rows.forEach(row => {
+                permissions.push(new Permission(row.Id, row.Code, row.Name, row.Value))
             });
+            return permissions;
         });
-        // convert components from a map to an array
-        components = Object.keys(components).map(key => components[key])
-        resolve({
-            components: components,
-            permissions: permissions
-        });
-    });
 
+const getTagsByGroups = (groups) => {
+    let promises = [];
+    for (let i = 0; i < groups.length; i++) {
+        promises.push(getTagsByGroup(groups[i]));
+    }
+    return Promise.all(promises)
+        .then(tagSets => combine(tagSets));
+}
+
+const getTagsByGroup = (group) =>
+    new sql.Request()
+        .input('group', group)
+        .query('SELECT [Id] FROM [Tag] WHERE [GroupId] = @group')
+        .then(rows => {
+            let ids = []
+            rows.forEach(row => {
+                ids.push(row.Id)
+            });
+            return ids;
+        });
+
+const getComponentPermissionsByTags = (tags) => {
+    let promises = [];
+    for (let i = 0; i < tags.length; i++) {
+        promises.push(getComponentPermissionsByTag(tags[i]));
+    }
+    return Promise.all(promises)
+        .then(componentPermissionSets => collapseComponentPermissions(componentPermissionSets));
+}
+
+const getComponentPermissionsByTag = (tag) =>
+    Promise.all([getComponentsByTag(tag), getPermissionsByTag(tag)])
+        .then(results => {
+            let components = results[0];
+            let permissions = results[1];
+            let componentPermissions = [];
+            for (let i = 0; i < components.length; i++) {
+                componentPermissions.push(new ComponentPermission(components[i], permissions))
+            }
+            return componentPermissions;
+        });
+
+const getComponentsByTag = (tag) =>
+    new sql.Request()
+        .input('tagId', tag)
+        .query(
+        'SELECT [Component].[Id], [Component].[Name] FROM [Tag]' +
+        'INNER JOIN [ComponentTag] ON [Tag].[Id] = [ComponentTag].[TagId]' +
+        'INNER JOIN [Component] ON [ComponentTag].[ComponentId] = [Component].[Id]' +
+        'WHERE [Tag].[Id] = @tagId')
+        .then(rows => {
+            let components = [];
+            rows.forEach(row => {
+                components.push(new Component(row.Id, row.Name));
+            });
+            return components;
+        });
+
+const getPermissionsByTag = (tag) =>
+    new sql.Request()
+        .input('tagId', tag)
+        .query(
+        'SELECT [Permission].[Id], [Code], [Name], [Value] FROM [TagPermission]' +
+        'INNER JOIN [Permission] ON [TagPermission].[PermissionId] = [Permission].[Id]' +
+        'INNER JOIN [PermissionType] ON [Permission].[PermissionTypeId] = [PermissionType].[Id]' +
+        'WHERE [TagPermission].[TagId] = @tagId')
+        .then(rows => {
+            let permissions = [];
+            rows.forEach(row => {
+                permissions.push(new Permission(row.Id, row.Code, row.Name, row.Value))
+            });
+            return permissions;
+        });
 
 const comit = (user, system) =>
     sql.connect(config.sql)
-        .then(() => getGroupIdsBySystem(system, user.groups))
-        .then(ids => getComponentsByGroupIds(ids))
-        .then(groups => coalescePermissions(groups))
+        .then(() => getGroupsBySystem(system, user.groups))
+        .then(groups => Promise.all([getSystemPermissionsByGroups(groups), getTagsByGroups(groups)]))
         .then(results => {
-            user.components = results.components;
-            user.permissions = results.permissions;
+            user.permissions = results[0];
+            return getComponentPermissionsByTags(results[1]);
+        })
+        .then(componentPermissions => {
+            user.components = componentPermissions;
             return user;
         });
 
@@ -145,9 +207,12 @@ module.exports = (user, context) =>
             } else if (String(context).trim().toLowerCase() === 'mars') {
                 mars(user)
                     .then(() => resolve())
-                    .catch((error) => reject(error));
+                    .catch((error) => {
+                        console.log(error); //replace with call to logging service
+                        reject(error)
+                    });
             } else {
-                reject(new Error('Context is invalid'));
+                reject(new Error('The context: ' + String(context) + ' is invalid'));
             }
         }
     });

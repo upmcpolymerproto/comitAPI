@@ -25,7 +25,7 @@
         "user": "admin",
         "password": "admin",
         "server": "AZ-EA-IIB-DEV04",
-        "database": "comit",
+        "database": "galaxyDB",
         "options": {
             "encrypt": true
         }

@@ -2,8 +2,9 @@
 
 class Permission {
 
-    constructor(id, name, hasPermission) {
+    constructor(id, code, name, hasPermission) {
         this.id = id;
+        this.code = code;
         this.name = name;
         this.hasPermission = hasPermission || false;
     }
