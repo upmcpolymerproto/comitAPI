@@ -7,7 +7,7 @@
     },
     "passport": {
         "identityMetadata": "https://login.microsoftonline.com/upmchs.onmicrosoft.com/v2.0/.well-known/openid-configuration",
-        "clientID": "03d4c382-8e60-4858-982e-b6745b0491fc",     
+        "clientID": "03d4c382-8e60-4858-982e-b6745b0491fc",
         "validateIssuer": true,
         "issuer": "https://sts.windows.net/8b3dd73e-4e72-4679-b191-56da1588712b/",
         "passReqToCallback": false
@@ -22,12 +22,13 @@
         "secret": "secret"
     },
     "sql": {
-        "user": "admin",
-        "password": "admin",
-        "server": "AZ-EA-IIB-DEV04",
-        "database": "galaxyDB",
+        "user": "galaxyadm",
+        "password": "<insert password here>",
+        "server": "USS5460X80",
         "options": {
-            "encrypt": true
+            "port": 49645,
+            "database": "galaxy",
+            "instancename": "SQLEXPRESS"
         }
     }
 }
