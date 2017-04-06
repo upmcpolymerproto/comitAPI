@@ -7,16 +7,13 @@ module.exports = (request, response, next) => {
     let user = request.user;
     let system = request.body.context;
     let jwtToken;
-    // context service to get user.components & user.permissions
 
-    /* Enable this once the database is available
+    // context service to get user.components & user.permissions
     context(user, system)
         .then(userWithPermissions => {
             user = userWithPermissions;
-            Token.encode(user);
+            return Token.encode(user)
         })
-    */
-    Token.encode(user)
         .then(token => {
             jwtToken = token;
             return Token.decode(token);

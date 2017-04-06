@@ -65,7 +65,7 @@ module.exports = (request, response, next) => {
   } else {
     sql.connect(config.sql)
       .then(() => escape(String(contains)))
-      .then(escaped => FAKE(escaped))
+      .then(escaped => fetchTags(escaped))
       .then(filtered => response.status(200).json(filtered))
       .catch(error => {
         console.log(error); //replace with call to log service

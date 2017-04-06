@@ -2,7 +2,7 @@
     "activedirectory": {
         "url": "ldap://acct.upmchs.net:389",
         "baseDN": "DC=ACCT,DC=UPMCHS,DC=NET",
-        "username": "bpmADdev@upmc.edu",
+        "username": "galaxydev@upmc.edu",
         "password": "<insert password here>"
     },
     "passport": {
