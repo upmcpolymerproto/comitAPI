@@ -3,7 +3,7 @@
 // SQL Server configuration
 const config = require('../../config/config.json').sql;
 const sql = require('mssql');
-const dummy = require('./data');
+const dummy = require('./mock');
 
 module.exports.connect = () => sql.connect(config);
 
