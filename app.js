@@ -15,6 +15,7 @@ const renewal = require('./middlewares/auth').renewal;
 const login = require('./services/login');
 const renew = require('./services/renew');
 const getcomponenttags = require('./services/getcomponenttags');
+const gettagsandpermissionsbygroup = require('./services/gettagsandpermissionsbygroup');
 const email = require('./services/email');
 
 // create express
@@ -34,6 +35,7 @@ passport.use('renewal', renewal);
 app.post('/login', passport.authenticate('authentication', { session: false }), login);
 app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
+app.post('/gettagsandpermissions', passport.authenticate('authorization', { session: false }), gettagsandpermissionsbygroup);
 app.post('/email', email);
 
 app.listen(port, (error => {

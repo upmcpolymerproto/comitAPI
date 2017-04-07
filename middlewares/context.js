@@ -68,7 +68,7 @@ const getGroupsBySystem = (system, groups) =>
         .then(rows => {
             let ids = []
             rows.forEach(row => {
-                if (groups.includes(row.Name.trim())) {
+                if (groups.includes(row.Name)) {
                     ids.push(row.Id)
                 }
             });
