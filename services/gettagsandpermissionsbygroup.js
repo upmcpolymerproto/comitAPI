@@ -53,11 +53,11 @@ const getPermissionTypes = () =>
 const getTagsByGroup = (group) =>
     new sql.Request()
         .input('groupId', group)
-        .query('SELECT [Id], [Name] FROM [Tag] WHERE [GroupId] = @groupId')
+        .query('SELECT [Id], [Name], [Description] FROM [Tag] WHERE [GroupId] = @groupId')
         .then(rows => {
             let tags = []
             rows.forEach(row => {
-                tags.push(new Tag(row.Id, row.Name))
+                tags.push(new Tag(row.Id, row.Name, row.Description))
             });
             return tags;
         });

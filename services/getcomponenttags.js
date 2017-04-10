@@ -2,7 +2,7 @@
 
 const sql = require('mssql');
 const config = require('../config/config.json');
-const Tag = require('../models/tag')
+const Tag = require('../models/tag');
 
 const escapeCharacter = '\\';
 
@@ -30,10 +30,10 @@ const fetchTags = (contains) =>
   new sql.Request()
     .input('tag', '%' + contains + '%')
     .input('escape', escapeCharacter)
-    .query('SELECT Id, Name FROM Tag WHERE Name LIKE @tag ESCAPE @escape')
+    .query('SELECT Id, Name, Description FROM Tag WHERE Name LIKE @tag ESCAPE @escape')
     .then(rows => {
       let filtered = [];
-      rows.forEach(row => filtered.push(new Tag(row.Id, row.Name)));
+      rows.forEach(row => filtered.push(new Tag(row.Id, row.Name, row.Description)));
       return filtered;
     });
 

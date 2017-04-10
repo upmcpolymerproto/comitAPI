@@ -146,14 +146,14 @@ const getComponentsByTag = (tag) =>
     new sql.Request()
         .input('tagId', tag)
         .query(
-        'SELECT [Component].[Id], [Component].[Name] FROM [Tag]' +
+        'SELECT [Component].[Id], [Component].[Name], [Component].[Description] FROM [Tag]' +
         'INNER JOIN [ComponentTag] ON [Tag].[Id] = [ComponentTag].[TagId]' +
         'INNER JOIN [Component] ON [ComponentTag].[ComponentId] = [Component].[Id]' +
         'WHERE [Tag].[Id] = @tagId')
         .then(rows => {
             let components = [];
             rows.forEach(row => {
-                components.push(new Component(row.Id, row.Name));
+                components.push(new Component(row.Id, row.Name, row.Description));
             });
             return components;
         });
