@@ -22,7 +22,8 @@
         "secret": "secret"
     },
     "sql": {
-        "user": "galaxyadm",
+        "domain": "1UPMC-ACCT",
+        "user": "galaxydev",
         "password": "<insert password here>",
         "server": "USS5460X80",
         "options": {
