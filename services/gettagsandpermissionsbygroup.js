@@ -50,9 +50,9 @@ const getPermissionTypes = () =>
  * @param {uuid} group A uuid of a group from the Group table.
  * @return {Promise} A promise that will either resolve to an array of Tags, or reject with an error.
  */
-const getTagsByGroup = (group) =>
+const getTagsByGroupId = (groupId) =>
     new sql.Request()
-        .input('groupId', group)
+        .input('groupId', groupId)
         .query('SELECT [Id], [Name], [Description] FROM [Tag] WHERE [GroupId] = @groupId')
         .then(rows => {
             let tags = []
@@ -63,7 +63,7 @@ const getTagsByGroup = (group) =>
         });
 
 /**
- * Executes the uspGetComponentTagPermissions stored procedure for each tag 
+ * Executes the uspGetTagPermissionsByTagId stored procedure for each tag 
  * in the given array to get all Permissions belonging to that tag.
  * @param {array} tags An array of tags to fetch permissions for.
  * @return {Promise} A promise that will either resolve to an array of Tags (now with permissions), or reject with an error.
@@ -75,36 +75,42 @@ const getPermissionsForTags = (tags) => {
 }
 
 /**
- * Executes the uspGetComponentTagPermissions stored procedure to get all Permissions belonging to the given tagId.
- * @param {uuid} tag A uuid of a tag from the Tag table.
+ * Executes the uspGetTagPermissionsByTagId stored procedure to get all Permissions belonging to the given Tag's uuid.
+ * @param {Tag} tag A Tag object where Tag.Id contains the uuid. 
  * @return {Promise} A promise that will either resolve to a Tag (now with permissions), or reject with an error.
  */
 const getPermissionsForTag = (tag) =>
     new sql.Request()
         .input('tagId', tag.id)
-        .execute('uspGetComponentTagPermissions')
+        .execute('uspGetTagPermissionsByTagId')
         .then(result => {
             tag.permissions = [];
-            result[0].forEach(row => {
-                tag.permissions.push(new Permission(row.Id, row.Code, row.Name, row.Value))
-            });
+            let rows = result[0];
+            if (rows) {
+                rows.forEach(row => {
+                    tag.permissions.push(new Permission(row.Id, row.Code, row.Name, row.Value))
+                });
+            }
             return tag;
         });
 
 /**
- * Executes the uspGetGroupPermissions stored procedure to get all Permissions belonging to the given groupId.
+ * Executes the uspGetGroupPermissionsByGroupId stored procedure to get all Permissions belonging to the given groupId.
  * @param {uuid} group A uuid of a group from the Group table.
  * @return {Promise} A promise that will either resolve to an array of Permissions, or reject with an error.
  */
-const getSystemPermissionsByGroup = (group) =>
+const getSystemPermissionsByGroupId = (groupId) =>
     new sql.Request()
-        .input('groupId', group)
-        .execute('uspGetGroupPermissions')
+        .input('groupId', groupId)
+        .execute('uspGetGroupPermissionsByGroupId')
         .then(result => {
             let permissions = [];
-            result[0].forEach(row => {
-                permissions.push(new Permission(row.Id, row.Code, row.Name, row.Value))
-            });
+            let rows = result[0];
+            if (rows) {
+                rows.forEach(row => {
+                    permissions.push(new Permission(row.Id, row.Code, row.Name, row.Value))
+                });
+            }
             return permissions;
         });
 
@@ -122,11 +128,11 @@ module.exports = (request, response, next) => {
         let types = [];
         let permissions = [];
         sql.connect(config.sql)
-            .then(() => Promise.all([getPermissionTypes(), getSystemPermissionsByGroup(group.id)]))
+            .then(() => Promise.all([getPermissionTypes(), getSystemPermissionsByGroupId(group.id)]))
             .then(results => {
                 types = results[0];
                 permissions = merge(results[1], types, false);
-                return getTagsByGroup(group.id);
+                return getTagsByGroupId(group.id);
             })
             .then(tags => getPermissionsForTags(tags))
             .then(tagsWithPermissions => {
