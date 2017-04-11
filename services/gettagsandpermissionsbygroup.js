@@ -114,14 +114,7 @@ module.exports = (request, response, next) => {
         let error = new Error('Please provide a valid parameter');
         console.log(error); //replace with call to log service
         response.status(400).send(error.message);
-    }
-    else if (group.id == null) {
-        let result = {
-            groupComponentTags: [],
-            permissions: []
-        }
-        response.status(200).send(result);
-    } else if (!validator.isUUID(group.id)) {
+    } else if (group.id == null || !validator.isUUID(group.id)) {
         let error = new Error(String(group.id) + ' is not a valid UUID');
         console.log(error); //replace with call to log service
         response.status(400).send(error.message);
