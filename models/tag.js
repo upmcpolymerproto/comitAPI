@@ -1,13 +1,12 @@
 'use strict';
 
-class Tag {
+const BaseModel = require('./basemodel');
 
-    constructor(id, name, description, components, permissions) {
-        this.id = id;
-        this.name = name;
-        this.description = description || '';
-        this.components = components || [];
-        this.permissions = permissions || [];
+class Tag extends BaseModel {
+
+    constructor(id, name, items) {
+        super(id, name);
+        this.items = items || [];
     }
 
 };

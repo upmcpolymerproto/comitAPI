@@ -1,11 +1,12 @@
 'use strict';
 
+const BaseModel = require('./basemodel');
+
 class Permission {
 
-    constructor(id, code, name, hasPermission) {
+    constructor(id, type, hasPermission) {
         this.id = id;
-        this.code = code;
-        this.name = name;
+        this.type = type;
         this.hasPermission = hasPermission || false;
     }
 

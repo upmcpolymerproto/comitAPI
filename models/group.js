@@ -1,11 +1,11 @@
 'use strict';
 
-class Group {
+const BaseModel  = require('./basemodel');
 
-    constructor(id, name, system) {
-        this.id = id;
-        this.name = name;
-        this.system = system;
+class Group extends BaseModel {
+
+    constructor(id, name) {
+        super(id, name);
     }
 
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-var BaseModel = require('../models/basemodel');
+const BaseModel  = require('./basemodel');
 
 class EmailMessage extends BaseModel {
   constructor(from, to, subject, text) {

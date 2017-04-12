@@ -1,12 +1,23 @@
 'use strict';
 
-class PermissionType {
+const BaseModel = require('./basemodel');
 
-    constructor(id, code, name, isComponentType) {
-        this.id = id;
+const types = {
+    SYSTEM: 'System',
+    ITEM: 'Item'
+};
+
+class PermissionType extends BaseModel {
+
+    constructor(id, name, code, isItemType) {
+        super(id, name);
         this.code = code;
-        this.name = name;
-        this.isComponentType = isComponentType;
+
+        if (isItemType) {
+            this.type = types.ITEM
+        } else {
+            this.type = types.SYSTEM
+        }
     }
 
 };
