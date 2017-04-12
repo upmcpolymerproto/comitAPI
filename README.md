@@ -21,7 +21,7 @@ npm install
 
 ### Credentials
 
-Ensure that proper, valid credentials are set in [config.json](config.json) 
+Ensure that proper, valid credentials are set in [config.json](config/config.json) 
 before starting Galaxy API. These are required for Galaxy API to function correctly.
 
 ## Usage
