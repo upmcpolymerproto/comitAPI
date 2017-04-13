@@ -1,13 +1,13 @@
 'use strict';
 
-const BaseModel  = require('./basemodel');
+const BaseModel = require('./basemodel');
 
 class Role extends BaseModel {
 
-    constructor(id, name, items, permissions) {
+    constructor(id, name, itemPermissions, systemPermissions) {
         super(id, name);
-        this.items = items || [];
-        this.permissions = permissions || [];
+        this.itemPermissions = itemPermissions || [];
+        this.systemPermissions = systemPermissions || [];
     }
 
 };
