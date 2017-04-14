@@ -40,7 +40,6 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
                     token.given_name,
                     token.family_name,
                     user.mail,
-                    user
                 );
                 return activedirectory.getGroupMembershipForUser(currentUser.id);
             } else {

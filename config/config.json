@@ -28,7 +28,7 @@
         "server": "USS5460X80",
         "options": {
             "port": 49645,
-            "database": "galaxy",
+            "database": "galaxy2",
             "instancename": "SQLEXPRESS"
         }
     }
