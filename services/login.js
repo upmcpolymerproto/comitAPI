@@ -1,7 +1,7 @@
 'use strict';
 
 const Token = require('../models/token.js');
-const context = require('../middlewares/context');
+const context = require('../helpers/context');
 
 module.exports = (request, response, next) => {
     let user = request.user;

@@ -3,7 +3,7 @@
         "url": "ldap://acct.upmchs.net:389",
         "baseDN": "DC=ACCT,DC=UPMCHS,DC=NET",
         "username": "galaxydev@upmc.edu",
-        "password": "<insert password here>"
+        "password": "xvXp75$9"
     },
     "passport": {
         "identityMetadata": "https://login.microsoftonline.com/upmchs.onmicrosoft.com/v2.0/.well-known/openid-configuration",
@@ -24,7 +24,7 @@
     "sql": {
         "domain": "1UPMC-ACCT",
         "user": "galaxydev",
-        "password": "<insert password here>",
+        "password": "xvXp75$9",
         "server": "USS5460X80",
         "options": {
             "port": 49645,
