@@ -27,7 +27,7 @@
         "password": "<insert password here>",
         "server": "USS5460X80",
         "options": {
-            "port": 49645,
+            "port": 1433,
             "database": "galaxy2",
             "instancename": "SQLEXPRESS"
         }
