@@ -64,26 +64,29 @@ module.exports = (user, context) => {
         return Promise.reject(new Error('Please provide a valid parameter'));
     } else {
         context = String(context).trim().toLowerCase();
-        db.getSystemByName(context)
-            .then(system => db.getGroupsBySystemId(system.id))
-            .then(groups => mergeGroups(user.groups, groups))
-            .then(groups => {
-                let itemPermissionSets = [];
-                let systemPermissionSets = [];
-                for (let group of groups) {
-                    for (let roles of group.roles) {
-                        systemPermissionSets = systemPermissionSets.concat(roles.systemPermissions);
-                        itemPermissionSets = itemPermissionSets.concat(roles.itemPermissions);
-                    }
-                }
-                let promises = [collapseSystemPermissions(user, systemPermissionSets), collapseItemPermissions(itemPermissionSets)]
-                return Promise.all(promises);
-            })
-            .then(result => {
-                user.systemPermissions = result[0];
-                user.itemPemissions = result[1];
-                return user;
-            })
-
+        // db.getSystemByName(context)
+        //     .then(system => db.getGroupsBySystemId(system.id))
+        //     .then(groups => mergeGroups(user.groups, groups))
+        //     .then(groups => {
+        //         let itemPermissionSets = [];
+        //         let systemPermissionSets = [];
+        //         for (let group of groups) {
+        //             for (let roles of group.roles) {
+        //                 systemPermissionSets = systemPermissionSets.concat(roles.systemPermissions);
+        //                 itemPermissionSets = itemPermissionSets.concat(roles.itemPermissions);
+        //             }
+        //         }
+        //         let promises = [collapseSystemPermissions(user, systemPermissionSets), collapseItemPermissions(itemPermissionSets)]
+        //         return Promise.all(promises);
+        //     })
+        //     .then(result => {
+        //         user.systemPermissions = result[0];
+        //         user.itemPemissions = result[1];
+        //         return user;
+        //     })
+        //     .catch(error => Promise.reject(error));
+            
+            // TODO remove
+            return Promise.resolve(user);
     }
 }
