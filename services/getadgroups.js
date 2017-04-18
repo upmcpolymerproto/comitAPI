@@ -72,7 +72,7 @@ module.exports = (request, response, next) =>  {
                 response.status(200).send("No groups found containing \"" + contains + "\"");
             }else{
                 console.log("Query for groups containing \"" + contains +"\" returned " + groups.length + " group(s).");
-                response.status(200).json(JSON.stringify(groups));
+                response.status(200).json(groups);
             }
         }).catch(err => {
             console.log('ERROR: ' + err);
