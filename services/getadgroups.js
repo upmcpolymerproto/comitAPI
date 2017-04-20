@@ -3,6 +3,7 @@ const config = require('../config/config.json');
 const activeDirectory = require('activedirectory');
 const Group = require('../models/group');
 const galaxyLog = require('../helpers/galaxylog');
+const GalaxyReturn = require('../models/galaxyreturn');
 const filters = activeDirectory.filters;
 const ad = new activeDirectory(config.activedirectory);
 
@@ -31,14 +32,14 @@ const parseGUID = ( objectGUID ) => {
 
 /**
  * Queries the AD server and returns a subset of groups containing the specified string.
- * @param {String} contains The parameter from the user to search all groups for.
- * @return {Promise} A promise that resolves to a collection of Group objects, resolves to a string indicating no groups were found or rejects to an error message.
+ * @param {String} startsWith The parameter from the user to search all groups for.
+ * @return {Promise} A promise that resolves to a GalaxyReturn containing a collection of Group objects or rejects to an error message.
  */
-const getADGroups =  (contains) => 
+const getADGroups = (startsWith) => 
     new Promise((resolve, reject) => {
     //specify optional params for ldap query
     var opts = {  
-        filter: "CN=" + contains + "*",
+        filter: "CN=" + startsWith + "*",
         //specify which attributes to be returned from the AD server
         attributes: ['objectGUID', 'cn'],
         sizeLimit: 20,
@@ -51,37 +52,32 @@ const getADGroups =  (contains) =>
         }
     }
     ad.findGroups(opts, (err, groups) => {
+        var returnGroups = [];
         //ldap query failed
         if (err) {
-            reject("Error occurred in getADGroups():" + err.message);
+            reject(new GalaxyReturn(returnGroups, err));
+        }else if(!groups){
+            resolve(new GalaxyReturn(returnGroups, null));
+        }else{
+            for(var i = 0; i< groups.length; i++){
+                returnGroups.push(new Group(groups[i].objectGUID, groups[i].cn,[]));
+            };
+            resolve(new GalaxyReturn(returnGroups, null));
         }
-        //ldap query succeeded
-        var returnGroups = []
-        for(var i = 0; i< groups.length; i++){
-            returnGroups.push(new Group(groups[i].objectGUID, groups[i].cn,[]));
-        };
-        
-        resolve(returnGroups);
     });
 });
 
 
 module.exports = (request, response, next) =>  {
-    
-    let contains = (request.params.contains != null) ? String(request.params.contains).trim() : '';
-    if (contains === '') {
+    let startsWith = (request.params.startsWith != null) ? String(request.params.startsWith).trim() : '';
+    if (startsWith === '') {
         let error = new Error('Please provide a valid parameter');
         galaxyLog.logMessage(error);
         response.status(400).send(error.message);
     } else {
-        getADGroups(contains).then(groups =>{
-            if(!groups || groups.length == 0){
-                galaxyLog.logMessage("No groups found containing \"" + contains + "\"");
-                response.status(200).send("No groups found containing \"" + contains + "\"");
-            }else{
-                galaxyLog.logMessage("Query for groups containing \"" + contains +"\" returned " + groups.length + " group(s).");
-                response.status(200).send(groups);
-            }
+        getADGroups(startsWith).then(groups =>{
+            galaxyLog.logMessage("Query for groups containing \"" + startsWith +"\" returned " + groups.data.length + " group(s).");
+            response.status(200).send(groups);
         }).catch(err => {
             galaxyLog.logMessage('ERROR: ' + err);
             response.status(400).send(err);

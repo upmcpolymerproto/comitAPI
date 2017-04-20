@@ -36,7 +36,7 @@ passport.use('renewal', renewal);
 // define routes
 app.post('/login', passport.authenticate('authentication', { session: false }), login);
 app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
-app.get('/getadgroups/:contains', passport.authenticate('authorization', { session: false }), getadgroups);
+app.get('/getadgroups/:startsWith', passport.authenticate('authorization', { session: false }), getadgroups);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
 app.get('/getpermissiontypes/', passport.authenticate('authorization', { session: false }), getpermissiontypes);
 app.post('/gettagsandpermissions', passport.authenticate('authorization', { session: false }), gettagsandpermissionsbygroup);
