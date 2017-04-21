@@ -1,28 +1,28 @@
 'use strict';
 
-const Token = require('../models/token.js');
+const log4galaxy = require('../helpers/galaxylog');
+const jwt = require('../helpers/jwt');
+const Token = require('../models/token');
+const GalaxyReturn = require('../models/galaxyreturn');
+const GalaxyError = require('../models/galaxyerror');
 
 module.exports = (request, response, next) => {
-    let user = request.user;
-    let jwtToken;
-    Token.encode(user)
-        .then(token => {
-            jwtToken = token;
-            return Token.decode(token);
+    let token;
+    jwt.encode(request.user)
+        .then(jwtToken => {
+            token = jwtToken;
+            return jwt.decode(jwtToken);
         })
         .then(obj => {
-            let result = {
-                user: user,
-                token: {
-                    "iat": obj.iat,
-                    "exp": obj.exp,
-                    "jwt": jwtToken
-                }
+            let data = {
+                token: new Token(obj.iat, obj.exp, token)
             };
-            response.status(200).json(result);
+            response.status(200).json(new GalaxyReturn(data, null));
         })
         .catch(error => {
-            console.log(error); //replace with call to log service
-            response.status(500).send(error.message);
+            log4galaxy.logMessage(error);
+            response.status(500).send(
+                new GalaxyReturn(null, new GalaxyError('An error while renewing the Users JWT token.', error.stack, error.type))
+            );
         });
 }
