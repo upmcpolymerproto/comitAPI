@@ -16,47 +16,51 @@ const collapsePermissions = (permissionSets) => {
     return Object.keys(permissions).map(key => permissions[key]);
 }
 
-const collapseItemPermissions = (itemPermissionSets) => {
-    let itemPemissions = {};
-    for (let itemPermissionSet of itemPermissionSets) {
-        for (let itemPermission of itemPermissionSet) {
-            let itemId = itemPermission.item.id;
-            if (itemPemissions[itemId]) {
-                // collapse the item's permissions
-                let permissionSets = [itemPemissions[itemId].permissions, itemPermission.permissions];
+const collapseComponentTagPermissions = (componentTagPermissionSets) => {
+    let componentTagPermissions = {};
+    for (let componentTagPermissionSet of componentTagPermissionSets) {
+        for (let componentTagPermission of componentTagPermissionSet) {
+            let tagId = componentTagPermission.tag.id;
+            if (componentTagPermissions[tagId]) {
+                // collapse the tags's permissions
+                let permissionSets = [componentTagPermissions[tagId].permissions, componentTagPermission.permissions];
                 let permissions = collapsePermissions(permissionSets);
-                itemPemissions[itemId].permissions = permissions;
+                componentTagPermissions[tagId].permissions = permissions;
             } else {
-                // insert item permission if it does not exist yet 
-                itemPemissions[itemId] = itemPermission;
+                // insert component tag permissions if it does not exist yet 
+                componentTagPermissions[tagId] = componentTagPermission;
             }
         }
     }
     //convert itemPermissions from map to an array
-    itemPemissions = Object.keys(itemPemissions).map(key => itemPemissions[key]);
-    return itemPemissions;
+    componentTagPermissions = Object.keys(componentTagPermissions).map(key => componentTagPermissions[key]);
+    return componentTagPermissions;
 }
 
-const collapseSystemPermissions = (user, systemPermissionSets) => {
-    for (let systemPermissionSet of systemPermissionSets) {
-        for (let systemPermission of systemPermissionSet) {
-            if (systemPermission.type.code === 'admin' && systemPermission.hasPermission === true) {
-                user.isAdmin = true;
-                break;
+const comit = (user) => {
+    let promises = [];
+    for (group of user.groups) {
+        promises.push(db.getComitGroupByName(group.name));
+    }
+    return Promise.all(promises)
+        .then(groups => {
+            let systemPermissionSets = [];
+            let componenetTagPermissionSets = [];
+            for (group of groups) {
+                if (group.isAdmin) {
+                    //user is administrator
+                    user.isAdmin = true;
+                    return user;
+                }
+                systemPermissionSets = systemPermissionSets.concat(group.systemPermissions);
+                componenetTagPermissionSets = componenetTagPermissionSets.concat(group.componenetTagPermissions);
             }
-        }
-    }
-    return collapsePermissions(systemPermissionSets);
-}
-
-const mergeGroups = (adGroups, dbGroups) => {
-    let groups = [];
-    for (let dbGroup of dbGroups) {
-        if (adGroups.includes(dbGroup.name)) {
-            groups.push(dbGroup);
-        }
-    }
-    return groups;
+            //user is not an administrator, merge all permissions
+            user.isAdmin = false;
+            user.systemPermissions = collapsePermissions(systemPermissionSets);
+            user.componenetTagPermissions = collapseComponentTagPermissions(componenetTagPermissionSets)
+            return user;
+        });
 }
 
 module.exports = (user, context) => {
@@ -64,29 +68,10 @@ module.exports = (user, context) => {
         return Promise.reject(new Error('Please provide a valid parameter'));
     } else {
         context = String(context).trim().toLowerCase();
-        // db.getSystemByName(context)
-        //     .then(system => db.getGroupsBySystemId(system.id))
-        //     .then(groups => mergeGroups(user.groups, groups))
-        //     .then(groups => {
-        //         let itemPermissionSets = [];
-        //         let systemPermissionSets = [];
-        //         for (let group of groups) {
-        //             for (let roles of group.roles) {
-        //                 systemPermissionSets = systemPermissionSets.concat(roles.systemPermissions);
-        //                 itemPermissionSets = itemPermissionSets.concat(roles.itemPermissions);
-        //             }
-        //         }
-        //         let promises = [collapseSystemPermissions(user, systemPermissionSets), collapseItemPermissions(itemPermissionSets)]
-        //         return Promise.all(promises);
-        //     })
-        //     .then(result => {
-        //         user.systemPermissions = result[0];
-        //         user.itemPemissions = result[1];
-        //         return user;
-        //     })
-        //     .catch(error => Promise.reject(error));
-            
-            // TODO remove
-            return Promise.resolve(user);
+        if (context === 'comit') {
+            return comit(user);
+        } else {
+            return Promise.reject(new Error('The context: ' + String(context) + ' is invalid'));
+        }
     }
 }
