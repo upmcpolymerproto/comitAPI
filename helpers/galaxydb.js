@@ -11,6 +11,8 @@ const PermissionType = require('../models/permissiontype');
 const Component = require('../models/component');
 const ComponentTagPermission = require('../models/componenttagpermission');
 
+const connect = () => sql.connect(config.sql);
+
 const getComitComponentTagPermissionsByGroupId = (groupId) =>
     getComitTagsByGroupId(groupId)
         .then(tags => {
@@ -32,13 +34,12 @@ const getComitComponentTagPermissionsByGroupId = (groupId) =>
 
 
 const getComitComponentsByTagId = (tagId) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
+    connect()
+        .then(pool =>
+            pool.request()
                 .input('tagId', tagId)
                 .query('[uspComitGetComponentsByTagId]'))
         .then(result => {
-            sql.close();
             let components = [];
             let rows = result[0];
             if (rows) {
@@ -48,23 +49,16 @@ const getComitComponentsByTagId = (tagId) =>
             }
             return components;
         })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
 
 const getComitGroupByName = (groupName) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
+    connect()
+        .then(pool =>
+            pool.request()
                 .input('groupName', groupName)
                 .query(
                 'SELECT * FROM [CoMIT_Group] ' +
-                'WHERE [Name] = @groupName'
-                )
-        )
+                'WHERE [Name] = @groupName'))
         .then(rows => {
-            sql.close();
             if (rows[0]) {
                 return new Group(row.Id, type, row.Name, row.IsSystemAdmin);
             } else {
@@ -88,19 +82,14 @@ const getComitGroupByName = (groupName) =>
                     });
             }
         })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
 
 const getComitTagsByGroupId = (groupId) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
+    connect()
+        .then(pool =>
+            pool.request()
                 .input('groupdId', groupdId)
                 .execute('[uspComitGetTagsByGroupId]'))
         .then(result => {
-            sql.close();
             let tags = [];
             let rows = result[0];
             if (rows) {
@@ -117,19 +106,14 @@ const getComitTagsByGroupId = (groupId) =>
             }
             return Promise.all(promises);
         })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
 
 const getComitSystemPermissionsByGroupId = (groupdId) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
+    connect()
+        .then(pool =>
+            pool.request()
                 .input('groupdId', groupdId)
                 .execute('[uspComitGetSystemPermissionsByGroupId]'))
         .then(result => {
-            sql.close();
             let permissions = [];
             let rows = result[0];
             if (rows) {
@@ -140,20 +124,15 @@ const getComitSystemPermissionsByGroupId = (groupdId) =>
             }
             return permissions;
         })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
 
 const getComitTagPermissions = (groupId, tagId) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
+    connect()
+        .then(pool =>
+            pool.request()
                 .input('groupId', groupId)
                 .input('tagId', tagId)
                 .execute('[uspComitGetTagPermissions]'))
         .then(result => {
-            sql.close();
             let permissions = [];
             let rows = result[0];
             if (rows) {
@@ -164,10 +143,6 @@ const getComitTagPermissions = (groupId, tagId) =>
             }
             return permissions;
         })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
 
 module.exports = {
     getComitGroupByName: getComitGroupByName,

@@ -39,14 +39,14 @@ const collapseComponentTagPermissions = (componentTagPermissionSets) => {
 
 const comit = (user) => {
     let promises = [];
-    for (group of user.groups) {
-        promises.push(db.getComitGroupByName(group.name));
+    for (let group of user.groups) {
+        promises.push(db.getComitGroupByName(group));
     }
     return Promise.all(promises)
         .then(groups => {
             let systemPermissionSets = [];
             let componenetTagPermissionSets = [];
-            for (group of groups) {
+            for (let group of groups) {
                 if (group.isAdmin) {
                     //user is administrator
                     user.isAdmin = true;
