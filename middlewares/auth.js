@@ -5,17 +5,17 @@ const config = require("../config/config.json");
 const BearerStrategy = require("passport-azure-ad").BearerStrategy;
 const Strategy = require("passport-http-bearer").Strategy;
 const User = require("../models/user");
-const Token = require("../models/token");
+const jwt = require("../helpers/jwt");
 
 module.exports.authorization = new Strategy((token, done) => {
-    Token.decode(token)
+    jwt.decode(token)
         .then(user => done(null, user))
         .catch(error => done(null, false, JSON.stringify(error.message)));
 });
 
 module.exports.renewal = new Strategy((token, done) => {
     let currentUser;
-    Token.decode(token, true)
+    jwt.decode(token, true)
         .then(user => {
             currentUser = user;
             return activedirectory.isUserActive(currentUser.id);
@@ -30,10 +30,10 @@ module.exports.renewal = new Strategy((token, done) => {
         .catch(error => done(null, false, JSON.stringify(error.message)));
 });
 
-module.exports.authentication = new BearerStrategy(config.passport, (token, done) => {    
+module.exports.authentication = new BearerStrategy(config.passport, (token, done) => {
     let currentUser;
     activedirectory.findUser(token.upn)
-        .then(user => {            
+        .then(user => {
             if (user) {
                 currentUser = new User(
                     token.upn,
@@ -46,7 +46,7 @@ module.exports.authentication = new BearerStrategy(config.passport, (token, done
                 return Promise.reject(new Error('Error: User was not found in Active Directory'));
             }
         })
-        .then(groups => {            
+        .then(groups => {
             if (groups) {
                 currentUser.groups = [];
                 groups.forEach((group) => currentUser.groups.push(group.cn));
