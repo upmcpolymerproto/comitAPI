@@ -65,29 +65,28 @@ const getComitGroupByName = (groupName) =>
         )
         .then(rows => {
             sql.close();
-            let group;
             if (rows[0]) {
-                group = new Group(row.Id, type, row.Name, row.IsSystemAdmin)
+                return new Group(row.Id, type, row.Name, row.IsSystemAdmin);
+            } else {
+                return new Group();
             }
-            return group;
         })
         .then(group => {
-            if (group.IsAdmin) {
+            // skip permissions if group is adminstrative or group doesnt exist in db
+            if (group.IsAdmin || !group.id) {
                 return group;
             } else {
                 let promises = [
-                    group,
                     getComitSystemPermissionsByGroupId(group.id),
                     getComitComponentTagPermissionsByGroupId(group.id)
                 ];
-                return Promise.all(promises);
+                return Promise.all(promises)
+                    .then(results => {
+                        group.systemPermissions = results[0];
+                        group.componenetTagPermissions = results[1];
+                        return group;
+                    });
             }
-        })
-        .then(results => {
-            let group = results[0];
-            group.systemPermissions = results[1];
-            group.componenetTagPermissions = results[2];
-            return group;
         })
         .catch(error => {
             sql.close();
