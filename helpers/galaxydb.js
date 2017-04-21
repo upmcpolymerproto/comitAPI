@@ -27,6 +27,14 @@ const escapeWildcard = (stringToEscape, escapeCharacter) => {
     return result;
 }
 
+/**
+ * First it executes the uspComitGetTagsByGroupId stored procedure of galaxyDB, 
+ * to get all of the Tags belonging the given Group Id.
+ * Then for each tag it executes the uspComitGetTagPermissions stored procedure of galaxyDB, 
+ * to get all Component Tag Permissions belonging the given Tag Id which are assoicated to the given Group Id.
+ * @param {uuid} groupId The Group Id used as input to the stored procedure calls;
+ * @return {Promise} A promise that will either resolve to an array of Componet Tag Permissions, or reject with an error.
+ */
 const getComitComponentTagPermissionsByGroupId = (groupId) =>
     getComitTagsByGroupId(groupId)
         .then(tags => {
@@ -46,7 +54,12 @@ const getComitComponentTagPermissionsByGroupId = (groupId) =>
             return componentTagPermissions;
         })
 
-
+/**
+ * Executes the uspComitGetComponentsByTagId stored procedure of galaxyDB,
+ * which fetches all Components belonging to the given Tag Id.
+ * @param {uuid} tagId The Tag Id used as input to the stored procedure.
+ * @return {Promise} A promise that will either resolve to an array of Components, or reject with an error.
+ */
 const getComitComponentsByTagId = (tagId) =>
     connect()
         .then(pool =>
@@ -64,6 +77,11 @@ const getComitComponentsByTagId = (tagId) =>
             return components;
         })
 
+/**
+ * Queries the CoMIT_Group table of galaxyDB for a Group name equal to the value of the given string.
+ * @param {string} groupName The name of the group to fetch.
+ * @return {Promise} A promise that will either resolve to a Group, or reject with an error.
+ */
 const getComitGroupByName = (groupName) =>
     connect()
         .then(pool =>
@@ -99,7 +117,7 @@ const getComitGroupByName = (groupName) =>
 
 /**
  * Queries the Tag table of galaxyDB for Tag names including or equal to the value of the given string.
- * @param {string} contains The string used to query the tag names.
+ * @param {string} contains The value used to query the tag names.
  * @return {Promise} A promise that will either resolve to an array of Tags, or reject with an error.
  */
 const getComitTagsByContains = (contains) => {
@@ -120,6 +138,12 @@ const getComitTagsByContains = (contains) => {
         });
 }
 
+/**
+ * Executes the uspComitGetTagsByGroupId stored procedure of galaxyDB,
+ * which fetches all Tags belonging to the given Group Id.
+ * @param {uuid} groupId The Group Id used as input to the stored procedure.
+ * @return {Promise} A promise that will either resolve to an array of Tags, or reject with an error.
+ */
 const getComitTagsByGroupId = (groupId) =>
     connect()
         .then(pool =>
@@ -144,6 +168,12 @@ const getComitTagsByGroupId = (groupId) =>
             return Promise.all(promises);
         })
 
+/**
+ * Executes the uspComitGetSystemPermissionsByGroupId stored procedure of galaxyDB,
+ * which fetches all System Permissions belonging to the given Group Id.
+ * @param {uuid} groupId The Group Id used as input to the stored procedure.
+ * @return {Promise} A promise that will either resolve to an array of System Permissions, or reject with an error.
+ */
 const getComitSystemPermissionsByGroupId = (groupdId) =>
     connect()
         .then(pool =>
@@ -162,6 +192,13 @@ const getComitSystemPermissionsByGroupId = (groupdId) =>
             return permissions;
         })
 
+/**
+ * Executes the uspComitGetTagPermissions stored procedure of galaxyDB,
+ * which fetches all Tag Permissions belonging to the given Tag Id associated with the given Group Id.
+ * @param {uuid} groupId The Group Id used as input to the stored procedure.
+ * @param {uuid} tagId The Tag Id used as input to the stored procedure.
+ * @return {Promise} A promise that will either resolve to an array of Tag Permissions, or reject with an error.
+ */
 const getComitTagPermissions = (groupId, tagId) =>
     connect()
         .then(pool =>
@@ -184,6 +221,7 @@ const getComitTagPermissions = (groupId, tagId) =>
 module.exports = {
     getComitGroupByName: getComitGroupByName,
     getComitTagsByGroupId: getComitTagsByGroupId,
+    getComitTagsByContains: getComitTagsByContains,
     getComitComponentsByTagId: getComitComponentsByTagId,
     getComitTagPermissions: getComitTagPermissions,
     getComitSystemPermissionsByGroupId: getComitSystemPermissionsByGroupId,
