@@ -4,9 +4,9 @@ const BaseModel = require('./basemodel');
 
 class Tag extends BaseModel {
 
-    constructor(id, name, items) {
+    constructor(id, name, components) {
         super(id, name);
-        this.items = items || [];
+        this.components = components || [];
     }
 
 };

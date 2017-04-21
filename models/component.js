@@ -2,7 +2,7 @@
 
 const BaseModel = require('./basemodel');
 
-class Item extends BaseModel {
+class Component extends BaseModel {
 
     constructor(id, name, type, tags) {
         super(id, name);
@@ -12,4 +12,4 @@ class Item extends BaseModel {
 
 };
 
-module.exports = Item;
+module.exports = Component;

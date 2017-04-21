@@ -4,9 +4,10 @@ const BaseModel = require('./basemodel');
 
 class Group extends BaseModel {
 
-    constructor(id, name, roles) {
+    constructor(id, name, componenetTagPermissions, systemPermissions) {
         super(id, name);
-        this.roles = roles || [];
+        this.componenetTagPermissions = componenetTagPermissions || [];
+        this.systemPermissions = systemPermissions || [];
     }
 
 };

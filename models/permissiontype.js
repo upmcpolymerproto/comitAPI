@@ -4,19 +4,19 @@ const BaseModel = require('./basemodel');
 
 const types = {
     SYSTEM: 'System',
-    ITEM: 'Item'
+    COMPONENT: 'Component'
 };
 
 class PermissionType extends BaseModel {
 
-    constructor(id, name, code, isItemType) {
+    constructor(id, name, code, isSystemType) {
         super(id, name);
         this.code = code;
 
-        if (isItemType) {
-            this.type = types.ITEM
-        } else {
+        if (isSystemType) {
             this.type = types.SYSTEM
+        } else {
+            this.type = types.COMPONENT
         }
     }
 
