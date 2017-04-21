@@ -13,6 +13,20 @@ const ComponentTagPermission = require('../models/componenttagpermission');
 
 const connect = () => sql.connect(config.sql);
 
+/**
+ * Escapes the following symbols in the given wildcard string: % _ [
+ * @param {string} stringToEscape The string to be escaped.
+ * @param {string} escapeCharacter The character used to escape the symbols.
+ * @return {string} The escaped string
+ */
+const escapeWildcard = (stringToEscape, escapeCharacter) => {
+    let result = stringToEscape
+        .replace('%', escapeCharacter + '%')
+        .replace('_', escapeCharacter + '_')
+        .replace('[', escapeCharacter + '[');
+    return result;
+}
+
 const getComitComponentTagPermissionsByGroupId = (groupId) =>
     getComitTagsByGroupId(groupId)
         .then(tags => {
@@ -82,6 +96,29 @@ const getComitGroupByName = (groupName) =>
                     });
             }
         })
+
+/**
+ * Queries the Tag table of galaxyDB for Tag names including or equal to the value of the given string.
+ * @param {string} contains The string used to query the tag names.
+ * @return {Promise} A promise that will either resolve to an array of Tags, or reject with an error.
+ */
+const getComitTagsByContains = (contains) => {
+    const escapeCharacter = '\\';
+    contains = escapeWildcard(contains, escapeCharacter);
+    return connect()
+        .then(pool =>
+            pool.request()
+                .input('tag', '%' + contains + '%')
+                .input('escape', escapeCharacter)
+                .query('SELECT [Id], [Name] FROM [Tag] WHERE [Name] LIKE @tag ESCAPE @escape'))
+        .then(rows => {
+            let tags = [];
+            for (let row of rows) {
+                tags.push(new Tag(row.Id, row.Name))
+            }
+            return tags;
+        });
+}
 
 const getComitTagsByGroupId = (groupId) =>
     connect()

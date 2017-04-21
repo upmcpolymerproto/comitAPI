@@ -1,56 +1,28 @@
 'use strict';
 
-const sql = require('mssql');
-const config = require('../config/config.json');
-const Tag = require('../models/tag');
-
-const escapeCharacter = '\\';
-
-/**
- * Escapes the following symbols in the given string: % _ [
- * @param {string} stringToEscape The string to be escaped.
- * @return {Promise} A promise that will either resolve to the escaped string, or reject with an error.
- */
-const escape = (stringToEscape) =>
-  new Promise((resolve, reject) => {
-    let result = stringToEscape
-      .replace('%', escapeCharacter + '%')
-      .replace('_', escapeCharacter + '_')
-      .replace('[', escapeCharacter + '[');
-    resolve(result);
-  })
-
-/**
- * Queries the Tag table of the SQL Server database
- * for Tag names including or equal to the value of the given string.
- * @param {string} contains The string used to query the tag names.
- * @return {Promise} A promise that will either resolve to an array of Tags, or reject with an error.
- */
-const fetchTags = (contains) =>
-  new sql.Request()
-    .input('tag', '%' + contains + '%')
-    .input('escape', escapeCharacter)
-    .query('SELECT Id, Name, Description FROM Tag WHERE Name LIKE @tag ESCAPE @escape')
-    .then(rows => {
-      let filtered = [];
-      rows.forEach(row => filtered.push(new Tag(row.Id, row.Name, row.Description)));
-      return filtered;
-    });
+const db = require('../helpers/galaxydb');
+const log4galaxy = require('../helpers/galaxylog');
+const GalaxyReturn = require('../models/galaxyreturn');
+const GalaxyError = require('../models/galaxyerror');
 
 module.exports = (request, response, next) => {
   let contains = (request.params.contains != null) ? String(request.params.contains).trim() : '';
   if (contains === '') {
-    let error = new Error('Please provide a valid parameter');
-    console.log(error); //replace with call to log service
-    response.status(400).send(error.message);
+    let error = new Error('Please provide a valid parameter for the search');
+    log4galaxy.logMessage(error);
+    response.status(400).send(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));
   } else {
-    sql.connect(config.sql)
-      .then(() => escape(String(contains)))
-      .then(escaped => fetchTags(escaped))
-      .then(filtered => response.status(200).json(filtered))
+    db.getComitTagsByContains(contains)
+      .then(tags => {
+        let data = {
+          tags: tags
+        };
+        response.status(200).json(new GalaxyReturn(data, null));
+      })
       .catch(error => {
-        console.log(error); //replace with call to log service
-        response.status(500).send(error.message);
+        log4galaxy.logMessage(error);
+        let friendly = 'An error occurred while fetching Component Tags.';
+        response.status(500).send(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
       });
   }
 }

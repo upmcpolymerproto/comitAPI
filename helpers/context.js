@@ -48,7 +48,7 @@ const comit = (user) => {
             let componenetTagPermissionSets = [];
             for (let group of groups) {
                 if (group.isAdmin) {
-                    //user is administrator
+                    //user is administrator, ignore permissions
                     user.isAdmin = true;
                     return user;
                 }
