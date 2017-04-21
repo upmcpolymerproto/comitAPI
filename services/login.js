@@ -25,7 +25,7 @@ module.exports = (request, response, next) => {
         })
         .catch(error => {
             log4galaxy.logMessage(error);
-            response.status(500).send(new GalaxyReturn(null,
-                new GalaxyError('An error occured while fetching permissions for the user.', error.stack, error.type)));
+            let friendly = 'An error occurred while obtaining permissions for the user.';
+            response.status(500).send(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
         });
 }
