@@ -4,113 +4,117 @@ const sql = require('mssql');
 const config = require('../config/config.json');
 
 // import models
-const System = require('../models/system');
 const Group = require('../models/group');
-const Role = require('../models/role');
+const Tag = require('../models/tag');
 const Permission = require('../models/permission');
 const PermissionType = require('../models/permissiontype');
-const Item = require('../models/item');
-const ItemType = require('../models/itemtype');
-const ItemPermission = require('../models/itempermission');
+const Component = require('../models/component');
+const ComponentTagPermission = require('../models/componenttagpermission');
 
-const getAllPermissionsForRole = (role) => {
-    let promises = [
-        getSystemPermissionsByRoleId(role.id),
-        getItemPermissionsByRoleId(role.id),
-        getItemsByRoleId(role.id)
-    ];
-    return Promise.all(promises)
+const getComitComponentTagPermissionsByGroupId = (groupId) =>
+    getComitTagsByGroupId(groupId)
+        .then(tags => {
+            promises = [];
+            for (let tag of tags) {
+                promises.push(getComitTagPermissions(groupId, tag.id));
+            }
+            return [tags, Promise.all(promises)];
+        })
         .then(results => {
-            let items = result[2];
-            let permissionsForItem = result[1]
-            role.systemPermissions = result[0];
-            role.itemPermissions = [];
-            for (let item of items) {
-                itemPermissions.push(new ItemPermission(item, permissionsForItem))
+            let tags = results[0];
+            let tagPermissions = results[1];
+            let componentTagPermissions = [];
+            for (let i = 0; i < tags.length; i++) {
+                componentTagPermissions.push(new ComponentTagPermission(tag[i], tagPermissions[i]));
             }
-            return role;
+            return componentTagPermissions;
         })
-}
 
-const getItemsByRoleId = (roleId) =>
+
+const getComitComponentsByTagId = (tagId) =>
     sql.connect(config.sql)
         .then(() =>
             new sql.Request()
-                .input('roleId', roleId)
-                .query('[uspGetItemsByRoleId]'))
+                .input('tagId', tagId)
+                .query('[uspComitGetComponentsByTagId]'))
         .then(result => {
             sql.close();
-            let items = [];
+            let components = [];
             let rows = result[0];
             if (rows) {
                 for (let row of rows) {
-                    let type = new ItemType(row.ItemTypeId, row.ItemTypeName)
-                    items.push(new Item(row.Id, row.Name));
+                    components.push(new Component(row.Id, row.Name, row.Type));
                 }
             }
-            return items;
+            return components;
         })
         .catch(error => {
             sql.close();
             return Promise.reject(error);
         });
 
-const getGroupsBySystemId = (systemId) =>
+const getComitGroupByName = (groupName) =>
     sql.connect(config.sql)
         .then(() =>
             new sql.Request()
-                .input('systemId', systemId)
-                .execute('[uspGetGroupsBySystemId]'))
-        .then(result => {
-            sql.close();
-            let groups = [];
-            let rows = result[0];
-            if (rows) {
-                for (let row of rows) {
-                    groups.push(new Group(row.Id, row.Name));
-                }
-            }
-            return groups;
-        })
-        .then(groups => {
-            let promises = [];
-            for (let group of groups) {
-                promises.push(getRolesByGroupId(group.id));
-            }
-            return Promise.all(promises)
-                .then(roles => {
-                    for (let i = 0; i < groups.length; i++) {
-                        groups[i].roles = roles[i];
-                    }
-                    return groups;
-                });
-        })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
-
-const getRolesByGroupId = (groupId) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
-                .input('groupId', groupId)
+                .input('groupName', groupName)
                 .query(
-                'SELECT [Role].[Id], [Role].[Name] FROM [Role]' +
-                'WHERE [Role].[GroupId] = @groupId'
-                ))
+                'SELECT * FROM [CoMIT_Group] ' +
+                'WHERE [Name] = @groupName'
+                )
+        )
         .then(rows => {
             sql.close();
-            let roles = [];
-            for (let row of rows) {
-                roles.push(new Role(row.Id, row.Name));
+            let group;
+            if (rows[0]) {
+                group = new Group(row.Id, type, row.Name, row.IsSystemAdmin)
             }
-            return roles;
+            return group;
         })
-        .then(roles => {
+        .then(group => {
+            if (group.IsAdmin) {
+                return group;
+            } else {
+                let promises = [
+                    group,
+                    getComitSystemPermissionsByGroupId(group.id),
+                    getComitComponentTagPermissionsByGroupId(group.id)
+                ];
+                return Promise.all(promises);
+            }
+        })
+        .then(results => {
+            let group = results[0];
+            group.systemPermissions = results[1];
+            group.componenetTagPermissions = results[2];
+            return group;
+        })
+        .catch(error => {
+            sql.close();
+            return Promise.reject(error);
+        });
+
+const getComitTagsByGroupId = (groupId) =>
+    sql.connect(config.sql)
+        .then(() =>
+            new sql.Request()
+                .input('groupdId', groupdId)
+                .execute('[uspComitGetTagsByGroupId]'))
+        .then(result => {
+            sql.close();
+            let tags = [];
+            let rows = result[0];
+            if (rows) {
+                for (let row of rows) {
+                    tags.push(new Tag(row.Id, row.Name));
+                }
+            }
+            return tags;
+        })
+        .then(tags => {
             let promises = [];
-            for (let role of roles) {
-                promises.push(getAllPermissionsForRole(role));
+            for (let tag of tags) {
+                promises.push(getComitComponentsByTagId(tag.id));
             }
             return Promise.all(promises);
         })
@@ -119,12 +123,36 @@ const getRolesByGroupId = (groupId) =>
             return Promise.reject(error);
         });
 
-const getSystemPermissionsByRoleId = (roleId) =>
+const getComitSystemPermissionsByGroupId = (groupdId) =>
     sql.connect(config.sql)
         .then(() =>
             new sql.Request()
-                .input('roleId', roleId)
-                .execute('[uspGetSystemPermissionsByRoleId]'))
+                .input('groupdId', groupdId)
+                .execute('[uspComitGetSystemPermissionsByGroupId]'))
+        .then(result => {
+            sql.close();
+            let permissions = [];
+            let rows = result[0];
+            if (rows) {
+                for (let row of rows) {
+                    let type = new PermissionType(row.PermissionTypeId, row.Name, row.Code, row.IsSystemPermission)
+                    permissions.push(new Permission(row.Id, type, row.Value));
+                }
+            }
+            return permissions;
+        })
+        .catch(error => {
+            sql.close();
+            return Promise.reject(error);
+        });
+
+const getComitTagPermissions = (groupId, tagId) =>
+    sql.connect(config.sql)
+        .then(() =>
+            new sql.Request()
+                .input('groupId', groupId)
+                .input('tagId', tagId)
+                .execute('[uspComitGetTagPermissions]'))
         .then(result => {
             sql.close();
             let permissions = [];
@@ -136,52 +164,6 @@ const getSystemPermissionsByRoleId = (roleId) =>
                 }
             }
             return permissions;
-        })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
-
-const getItemPermissionsByRoleId = (roleId) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
-                .input('roleId', roleId)
-                .execute('[uspGetItemPermissionsByRoleId]'))
-        .then(result => {
-            sql.close();
-            let permissions = [];
-            let rows = result[0];
-            if (rows) {
-                for (let row of rows) {
-                    let type = new PermissionType(row.PermissionTypeId, row.Name, row.Code, row.IsItemType)
-                    permissions.push(new Permission(row.Id, type, row.Value));
-                }
-            }
-            return permissions;
-        })
-        .catch(error => {
-            sql.close();
-            return Promise.reject(error);
-        });
-
-const getSystemByName = (systemName) =>
-    sql.connect(config.sql)
-        .then(() =>
-            new sql.Request()
-                .input('systemName', systemName)
-                .query(
-                'SELECT * FROM [System] ' +
-                'WHERE [System].[Name] = @systemName')
-        )
-        .then(rows => {
-            sql.close();
-            let system = rows[0];
-            if (system) {
-                return new System(system.Id, system.Name, system.Description);
-            } else {
-                return new System();
-            }
         })
         .catch(error => {
             sql.close();
@@ -189,10 +171,10 @@ const getSystemByName = (systemName) =>
         });
 
 module.exports = {
-    getSystemByName: getSystemByName,
-    getGroupsBySystemId: getGroupsBySystemId,
-    getRolesByGroupId: getRolesByGroupId,
-    getItemsByRoleId: getItemsByRoleId,
-    getItemPermissionsByRoleId: getItemPermissionsByRoleId,
-    getSystemPermissionsByRoleId: getSystemPermissionsByRoleId
+    getComitGroupByName: getComitGroupByName,
+    getComitTagsByGroupId: getComitTagsByGroupId,
+    getComitComponentsByTagId: getComitComponentsByTagId,
+    getComitTagPermissions: getComitTagPermissions,
+    getComitSystemPermissionsByGroupId: getComitSystemPermissionsByGroupId,
+    getComitComponentTagPermissionsByGroupId: getComitComponentTagPermissionsByGroupId
 }
