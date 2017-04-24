@@ -3,7 +3,7 @@
 const Tag = require('../../models/tag');
 const GalaxyReturn = require('../../models/galaxyreturn');
 const GalaxyError = require('../../models/galaxyerror');
-const sql = require('./sqlserver');
+const mockDb = require('./mockdatabase');
 const chai = require('chai');
 const sinon = require('sinon');
 
@@ -20,19 +20,19 @@ describe('GetComponentTags', function () {
 
     // create mock data
     before(() =>
-        sql.connect()
-            .then(() => sql.destroy())
-            .then(() => sql.create())
-            .then(() => sql.close())
+        mockDb.connect()
+            .then(() => mockDb.destroy())
+            .then(() => mockDb.create())
+            .then(() => mockDb.close())
             .catch(err => console.log(err))
     );
 
 
     // destroy mock data
     after(() =>
-        sql.connect()
-            .then(() => sql.destroy())
-            .then(() => sql.close())
+        mockDb.connect()
+            .then(() => mockDb.destroy())
+            .then(() => mockDb.close())
             .catch(err => console.log(err))
     );
 
