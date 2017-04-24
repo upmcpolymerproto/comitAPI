@@ -2,235 +2,422 @@ const uuid = require('uuid/v4');
 
 let data = {};
 
-data.System = [
-    {
-        'Id': uuid(),
-        'Name': 'comit',
-        'Description': ''
-    },
-    {
-        'Id': uuid(),
-        'Name': 'mars',
-        'Description': ''
-    }
-];
-
-data.Group = [
-    {
-        'Id': uuid(),
-        'Name': 'ETI - All',
-        'SystemId': data.System[0].Id
-    },
+data.CoMIT_Group = [
     {
         'Id': uuid(),
         'Name': 'ETI - Software Integration',
-        'SystemId': data.System[0].Id
+        'IsSystemAdmin': true
+    },
+    {
+        'Id': uuid(),
+        'Name': 'System Integration Analysts',
+        'IsSystemAdmin': true
+    },
+    {
+        'Id': uuid(),
+        'Name': 'Interoperability Application Analysts',
+        'IsSystemAdmin': false
+    },
+    {
+        'Id': uuid(),
+        'Name': 'IOC Support',
+        'IsSystemAdmin': false
+    },
+    {
+        'Id': uuid(),
+        'Name': 'Medipac Admins',
+        'IsSystemAdmin': false
+    },
+    {
+        'Id': uuid(),
+        'Name': 'Epics Admins',
+        'IsSystemAdmin': false
+    }
+];
+
+data.TagType = [
+    {
+        'Id': uuid(),
+        'Name': 'type1',
+        'SystemName': 'comit',
+    },
+    {
+        'Id': uuid(),
+        'Name': 'type2',
+        'SystemName': 'comit',
+
     }
 ];
 
 data.Tag = [
     {
         'Id': uuid(),
-        'Name': 'comit analyst',
+        'Name': 'dbMotion',
         'Description': '',
-        'GroupId': data.Group[0].Id
+        'TagTypeId': data.TagType[0].Id
     },
     {
         'Id': uuid(),
-        'Name': 'comit developer',
+        'Name': 'Epic',
         'Description': '',
-        'GroupId': data.Group[1].Id
-    }
-];
-
-data.ComponentType = [
-    {
-        'Id': uuid(),
-        'Name': 'send',
-        'Description': ''
+        'TagTypeId': data.TagType[1].Id
     },
     {
         'Id': uuid(),
-        'Name': 'transform',
-        'Description': ''
-    },
-    {
-        'Id': uuid(),
-        'Name': 'receive',
-        'Description': ''
-    }
-]
-
-data.Component = [
-    {
-        'Id': uuid(),
-        'Name': 'EPIC',
+        'Name': 'Eligibility',
         'Description': '',
-        'SystemId': data.System[0].Id,
-        'ComponentTypeId': data.ComponentType[0].Id
+        'TagTypeId': data.TagType[0].Id
     },
     {
         'Id': uuid(),
         'Name': 'Medipac',
         'Description': '',
-        'SystemId': data.System[0].Id,
-        'ComponentTypeId': data.ComponentType[0].Id
+        'TagTypeId': data.TagType[1].Id
+    }
+];
+
+data.CoMIT_ComponentType = [
+    {
+        'Id': uuid(),
+        'Name': 'send',
     },
     {
         'Id': uuid(),
-        'Name': 'EMPI',
-        'Description': '',
-        'SystemId': data.System[0].Id,
-        'ComponentTypeId': data.ComponentType[1].Id
+        'Name': 'transform',
     },
     {
         'Id': uuid(),
-        'Name': 'dbMotion',
-        'Description': '',
-        'SystemId': data.System[0].Id,
-        'ComponentTypeId': data.ComponentType[2].Id
+        'Name': 'receive',
     }
 ]
 
-data.ComponentTag = [
+data.CoMIT_Component = [
+    {
+        'Id': uuid(),
+        'Name': 'T_EPICDM_DBMOTION',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[1].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_DBMOTION_MDM_SENDER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_DBMOTION_ADT_EPIC_SENDER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_DBMOTION_ADT_MEDIPAC_SENDER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'T_EPIC_ADT_DBMOTION',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[1].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'T_MEDIPAC_DBMOTION',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[1].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'S_EPICDM_MDM_RECEIVER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[0].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'S_EPIC_ADT_RECEIVER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[0].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'S_EPIC_SIU_RECEIVER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[0].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'S_EPIC_RAD_SIU_RECEIVER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[0].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'T_QUEST_ORU_EPIC',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[1].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_EPIC_ORU_QUEST_SENDER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'T_EPIC_270',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[1].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_HIGHMARK_270',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_MEDIPAC_271',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'S_MEDIPAC10_ADT_RECEIVER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[0].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'S_MEDIPAC9_ADT_RECEIVER',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[0].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'T_ARIA_DFT_MEDIPAC',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[1].Id
+    },
+    {
+        'Id': uuid(),
+        'Name': 'D_MEDIPAC_ADT_ARIA',
+        'Description': '',
+        'ComponentTypeId': data.CoMIT_ComponentType[2].Id
+    },
+]
+
+data.CoMIT_TagComponent = [
     {
         'Id': uuid(),
         'TagId': data.Tag[0].Id,
-        'ComponentId': data.Component[0].Id
+        'ComponentId': data.CoMIT_Component[0].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[0].Id,
-        'ComponentId': data.Component[1].Id
+        'ComponentId': data.CoMIT_Component[1].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[0].Id,
-        'ComponentId': data.Component[2].Id
+        'ComponentId': data.CoMIT_Component[2].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[0].Id,
-        'ComponentId': data.Component[3].Id
+        'ComponentId': data.CoMIT_Component[3].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[0].Id,
+        'ComponentId': data.CoMIT_Component[4].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[0].Id,
+        'ComponentId': data.CoMIT_Component[5].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[1].Id,
-        'ComponentId': data.Component[0].Id
+        'ComponentId': data.CoMIT_Component[6].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[1].Id,
-        'ComponentId': data.Component[1].Id
+        'ComponentId': data.CoMIT_Component[7].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[1].Id,
-        'ComponentId': data.Component[2].Id
+        'ComponentId': data.CoMIT_Component[8].Id
     },
     {
         'Id': uuid(),
         'TagId': data.Tag[1].Id,
-        'ComponentId': data.Component[3].Id
-    }
+        'ComponentId': data.CoMIT_Component[9].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[1].Id,
+        'ComponentId': data.CoMIT_Component[10].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[1].Id,
+        'ComponentId': data.CoMIT_Component[11].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[2].Id,
+        'ComponentId': data.CoMIT_Component[12].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[2].Id,
+        'ComponentId': data.CoMIT_Component[13].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[2].Id,
+        'ComponentId': data.CoMIT_Component[14].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[3].Id,
+        'ComponentId': data.CoMIT_Component[15].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[3].Id,
+        'ComponentId': data.CoMIT_Component[16].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[3].Id,
+        'ComponentId': data.CoMIT_Component[17].Id
+    },
+    {
+        'Id': uuid(),
+        'TagId': data.Tag[3].Id,
+        'ComponentId': data.CoMIT_Component[18].Id
+    },
 ]
 
 data.PermissionType = [
     {
         'Id': uuid(),
-        'Code': 'All',
+        'Code': 'Administrator',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'View All Components',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Start/Stop All Components',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Show Stage Components',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Create Categories',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Modify Categories',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Modify Permissions',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Modify Roles',
         'Name': '',
-        'isComponentType': false
+        'SystemName': 'comit',
+        'IsSystemPermission': true
     },
     {
         'Id': uuid(),
         'Code': 'Modify Component Information',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'View Components',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'Start/Stop Components',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'Clear Queues',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'Delete First Message in Queue',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'View Queue Message Data',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'View Messages',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     },
     {
         'Id': uuid(),
         'Code': 'Replay Messages',
         'Name': '',
-        'isComponentType': true
+        'SystemName': 'comit',
+        'IsSystemPermission': false
     }
 ];
 
@@ -238,122 +425,27 @@ data.Permission = [
     {
         'Id': uuid(),
         'PermissionTypeId': data.PermissionType[0].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[1].Id,
         'Value': false
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[2].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[3].Id,
+        'PermissionTypeId': data.PermissionType[1].Id,
         'Value': true
     },
     {
         'Id': uuid(),
         'PermissionTypeId': data.PermissionType[4].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[5].Id,
         'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[6].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[7].Id,
-        'Value': false
     },
     {
         'Id': uuid(),
         'PermissionTypeId': data.PermissionType[0].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[1].Id,
         'Value': true
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[2].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[3].Id,
+        'PermissionTypeId': data.PermissionType[0].Id,
         'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[4].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[5].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[6].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[7].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[8].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[9].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[10].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[11].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[12].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[13].Id,
-        'Value': true
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[14].Id,
-        'Value': false
-    },
-    {
-        'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[15].Id,
-        'Value': false
     },
     {
         'Id': uuid(),
@@ -372,195 +464,130 @@ data.Permission = [
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[11].Id,
+        'PermissionTypeId': data.PermissionType[9].Id,
         'Value': true
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[12].Id,
+        'PermissionTypeId': data.PermissionType[9].Id,
         'Value': true
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[13].Id,
+        'PermissionTypeId': data.PermissionType[9].Id,
         'Value': true
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[14].Id,
+        'PermissionTypeId': data.PermissionType[10].Id,
         'Value': true
     },
     {
         'Id': uuid(),
-        'PermissionTypeId': data.PermissionType[15].Id,
+        'PermissionTypeId': data.PermissionType[9].Id,
+        'Value': true
+    },
+    {
+        'Id': uuid(),
+        'PermissionTypeId': data.PermissionType[10].Id,
+        'Value': true
+    },
+    {
+        'Id': uuid(),
+        'PermissionTypeId': data.PermissionType[9].Id,
         'Value': true
     },
 ];
 
-data.TagPermission = [
+data.CoMIT_GroupTagPermission = [
     {
         'Id': uuid(),
+        'GroupId': data.CoMIT_Group[2].Id,
         'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[16].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[17].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[18].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[19].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[20].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[21].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId':data.Permission[22].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[0].Id,
-        'PermissionId': data.Permission[23].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[24].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[25].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[26].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[27].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[28].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[29].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[30].Id
-    },
-    {
-        'Id': uuid(),
-        'TagId': data.Tag[1].Id,
-        'PermissionId': data.Permission[31].Id
-    }
-]
-
-data.GroupPermission = [
-    {
-        'Id': uuid(),
-        'GroupId': data.Group[0].Id,
-        'PermissionId': data.Permission[0].Id
-    },
-    {
-        'Id': uuid(),
-        'GroupId': data.Group[0].Id,
-        'PermissionId': data.Permission[1].Id
-    },
-    {
-        'Id': uuid(),
-        'GroupId': data.Group[0].Id,
-        'PermissionId': data.Permission[2].Id
-    },
-    {
-        'Id': uuid(),
-        'GroupId': data.Group[0].Id,
-        'PermissionId': data.Permission[3].Id
-    },
-    {
-        'Id': uuid(),
-        'GroupId': data.Group[0].Id,
-        'PermissionId': data.Permission[4].Id
-    },
-    {
-        'Id': uuid(),
-        'GroupId': data.Group[0].Id,
         'PermissionId': data.Permission[5].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[0].Id,
+        'GroupId': data.CoMIT_Group[2].Id,
+        'TagId': data.Tag[0].Id,
         'PermissionId': data.Permission[6].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[0].Id,
+        'GroupId': data.CoMIT_Group[2].Id,
+        'TagId': data.Tag[0].Id,
         'PermissionId': data.Permission[7].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[2].Id,
+        'TagId': data.Tag[1].Id,
         'PermissionId': data.Permission[8].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[2].Id,
+        'TagId': data.Tag[3].Id,
         'PermissionId': data.Permission[9].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[5].Id,
+        'TagId': data.Tag[1].Id,
         'PermissionId': data.Permission[10].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[5].Id,
+        'TagId': data.Tag[1].Id,
         'PermissionId': data.Permission[11].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[4].Id,
+        'TagId': data.Tag[3].Id,
         'PermissionId': data.Permission[12].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[4].Id,
+        'TagId': data.Tag[3].Id,
         'PermissionId': data.Permission[13].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
+        'GroupId': data.CoMIT_Group[4].Id,
+        'TagId': data.Tag[2].Id,
         'PermissionId': data.Permission[14].Id
+    },
+]
+
+data.CoMIT_GroupSystemPermission = [
+    {
+        'Id': uuid(),
+        'GroupId': data.CoMIT_Group[3].Id,
+        'PermissionId': data.Permission[0].Id
     },
     {
         'Id': uuid(),
-        'GroupId': data.Group[1].Id,
-        'PermissionId': data.Permission[15].Id
-    }
+        'GroupId': data.CoMIT_Group[3].Id,
+        'PermissionId': data.Permission[1].Id
+    },
+    {
+        'Id': uuid(),
+        'GroupId': data.CoMIT_Group[3].Id,
+        'PermissionId': data.Permission[2].Id
+    },
+    {
+        'Id': uuid(),
+        'GroupId': data.CoMIT_Group[0].Id,
+        'PermissionId': data.Permission[3].Id
+    },
+    {
+        'Id': uuid(),
+        'GroupId': data.CoMIT_Group[1].Id,
+        'PermissionId': data.Permission[4].Id
+    },
 ];
 
 data.Role = [];

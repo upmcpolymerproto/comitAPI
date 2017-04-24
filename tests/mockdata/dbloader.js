@@ -15,46 +15,33 @@ module.exports.create = () =>
         Promise.all(promises)
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.System.length; i++) {
+                for (let i = 0; i < dummy.CoMIT_Group.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.System[i].Id)
-                        .input('Name', dummy.System[i].Name)
-                        .input('Description', dummy.System[i].Description)
-                        .query('INSERT INTO [System] (Id, Name, Description) VALUES (@Id, @Name, @Description)'));
+                        .input('Id', dummy.CoMIT_Group[i].Id)
+                        .input('Name', dummy.CoMIT_Group[i].Name)
+                        .input('IsSystemAdmin', dummy.CoMIT_Group[i].IsSystemAdmin)
+                        .query('INSERT INTO [CoMIT_Group] (Id, Name, IsSystemAdmin) VALUES (@Id, @Name, @IsSystemAdmin)'));
                 }
                 return Promise.all(promises);
             })
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.Group.length; i++) {
+                for (let i = 0; i < dummy.CoMIT_ComponentType.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.Group[i].Id)
-                        .input('Name', dummy.Group[i].Name)
-                        .input('SystemId', dummy.Group[i].SystemId)
-                        .query('INSERT INTO [Group] (Id, Name, SystemId) VALUES (@Id, @Name, @SystemId)'));
+                        .input('Id', dummy.CoMIT_ComponentType[i].Id)
+                        .input('Name', dummy.CoMIT_ComponentType[i].Name)
+                        .query('INSERT INTO [CoMIT_ComponentType] (Id, Name) VALUES (@Id, @Name)'));
                 }
                 return Promise.all(promises);
             })
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.Role.length; i++) {
+                for (let i = 0; i < dummy.TagType.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.Role[i].Id)
-                        .input('Name', dummy.Role[i].Name)
-                        .input('Description', dummy.Role[i].Description)
-                        .input('GroupId', dummy.Role[i].GroupId)
-                        .query('INSERT INTO [Role] (Id, Name, Description, GroupId) VALUES (@Id, @Name, @Description, @GroupId)'));
-                }
-                return Promise.all(promises);
-            })
-            .then(() => {
-                promises = [];
-                for (let i = 0; i < dummy.ComponentType.length; i++) {
-                    promises.push(new sql.Request()
-                        .input('Id', dummy.ComponentType[i].Id)
-                        .input('Name', dummy.ComponentType[i].Name)
-                        .input('Description', dummy.ComponentType[i].Description)
-                        .query('INSERT INTO [ComponentType] (Id, Name, Description) VALUES (@Id, @Name, @Description)'));
+                        .input('Id', dummy.TagType[i].Id)
+                        .input('Name', dummy.TagType[i].Name)
+                        .input('SystemName', dummy.TagType[i].SystemName)
+                        .query('INSERT INTO [TagType] (Id, Name, SystemName) VALUES (@Id, @Name, @SystemName)'));
                 }
                 return Promise.all(promises);
             })
@@ -65,21 +52,20 @@ module.exports.create = () =>
                         .input('Id', dummy.Tag[i].Id)
                         .input('Name', dummy.Tag[i].Name)
                         .input('Description', dummy.Tag[i].Description)
-                        .input('GroupId', dummy.Tag[i].GroupId)
-                        .query('INSERT INTO [Tag] (Id, Name, Description, GroupId) VALUES (@Id, @Name, @Description, @GroupId)'));
+                        .input('TagTypeId', dummy.Tag[i].TagTypeId)
+                        .query('INSERT INTO [Tag] (Id, Name, Description, TagTypeId) VALUES (@Id, @Name, @Description, @TagTypeId)'));
                 }
                 return Promise.all(promises);
             })
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.Component.length; i++) {
+                for (let i = 0; i < dummy.CoMIT_Component.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.Component[i].Id)
-                        .input('Name', dummy.Component[i].Name)
-                        .input('Description', dummy.Component[i].Description)
-                        .input('SystemId', dummy.Component[i].SystemId)
-                        .input('ComponentTypeId', dummy.Component[i].ComponentTypeId)
-                        .query('INSERT INTO [Component] (Id, Name, Description, SystemId, ComponentTypeId) VALUES (@Id, @Name, @Description, @SystemId, @ComponentTypeId)'));
+                        .input('Id', dummy.CoMIT_Component[i].Id)
+                        .input('Name', dummy.CoMIT_Component[i].Name)
+                        .input('Description', dummy.CoMIT_Component[i].Description)
+                        .input('ComponentTypeId', dummy.CoMIT_Component[i].ComponentTypeId)
+                        .query('INSERT INTO [CoMIT_Component] (Id, Name, Description, ComponentTypeId) VALUES (@Id, @Name, @Description, @ComponentTypeId)'));
                 }
                 return Promise.all(promises);
             })
@@ -90,8 +76,9 @@ module.exports.create = () =>
                         .input('Id', dummy.PermissionType[i].Id)
                         .input('Code', dummy.PermissionType[i].Code)
                         .input('Name', dummy.PermissionType[i].Name)
-                        .input('isComponentType', dummy.PermissionType[i].isComponentType)
-                        .query('INSERT INTO [PermissionType] (Id, Code, Name, isComponentType) VALUES (@Id, @Code, @Name, @isComponentType)'));
+                        .input('SystemName', dummy.PermissionType[i].SystemName)
+                        .input('IsSystemPermission', dummy.PermissionType[i].IsSystemPermission)
+                        .query('INSERT INTO [PermissionType] (Id, Code, Name, SystemName, IsSystemPermission) VALUES (@Id, @Code, @Name, @SystemName, @IsSystemPermission)'));
                 }
                 return Promise.all(promises);
             })
@@ -108,34 +95,35 @@ module.exports.create = () =>
             })
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.TagPermission.length; i++) {
+                for (let i = 0; i < dummy.CoMIT_GroupTagPermission.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.TagPermission[i].Id)
-                        .input('TagId', dummy.TagPermission[i].TagId)
-                        .input('PermissionId', dummy.TagPermission[i].PermissionId)
-                        .query('INSERT INTO [TagPermission] (Id, TagId, PermissionId) VALUES (@Id, @TagId, @PermissionId)'));
+                        .input('Id', dummy.CoMIT_GroupTagPermission[i].Id)
+                        .input('GroupId', dummy.CoMIT_GroupTagPermission[i].GroupId)
+                        .input('TagId', dummy.CoMIT_GroupTagPermission[i].TagId)
+                        .input('PermissionId', dummy.CoMIT_GroupTagPermission[i].PermissionId)
+                        .query('INSERT INTO [CoMIT_GroupTagPermission] (Id, GroupId, TagId, PermissionId) VALUES (@Id, @GroupId, @TagId, @PermissionId)'));
                 }
                 return Promise.all(promises);
             })
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.GroupPermission.length; i++) {
+                for (let i = 0; i < dummy.CoMIT_GroupSystemPermission.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.GroupPermission[i].Id)
-                        .input('GroupId', dummy.GroupPermission[i].GroupId)
-                        .input('PermissionId', dummy.GroupPermission[i].PermissionId)
-                        .query('INSERT INTO [GroupPermission] (Id, GroupId, PermissionId) VALUES (@Id, @GroupId, @PermissionId)'));
+                        .input('Id', dummy.CoMIT_GroupSystemPermission[i].Id)
+                        .input('GroupId', dummy.CoMIT_GroupSystemPermission[i].GroupId)
+                        .input('PermissionId', dummy.CoMIT_GroupSystemPermission[i].PermissionId)
+                        .query('INSERT INTO [CoMIT_GroupSystemPermission] (Id, GroupId, PermissionId) VALUES (@Id, @GroupId, @PermissionId)'));
                 }
                 return Promise.all(promises);
             })
             .then(() => {
                 promises = [];
-                for (let i = 0; i < dummy.ComponentTag.length; i++) {
+                for (let i = 0; i < dummy.CoMIT_TagComponent.length; i++) {
                     promises.push(new sql.Request()
-                        .input('Id', dummy.ComponentTag[i].Id)
-                        .input('ComponentId', dummy.ComponentTag[i].ComponentId)
-                        .input('TagId', dummy.ComponentTag[i].TagId)
-                        .query('INSERT INTO [ComponentTag] (Id, ComponentId, TagId) VALUES (@Id, @ComponentId, @TagId)'));
+                        .input('Id', dummy.CoMIT_TagComponent[i].Id)
+                        .input('ComponentId', dummy.CoMIT_TagComponent[i].ComponentId)
+                        .input('TagId', dummy.CoMIT_TagComponent[i].TagId)
+                        .query('INSERT INTO [CoMIT_TagComponent] (Id, ComponentId, TagId) VALUES (@Id, @ComponentId, @TagId)'));
                 }
                 return Promise.all(promises);
             })
@@ -146,28 +134,26 @@ module.exports.create = () =>
 module.exports.destroy = () =>
     new sql.Request()
         .query(
-        'DELETE FROM [GroupPermission] ' +
-        'DBCC CHECKIDENT ([GroupPermission], RESEED, 0)' +
-        'DELETE FROM [TagPermission] ' +
-        'DBCC CHECKIDENT ([TagPermission], RESEED, 0)' +
         'DELETE FROM [Permission] ' +
         'DBCC CHECKIDENT ([Permission], RESEED, 0)' +
         'DELETE FROM [PermissionType] ' +
         'DBCC CHECKIDENT ([PermissionType], RESEED, 0)' +
-        'DELETE FROM [ComponentTag] ' +
-        'DBCC CHECKIDENT ([ComponentTag], RESEED, 0)' +
-        'DELETE FROM [Component] ' +
-        'DBCC CHECKIDENT ([Component], RESEED, 0)' +
+        'DELETE FROM [CoMIT_TagComponent] ' +
+        'DBCC CHECKIDENT ([CoMIT_TagComponent], RESEED, 0)' +
+        'DELETE FROM [CoMIT_Component] ' +
+        'DBCC CHECKIDENT ([CoMIT_Component], RESEED, 0)' +
+        'DELETE FROM [CoMIT_ComponentType] ' +
+        'DBCC CHECKIDENT ([CoMIT_ComponentType], RESEED, 0)' +
         'DELETE FROM [Tag] ' +
         'DBCC CHECKIDENT ([Tag], RESEED, 0)' +
-        'DELETE FROM [ComponentType] ' +
-        'DBCC CHECKIDENT ([ComponentType], RESEED, 0)' +
-        'DELETE FROM [Role] ' +
-        'DBCC CHECKIDENT ([Role], RESEED, 0)' +
-        'DELETE FROM [Group] ' +
-        'DBCC CHECKIDENT ([Group], RESEED, 0)' +
-        'DELETE FROM [System] ' +
-        'DBCC CHECKIDENT ([System], RESEED, 0)'
+        'DELETE FROM [TagType] ' +
+        'DBCC CHECKIDENT ([TagType], RESEED, 0)' +
+        'DELETE FROM [CoMIT_GroupTagPermission] ' +
+        'DBCC CHECKIDENT ([CoMIT_GroupTagPermission], RESEED, 0)' +
+        'DELETE FROM [CoMIT_GroupSystemPermission] ' +
+        'DBCC CHECKIDENT ([CoMIT_GroupSystemPermission], RESEED, 0)' +
+        'DELETE FROM [CoMIT_Group] ' +
+        'DBCC CHECKIDENT ([CoMIT_Group], RESEED, 0)'
         );
 
 if (String(process.argv[2]).toLowerCase() === 'debug') {
