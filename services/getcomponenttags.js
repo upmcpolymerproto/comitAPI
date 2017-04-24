@@ -10,7 +10,7 @@ module.exports = (request, response, next) => {
   if (contains === '') {
     let error = new Error('Please provide a valid parameter for the search');
     log4galaxy.logMessage(error);
-    response.status(400).send(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));
+    response.status(400).json(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));
   } else {
     db.getComitTagsByContains(contains)
       .then(tags => {
@@ -22,7 +22,7 @@ module.exports = (request, response, next) => {
       .catch(error => {
         log4galaxy.logMessage(error);
         let friendly = 'An error occurred while fetching Component Tags.';
-        response.status(500).send(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
+        response.status(500).json(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
       });
   }
 }

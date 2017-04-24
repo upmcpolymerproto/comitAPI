@@ -1,16 +1,18 @@
 'use strict';
 
 const Tag = require('../../models/tag');
+const GalaxyReturn = require('../../models/galaxyreturn');
+const GalaxyError = require('../../models/galaxyerror');
 const sql = require('./sqlserver');
 const chai = require('chai');
 const sinon = require('sinon');
 
-chai.should();
+const should = require('chai').should();
 chai.use(require('sinon-chai'));
 
 const GetComponentTags = require('../../services/getcomponenttags');
 
-const sleepFor = 50;
+const sleepFor = 100;
 const sleep = () =>
     new Promise(resolve => setTimeout(resolve, sleepFor));
 
@@ -37,7 +39,7 @@ describe('GetComponentTags', function () {
     describe('Calling GetComponentTags with a valid parameter', function () {
 
         it('should return Status = 200 and [West Virginia] when called with "west"', (done) => {
-            const tags = [new Tag('WV', 'West Virginia')];
+            const states = ['West Virginia'];
             const request = {
                 params: {
                     contains: 'west'
@@ -55,31 +57,39 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in states
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                states.should.include(tag.name);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [New Hampshire, New Jersey, New Mexico, New York] when called with "new"', (done) => {
-            const compare = (a, b) => {
-                if (a.id === b.id) {
-                    return 0
-                } else {
-                    return (a.id < b.id) ? -1 : 1;
-                }
-            }
-
-            let tags = [];
-            tags.push(new Tag('NH', 'New Hampshire'));
-            tags.push(new Tag('NJ', 'New Jersey'));
-            tags.push(new Tag('NM', 'New Mexico'));
-            tags.push(new Tag('NY', 'New York'));
-            tags = tags.sort(compare);
+            let states = [];
+            states.push('New Hampshire');
+            states.push('New Jersey');
+            states.push('New Mexico');
+            states.push('New York');
 
             const request = {
                 params: {
@@ -98,18 +108,35 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0].sort(compare);
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(4);
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 4
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(4);
+
+                // each tag should be a Tag and its name should be included in states
+                for (let tag of tags) {
+                    tag.should.be.an.instanceOf(Tag);
+                    states.should.include(tag.name);
+                }
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with "canada"', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: 'canada'
@@ -127,18 +154,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [New Jersey] when called with " jersey"', (done) => {
-            const tags = [new Tag('NJ', 'New Jersey')];
+            const states = ['New Jersey'];
             const request = {
                 params: {
                     contains: ' jersey'
@@ -156,18 +195,35 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in states
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                states.should.include(tag.name);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [Rhode Island] when called with "rhode "', (done) => {
-            const tags = [new Tag('RI', 'Rhode Island')];
+            const states = ['Rhode Island'];
             const request = {
                 params: {
                     contains: 'rhode '
@@ -185,18 +241,35 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in states
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                states.should.include(tag.name);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [Rhode Island] when called with "ode is"', (done) => {
-            const tags = [new Tag('RI', 'Rhode Island')];
+            const states = ['Rhode Island'];
             const request = {
                 params: {
                     contains: 'ode is'
@@ -214,18 +287,35 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in states
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                states.should.include(tag.name);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with 0', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: 0
@@ -243,18 +333,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with 1', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: 1
@@ -272,11 +374,23 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
@@ -284,7 +398,7 @@ describe('GetComponentTags', function () {
 
 
         it('should return Status = 200 and [] when called with false', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: false
@@ -302,18 +416,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with true', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: true
@@ -331,18 +457,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with "undefined"', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: "undefined"
@@ -360,18 +498,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with "null"', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: "null"
@@ -389,18 +539,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with an object', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: { x: "pennsylvania" }
@@ -418,18 +580,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with an array', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: ["California", "Utah", "Nevada"]
@@ -447,18 +621,30 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and [] when called with a SQL statement', (done) => {
-            const tags = [];
+            const states = [];
             const request = {
                 params: {
                     contains: "; SELECT * FROM [ComponentTag]"
@@ -476,11 +662,23 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                tags.should.eql(calledWith);
-                calledWith.length.should.equal(0);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 0
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(0);
+                tags.should.eql(states);
+
                 done();
             });
 
@@ -508,10 +706,24 @@ describe('GetComponentTags', function () {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
-                // response should be an error message
-                response.send.should.have.been.calledOnce;
-                let calledWith = response.send.firstCall.args[0];
-                calledWith.should.be.a('string');
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
                 done();
             });
 
@@ -535,10 +747,24 @@ describe('GetComponentTags', function () {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
-                // response should be an error message
-                response.send.should.have.been.calledOnce;
-                let calledWith = response.send.firstCall.args[0];
-                calledWith.should.be.a('string');
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
                 done();
             });
 
@@ -562,10 +788,24 @@ describe('GetComponentTags', function () {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
-                // response should be an error message
-                response.send.should.have.been.calledOnce;
-                let calledWith = response.send.firstCall.args[0];
-                calledWith.should.be.a('string');
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
                 done();
             });
 
@@ -589,10 +829,24 @@ describe('GetComponentTags', function () {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
-                // response should be an error message
-                response.send.should.have.been.calledOnce;
-                let calledWith = response.send.firstCall.args[0];
-                calledWith.should.be.a('string');
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
                 done();
             });
 
@@ -617,10 +871,24 @@ describe('GetComponentTags', function () {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
-                // response should be an error message
-                response.send.should.have.been.calledOnce;
-                let calledWith = response.send.firstCall.args[0];
-                calledWith.should.be.a('string');
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
                 done();
             });
 
@@ -631,7 +899,7 @@ describe('GetComponentTags', function () {
     describe('Calling GetComponentTags with a parameter that contains SQL Server Wildcard characters', function () {
 
         it('should return Status = 200 and ["[Testing^Escape-Characters]"] when called with "[Testing^Escape-Characters]"', (done) => {
-            const tags = [new Tag('N/A', '[Testing^Escape-Characters]')];
+            const strings = ['[Testing^Escape-Characters]'];
             const request = {
                 params: {
                     contains: '[Testing^Escape-Characters]'
@@ -649,18 +917,35 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in strings
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                strings.should.include(tag.name);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and ["Testing%Escape_Characters[]"] when called with "Testing%Escape_Characters[]"', (done) => {
-            const tags = [new Tag('N/A', 'Testing%Escape_Characters[]')];
+            const strings = ['Testing%Escape_Characters[]'];
             const request = {
                 params: {
                     contains: 'Testing%Escape_Characters[]'
@@ -678,18 +963,35 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in strings
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                strings.should.include(tag.name);
+
                 done();
             });
 
         });
 
         it('should return Status = 200 and ["[Testing%Escape_Characters]"] when called with "[Testing%Escape_Characters]"', (done) => {
-            const tags = [new Tag('N/A', '[Testing%Escape_Characters]')];
+            const strings = ['[Testing%Escape_Characters]'];
             const request = {
                 params: {
                     contains: '[Testing%Escape_Characters]'
@@ -707,11 +1009,28 @@ describe('GetComponentTags', function () {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
-                // response should be equal to tags
+                // response should be a GalaxyReturn
                 response.json.should.have.been.calledOnce;
                 let calledWith = response.json.firstCall.args[0];
-                calledWith.length.should.equal(1);
-                tags.should.eql(calledWith);
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.tags should exist and its length = 1
+                let tags = data.tags;
+                should.exist(tags);
+                tags.length.should.equal(1);
+
+                // tags[0] should be a Tag and its name should be included in strings
+                let tag = tags[0];
+                should.exist(tag);
+                tag.should.be.an.instanceOf(Tag);
+                strings.should.include(tag.name);
+
                 done();
             });
 
