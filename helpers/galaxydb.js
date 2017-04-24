@@ -218,6 +218,24 @@ const getComitTagPermissions = (groupId, tagId) =>
             return permissions;
         })
 
+/**
+ * Queries the PermissionType table of the SQL Server database for all Permission Types belonging to the given System.
+ * @return {Promise} A promise that will either resolve to an array of Permission Types, or reject with an error.
+ */
+const getPermissionTypesBySystemName = (systemName) =>
+    connect()
+        .then(pool =>
+            pool.request()
+                .input('systemName', systemName)
+                .query('SELECT * FROM [PermissionType] WHERE SystemName = @systemName'))
+        .then(rows => {
+            let permissionTypes = [];
+            rows.forEach(row => {
+                permissionTypes.push(new PermissionType(row.Id, row.Name, row.Code, row.IsSystemPermission));
+            });
+            return permissionTypes;
+        });
+
 module.exports = {
     getComitGroupByName: getComitGroupByName,
     getComitTagsByGroupId: getComitTagsByGroupId,
@@ -225,5 +243,6 @@ module.exports = {
     getComitComponentsByTagId: getComitComponentsByTagId,
     getComitTagPermissions: getComitTagPermissions,
     getComitSystemPermissionsByGroupId: getComitSystemPermissionsByGroupId,
-    getComitComponentTagPermissionsByGroupId: getComitComponentTagPermissionsByGroupId
+    getComitComponentTagPermissionsByGroupId: getComitComponentTagPermissionsByGroupId,
+    getPermissionTypesBySystemName: getPermissionTypesBySystemName
 }

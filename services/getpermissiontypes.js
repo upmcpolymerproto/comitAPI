@@ -1,35 +1,30 @@
 'use strict';
 
-const sql = require('mssql');
-const config = require('../config/config.json');
-const PermissionType = require('../models/permissiontype');
+const db = require('../helpers/galaxydb');
+const log4galaxy = require('../helpers/galaxylog');
+const GalaxyReturn = require('../models/galaxyreturn');
+const GalaxyError = require('../models/galaxyerror');
 
-/**
- * Queries the PermissionType table of the SQL Server database for all Permission Types.
- * @return {Promise} A promise that will either resolve to an array of Permission Types, or reject with an error.
- */
-const getPermissionTypes = () =>
-    new sql.Request()
-        .query('SELECT * FROM [PermissionType]')
-        .then(rows => {
-            let permissionTypes = [];
-            rows.forEach(row => {
-                permissionTypes.push(new PermissionType(row.Id, row.Code, row.Name, row.IsComponentType));
-            });
-            return permissionTypes;
-        });
+
 
 module.exports = (request, response, next) => {
-    sql.connect(config.sql)
-        .then(() => getPermissionTypes())
-        .then(permissionTypes => {
-            let result = {
-                permissionTypes: permissionTypes
-            };
-            response.status(200).json(result)
-        })
-        .catch(error => {
-            console.log(error); //replace with call to log service
-            response.status(500).send(error.message);
-        });
+    let system = (request.params.system != null) ? String(request.params.system).trim() : '';
+    if (system === '') {
+        let error = new Error('Please provide a valid parameter for the search');
+        log4galaxy.logMessage(error);
+        response.status(400).send(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));
+    } else {
+        db.getPermissionTypesBySystemName(system)
+            .then(permissionTypes => {
+                let data = {
+                    permissionTypes: permissionTypes
+                };
+                response.status(200).json(new GalaxyReturn(data, null));
+            })
+            .catch(error => {
+                log4galaxy.logMessage(error);
+                let friendly = 'An error occurred while fetching Permission Types.';
+                response.status(500).send(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
+            });
+    }
 }
