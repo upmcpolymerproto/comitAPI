@@ -52,8 +52,8 @@ const comit = (user) => {
                     user.isAdmin = true;
                     return user;
                 }
-                systemPermissionSets = systemPermissionSets.concat(group.systemPermissions);
-                componenetTagPermissionSets = componenetTagPermissionSets.concat(group.componenetTagPermissions);
+                systemPermissionSets.push(group.systemPermissions);
+                componenetTagPermissionSets.push(group.componenetTagPermissions);
             }
             //user is not an administrator, merge all permissions
             user.isAdmin = false;

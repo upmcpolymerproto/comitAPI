@@ -38,20 +38,18 @@ const escapeWildcard = (stringToEscape, escapeCharacter) => {
 const getComitComponentTagPermissionsByGroupId = (groupId) =>
     getComitTagsByGroupId(groupId)
         .then(tags => {
-            promises = [];
+            let promises = [];
             for (let tag of tags) {
                 promises.push(getComitTagPermissions(groupId, tag.id));
             }
-            return [tags, Promise.all(promises)];
-        })
-        .then(results => {
-            let tags = results[0];
-            let tagPermissions = results[1];
-            let componentTagPermissions = [];
-            for (let i = 0; i < tags.length; i++) {
-                componentTagPermissions.push(new ComponentTagPermission(tag[i], tagPermissions[i]));
-            }
-            return componentTagPermissions;
+            return Promise.all(promises)
+                .then(tagPermissions => {
+                    let componentTagPermissions = [];
+                    for (let i = 0; i < tags.length; i++) {
+                        componentTagPermissions.push(new ComponentTagPermission(tags[i], tagPermissions[i]));
+                    }
+                    return componentTagPermissions;
+                })
         })
 
 /**
@@ -65,7 +63,7 @@ const getComitComponentsByTagId = (tagId) =>
         .then(pool =>
             pool.request()
                 .input('tagId', tagId)
-                .query('[uspComitGetComponentsByTagId]'))
+                .execute('[uspComitGetComponentsByTagId]'))
         .then(result => {
             let components = [];
             let rows = result[0];
@@ -91,8 +89,9 @@ const getComitGroupByName = (groupName) =>
                 'SELECT * FROM [CoMIT_Group] ' +
                 'WHERE [Name] = @groupName'))
         .then(rows => {
-            if (rows[0]) {
-                return new Group(row.Id, type, row.Name, row.IsSystemAdmin);
+            let group = rows[0];
+            if (group) {
+                return new Group(group.Id, group.Name, group.IsSystemAdmin);
             } else {
                 return new Group();
             }
@@ -148,7 +147,7 @@ const getComitTagsByGroupId = (groupId) =>
     connect()
         .then(pool =>
             pool.request()
-                .input('groupdId', groupdId)
+                .input('groupId', groupId)
                 .execute('[uspComitGetTagsByGroupId]'))
         .then(result => {
             let tags = [];
@@ -165,8 +164,15 @@ const getComitTagsByGroupId = (groupId) =>
             for (let tag of tags) {
                 promises.push(getComitComponentsByTagId(tag.id));
             }
-            return Promise.all(promises);
+            return Promise.all(promises)
+                .then(components => {
+                    for (let i = 0; i < tags.length; i++) {
+                        tags[i].components = components[i];
+                    }
+                    return tags;
+                })
         })
+
 
 /**
  * Executes the uspComitGetSystemPermissionsByGroupId stored procedure of galaxyDB,
@@ -174,11 +180,11 @@ const getComitTagsByGroupId = (groupId) =>
  * @param {uuid} groupId The Group Id used as input to the stored procedure.
  * @return {Promise} A promise that will either resolve to an array of System Permissions, or reject with an error.
  */
-const getComitSystemPermissionsByGroupId = (groupdId) =>
+const getComitSystemPermissionsByGroupId = (groupId) =>
     connect()
         .then(pool =>
             pool.request()
-                .input('groupdId', groupdId)
+                .input('groupId', groupId)
                 .execute('[uspComitGetSystemPermissionsByGroupId]'))
         .then(result => {
             let permissions = [];

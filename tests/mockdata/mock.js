@@ -30,7 +30,7 @@ data.CoMIT_Group = [
     },
     {
         'Id': uuid(),
-        'Name': 'Epics Admins',
+        'Name': 'Epic Admins',
         'IsSystemAdmin': false
     }
 ];
