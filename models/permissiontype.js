@@ -1,11 +1,7 @@
 'use strict';
 
 const BaseModel = require('./basemodel');
-
-const types = {
-    SYSTEM: 'System',
-    COMPONENT: 'Component'
-};
+const types = require('./permissiontypes.json');
 
 class PermissionType extends BaseModel {
 

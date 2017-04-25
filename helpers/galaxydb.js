@@ -76,6 +76,45 @@ const getComitComponentsByTagId = (tagId) =>
         })
 
 /**
+ * Queries the CoMIT_Group table of galaxyDB for a Group Id equal to the value of the given uuid.
+ * @param {uuid} groupId The Group Id used as input to the query.
+ * @return {Promise} A promise that will either resolve to a Group, or reject with an error.
+ */
+const getComitGroupById = (groupId) =>
+    connect()
+        .then(pool =>
+            pool.request()
+                .input('groupId', groupId)
+                .query(
+                'SELECT * FROM [CoMIT_Group] ' +
+                'WHERE [Id] = @groupId'))
+        .then(rows => {
+            let group = rows[0];
+            if (group) {
+                return new Group(group.Id, group.Name, group.IsSystemAdmin);
+            } else {
+                return new Group();
+            }
+        })
+        .then(group => {
+            // skip permissions if group is adminstrative or group doesnt exist in db
+            if (group.IsAdmin || !group.id) {
+                return group;
+            } else {
+                let promises = [
+                    getComitSystemPermissionsByGroupId(group.id),
+                    getComitComponentTagPermissionsByGroupId(group.id)
+                ];
+                return Promise.all(promises)
+                    .then(results => {
+                        group.systemPermissions = results[0];
+                        group.componenetTagPermissions = results[1];
+                        return group;
+                    });
+            }
+        })
+
+/**
  * Queries the CoMIT_Group table of galaxyDB for a Group name equal to the value of the given string.
  * @param {string} groupName The name of the group to fetch.
  * @return {Promise} A promise that will either resolve to a Group, or reject with an error.
@@ -226,6 +265,7 @@ const getComitTagPermissions = (groupId, tagId) =>
 
 /**
  * Queries the PermissionType table of the SQL Server database for all Permission Types belonging to the given System.
+ * @param {string} systemName The name of the System used as input to the query.
  * @return {Promise} A promise that will either resolve to an array of Permission Types, or reject with an error.
  */
 const getPermissionTypesBySystemName = (systemName) =>

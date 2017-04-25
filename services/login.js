@@ -12,7 +12,6 @@ module.exports = (request, response, next) => {
     let user = request.user;
     let context = request.body.context;
 
-    // context service to get user.components & user.permissions
     context(user, context)
         .then(userWithPermissions => jwt.encode(user = userWithPermissions))
         .then(jwtToken => jwt.decode(token = jwtToken))
