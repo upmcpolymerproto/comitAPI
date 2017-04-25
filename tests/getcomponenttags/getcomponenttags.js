@@ -12,7 +12,7 @@ chai.use(require('sinon-chai'));
 
 const GetComponentTags = require('../../services/getcomponenttags');
 
-const sleepFor = 100;
+const sleepFor = 250;
 const sleep = () =>
     new Promise(resolve => setTimeout(resolve, sleepFor));
 
@@ -314,171 +314,6 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with 0', (done) => {
-            const states = [];
-            const request = {
-                params: {
-                    contains: 0
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.tags should exist and its length = 0
-                let tags = data.tags;
-                should.exist(tags);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with 1', (done) => {
-            const states = [];
-            const request = {
-                params: {
-                    contains: 1
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.tags should exist and its length = 0
-                let tags = data.tags;
-                should.exist(tags);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
-
-                done();
-            });
-
-        });
-
-
-        it('should return Status = 200 and [] when called with false', (done) => {
-            const states = [];
-            const request = {
-                params: {
-                    contains: false
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.tags should exist and its length = 0
-                let tags = data.tags;
-                should.exist(tags);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with true', (done) => {
-            const states = [];
-            const request = {
-                params: {
-                    contains: true
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.tags should exist and its length = 0
-                let tags = data.tags;
-                should.exist(tags);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
-
-                done();
-            });
-
-        });
-
         it('should return Status = 200 and [] when called with "undefined"', (done) => {
             const states = [];
             const request = {
@@ -525,88 +360,6 @@ describe('GetComponentTags', function () {
             const request = {
                 params: {
                     contains: "null"
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.tags should exist and its length = 0
-                let tags = data.tags;
-                should.exist(tags);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with an object', (done) => {
-            const states = [];
-            const request = {
-                params: {
-                    contains: { x: "pennsylvania" }
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.tags should exist and its length = 0
-                let tags = data.tags;
-                should.exist(tags);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with an array', (done) => {
-            const states = [];
-            const request = {
-                params: {
-                    contains: ["California", "Utah", "Nevada"]
                 }
             };
 
@@ -866,6 +619,252 @@ describe('GetComponentTags', function () {
 
             GetComponentTags(request, response);
 
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with 0', (done) => {
+            const request = {
+                params: {
+                    contains: 0
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with 1', (done) => {
+            const request = {
+                params: {
+                    contains: 1
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with false', (done) => {
+            const request = {
+                params: {
+                    contains: false
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with true', (done) => {
+            const request = {
+                params: {
+                    contains: true
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with an object', (done) => {
+            const request = {
+                params: {
+                    contains: { x: "pennsylvania" }
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with an array', (done) => {
+            const request = {
+                params: {
+                    contains: ["California", "Utah", "Nevada"]
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetComponentTags(request, response);
 
             sleep().then(() => {
                 // status should be 400

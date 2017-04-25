@@ -13,7 +13,7 @@ chai.use(require('sinon-chai'));
 
 const GetPermissionTypes = require('../../services/getpermissiontypes');
 
-const sleepFor = 150;
+const sleepFor = 250;
 const sleep = () =>
     new Promise(resolve => setTimeout(resolve, sleepFor));
 
@@ -49,7 +49,7 @@ describe('GetPermissionTypes', function () {
 
             const request = {
                 params: {
-                    system: 'Alpha'
+                    systemName: 'Alpha'
                 }
             };
 
@@ -102,7 +102,7 @@ describe('GetPermissionTypes', function () {
 
             const request = {
                 params: {
-                    system: 'Beta'
+                    systemName: 'Beta'
                 }
             };
 
@@ -148,7 +148,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with "Charlie"', (done) => {
             const request = {
                 params: {
-                    system: 'Charlie'
+                    systemName: 'Charlie'
                 }
             };
 
@@ -194,7 +194,7 @@ describe('GetPermissionTypes', function () {
 
             const request = {
                 params: {
-                    system: 'Beta'
+                    systemName: 'Old Beta'
                 }
             };
 
@@ -247,7 +247,7 @@ describe('GetPermissionTypes', function () {
 
             const request = {
                 params: {
-                    system: 'alpha'
+                    systemName: 'alpha'
                 }
             };
 
@@ -300,7 +300,7 @@ describe('GetPermissionTypes', function () {
 
             const request = {
                 params: {
-                    system: 'AlPhA'
+                    systemName: 'AlPhA'
                 }
             };
 
@@ -346,7 +346,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with "aalpha"', (done) => {
             const request = {
                 params: {
-                    system: 'aalpha'
+                    systemName: 'aalpha'
                 }
             };
 
@@ -385,7 +385,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with "alphaa"', (done) => {
             const request = {
                 params: {
-                    system: 'alphaa'
+                    systemName: 'alphaa'
                 }
             };
 
@@ -424,241 +424,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with "Alpha123"', (done) => {
             const request = {
                 params: {
-                    system: 'Alpha123'
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.permissionTypes should exist and its length = 0
-                let permissionTypes = data.permissionTypes;
-                should.exist(permissionTypes);
-                permissionTypes.length.should.equal(0);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with 0', (done) => {
-            const request = {
-                params: {
-                    system: 0
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.permissionTypes should exist and its length = 0
-                let permissionTypes = data.permissionTypes;
-                should.exist(permissionTypes);
-                permissionTypes.length.should.equal(0);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with 1', (done) => {
-            const request = {
-                params: {
-                    system: 1
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.permissionTypes should exist and its length = 0
-                let permissionTypes = data.permissionTypes;
-                should.exist(permissionTypes);
-                permissionTypes.length.should.equal(0);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with false', (done) => {
-            const request = {
-                params: {
-                    system: false
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.permissionTypes should exist and its length = 0
-                let permissionTypes = data.permissionTypes;
-                should.exist(permissionTypes);
-                permissionTypes.length.should.equal(0);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with true', (done) => {
-            const request = {
-                params: {
-                    system: true
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.permissionTypes should exist and its length = 0
-                let permissionTypes = data.permissionTypes;
-                should.exist(permissionTypes);
-                permissionTypes.length.should.equal(0);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with an object', (done) => {
-            const request = {
-                params: {
-                    system: { name: "alpha" }
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 200
-                response.status.should.have.been.calledWith(200);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.exist(data);
-                should.not.exist(error);
-
-                // data.permissionTypes should exist and its length = 0
-                let permissionTypes = data.permissionTypes;
-                should.exist(permissionTypes);
-                permissionTypes.length.should.equal(0);
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 200 and [] when called with an array', (done) => {
-            const request = {
-                params: {
-                    system: ["alpha", "beta", "charlie"]
+                    systemName: 'Alpha123'
                 }
             };
 
@@ -697,7 +463,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with a SQL Statement', (done) => {
             const request = {
                 params: {
-                    system: "; SELECT * FROM [PermissionType]"
+                    systemName: "; SELECT * FROM [PermissionType]"
                 }
             };
 
@@ -736,7 +502,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with a "undefined"', (done) => {
             const request = {
                 params: {
-                    system: 'undefined'
+                    systemName: 'undefined'
                 }
             };
 
@@ -775,7 +541,85 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 200 and [] when called with a "null"', (done) => {
             const request = {
                 params: {
-                    system: 'null'
+                    systemName: 'null'
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 200
+                response.status.should.have.been.calledWith(200);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.permissionTypes should exist and its length = 0
+                let permissionTypes = data.permissionTypes;
+                should.exist(permissionTypes);
+                permissionTypes.length.should.equal(0);
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 200 and [] when called with " " (blank space)', (done) => {
+            const request = {
+                params: {
+                    systemName: ' '
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 200
+                response.status.should.have.been.calledWith(200);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.permissionTypes should exist and its length = 0
+                let permissionTypes = data.permissionTypes;
+                should.exist(permissionTypes);
+                permissionTypes.length.should.equal(0);
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 200 and [] when called with "" (empty string)', (done) => {
+            const request = {
+                params: {
+                    systemName: ''
                 }
             };
 
@@ -814,88 +658,6 @@ describe('GetPermissionTypes', function () {
     });
 
     describe('Calling GetPermissionTypes with an invalid parameter', function () {
-
-        it('should return Status = 400 and Error when called with " " (blank space)', (done) => {
-            const request = {
-                params: {
-                    system: ' '
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 400
-                response.status.should.have.been.calledWith(400);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.not.exist(data);
-                should.exist(error);
-
-                // error should be a GalaxyError
-                error.should.be.an.instanceOf(GalaxyError);
-                should.exist(error.friendlyMsg);
-                error.friendlyMsg.should.be.a('string');
-                should.exist(error.description);
-                error.description.should.be.a('string');
-
-                done();
-            });
-
-        });
-
-        it('should return Status = 400 and Error when called with "" (empty string)', (done) => {
-            const request = {
-                params: {
-                    system: ''
-                }
-            };
-
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
-
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
-                // status should be 400
-                response.status.should.have.been.calledWith(400);
-
-                // response should be a GalaxyReturn
-                response.json.should.have.been.calledOnce;
-                let calledWith = response.json.firstCall.args[0];
-                calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                let data = calledWith.data;
-                let error = calledWith.error;
-                should.not.exist(data);
-                should.exist(error);
-
-                // error should be a GalaxyError
-                error.should.be.an.instanceOf(GalaxyError);
-                should.exist(error.friendlyMsg);
-                error.friendlyMsg.should.be.a('string');
-                should.exist(error.description);
-                error.description.should.be.a('string');
-
-                done();
-            });
-
-        });
 
         it('should return Status = 400 and Error when called with [] (empty array)', (done) => {
             const request = {
@@ -982,7 +744,7 @@ describe('GetPermissionTypes', function () {
         it('should return Status = 400 and Error when called with null', (done) => {
             const request = {
                 params: {
-                    system: null
+                    systemName: null
                 }
             };
 
@@ -993,6 +755,252 @@ describe('GetPermissionTypes', function () {
 
             GetPermissionTypes(request, response);
 
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with 0', (done) => {
+            const request = {
+                params: {
+                    systemName: 0
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with 1', (done) => {
+            const request = {
+                params: {
+                    systemName: 1
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with false', (done) => {
+            const request = {
+                params: {
+                    systemName: false
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with true', (done) => {
+            const request = {
+                params: {
+                    systemName: true
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with an object', (done) => {
+            const request = {
+                params: {
+                    systemName: { name: "alpha" }
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 400 and Error when called with an array', (done) => {
+            const request = {
+                params: {
+                    systemName: ["alpha", "beta", "charlie"]
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
 
             sleep().then(() => {
                 // status should be 400
