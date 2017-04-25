@@ -1,8 +1,9 @@
 'use strict';
 
+const _ = require('lodash');
+_.mixin(require('lodash-uuid'));
 const db = require('../helpers/galaxydb');
 const log4galaxy = require('../helpers/galaxylog');
-const validator = require('validator');
 const Permission = require('../models/permission');
 const PermissionTypes = require('./permissiontypes.json');
 const GalaxyReturn = require('../models/galaxyreturn');
@@ -32,8 +33,8 @@ const mergeComponentTagPermissionsWithPermissionTypes = (componentTagPermissions
 }
 
 module.exports = (request, response, next) => {
-    let groupId = String(request.params.groupId).trim();
-    if (!validator.isUUID(groupId)) {
+    let groupId = request.params.groupId;
+    if (!_.isString(groupId) || !_.isUuid(groupId.trim())) {
         let error = new Error('"' + groupId + '" is an invalid uuid');
         log4galaxy.logMessage(error);
         response.status(400).json(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));

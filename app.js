@@ -16,7 +16,6 @@ const login = require('./services/login');
 const renew = require('./services/renew');
 const getadgroups = require('./services/getadgroups');
 const getcomponenttags = require('./services/getcomponenttags');
-const gettagsandpermissionsbygroup = require('./services/gettagsandpermissionsbygroup');
 const getpermissiontypes = require('./services/getpermissiontypes');
 const email = require('./services/email');
 
@@ -38,8 +37,7 @@ app.post('/login', passport.authenticate('authentication', { session: false }), 
 app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
 app.get('/getadgroups/:startsWith', passport.authenticate('authorization', { session: false }), getadgroups);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
-app.get('/getpermissiontypes/:system', passport.authenticate('authorization', { session: false }), getpermissiontypes);
-app.post('/gettagsandpermissions', passport.authenticate('authorization', { session: false }), gettagsandpermissionsbygroup);
+app.get('/getpermissiontypes/:systemName', passport.authenticate('authorization', { session: false }), getpermissiontypes);
 app.post('/email', email);
 
 app.listen(port, (error => {

@@ -1,18 +1,19 @@
 'use strict';
 
+const _ = require('lodash');
 const db = require('../helpers/galaxydb');
 const log4galaxy = require('../helpers/galaxylog');
 const GalaxyReturn = require('../models/galaxyreturn');
 const GalaxyError = require('../models/galaxyerror');
 
 module.exports = (request, response, next) => {
-  let contains = (request.params.contains != null) ? String(request.params.contains).trim() : '';
-  if (contains === '') {
+  let contains = request.params.contains;
+  if (!_.isString(contains) || contains.trim() === '') {
     let error = new Error('Please provide a valid parameter for the search');
     log4galaxy.logMessage(error);
     response.status(400).json(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));
   } else {
-    db.getComitTagsByContains(contains)
+    db.getComitTagsByContains(contains.trim().toLowerCase())
       .then(tags => {
         let data = {
           tags: tags
