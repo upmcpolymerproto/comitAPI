@@ -131,7 +131,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 8
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
-                permissionTypes.length.should.equal(8);
+                permissionTypes.length.should.equal(4);
 
                 // each permission type should be a PermissionType 
                 // and its id should belong to the list of beta ids
@@ -178,6 +178,59 @@ describe('GetPermissionTypes', function () {
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
                 permissionTypes.length.should.equal(0);
+
+                done();
+            });
+
+        });
+
+        it('should return Status = 200 and only permission types belonging to Old Beta when called with "Old Beta"', (done) => {
+            let ids = [];
+            for (let mockPermissionType of mockPermissionTypes) {
+                if (mockPermissionType.SystemName === 'Old Beta') {
+                    ids.push(mockPermissionType.Id.toLowerCase());
+                }
+            }
+
+            const request = {
+                params: {
+                    system: 'Beta'
+                }
+            };
+
+            let response = {};
+            response.send = sinon.spy();
+            response.json = sinon.spy();
+            response.status = sinon.stub().callsFake((n) => response);
+
+            GetPermissionTypes(request, response);
+
+            sleep().then(() => {
+                // status should be 200
+                response.status.should.have.been.calledWith(200);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should exist and GalaxyReturn.error should not exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.exist(data);
+                should.not.exist(error);
+
+                // data.permissionTypes should exist and its length = 8
+                let permissionTypes = data.permissionTypes;
+                should.exist(permissionTypes);
+                permissionTypes.length.should.equal(4);
+
+                // each permission type should be a PermissionType 
+                // and its id should belong to the list of beta ids
+                for (let permissionType of permissionTypes) {
+                    permissionType.should.be.an.instanceOf(PermissionType);
+                    ids.should.include(permissionType.id.toLowerCase());
+                }
 
                 done();
             });

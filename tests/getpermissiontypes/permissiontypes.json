@@ -74,25 +74,25 @@
     {
         "Id": "25668ab0-672f-4748-b85d-fdd85f91a8f8",
         "Name": "Create",
-        "SystemName": "Beta",
+        "SystemName": "Old Beta",
         "IsSystemPermission": true
     },
     {
         "Id": "9230a84f-8c64-41ff-a9a2-37cb6d589e53",
         "Name": "Read",
-        "SystemName": "Beta",
+        "SystemName": "Old Beta",
         "IsSystemPermission": true
     },
     {
         "Id": "3e2f3176-a172-4d3a-abde-b1902a5bceac",
         "Name": "Update",
-        "SystemName": "Beta",
+        "SystemName": "Old Beta",
         "IsSystemPermission": true
     },
     {
         "Id": "eafd6da9-1c39-4c37-aa0a-63c9ca54f843",
         "Name": "Delete",
-        "SystemName": "Beta",
+        "SystemName": "Old Beta",
         "IsSystemPermission": true
     }
 ]
