@@ -134,26 +134,26 @@ module.exports.create = () =>
 module.exports.destroy = () =>
     new sql.Request()
         .query(
-        'DELETE FROM [Permission] ' +
-        'DBCC CHECKIDENT ([Permission], RESEED, 0)' +
-        'DELETE FROM [PermissionType] ' +
-        'DBCC CHECKIDENT ([PermissionType], RESEED, 0)' +
         'DELETE FROM [CoMIT_TagComponent] ' +
         'DBCC CHECKIDENT ([CoMIT_TagComponent], RESEED, 0)' +
         'DELETE FROM [CoMIT_Component] ' +
         'DBCC CHECKIDENT ([CoMIT_Component], RESEED, 0)' +
         'DELETE FROM [CoMIT_ComponentType] ' +
         'DBCC CHECKIDENT ([CoMIT_ComponentType], RESEED, 0)' +
-        'DELETE FROM [Tag] ' +
-        'DBCC CHECKIDENT ([Tag], RESEED, 0)' +
-        'DELETE FROM [TagType] ' +
         'DBCC CHECKIDENT ([TagType], RESEED, 0)' +
         'DELETE FROM [CoMIT_GroupTagPermission] ' +
         'DBCC CHECKIDENT ([CoMIT_GroupTagPermission], RESEED, 0)' +
         'DELETE FROM [CoMIT_GroupSystemPermission] ' +
         'DBCC CHECKIDENT ([CoMIT_GroupSystemPermission], RESEED, 0)' +
         'DELETE FROM [CoMIT_Group] ' +
-        'DBCC CHECKIDENT ([CoMIT_Group], RESEED, 0)'
+        'DBCC CHECKIDENT ([CoMIT_Group], RESEED, 0)' +
+        'DELETE FROM [Permission] ' +
+        'DBCC CHECKIDENT ([Permission], RESEED, 0)' +
+        'DELETE FROM [PermissionType] ' +
+        'DBCC CHECKIDENT ([PermissionType], RESEED, 0)' +
+        'DELETE FROM [Tag] ' +
+        'DBCC CHECKIDENT ([Tag], RESEED, 0)' +
+        'DELETE FROM [TagType] '
         );
 
 if (String(process.argv[2]).toLowerCase() === 'debug') {

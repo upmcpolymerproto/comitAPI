@@ -497,6 +497,11 @@ data.Permission = [
         'PermissionTypeId': data.PermissionType[9].Id,
         'Value': true
     },
+    {
+        'Id': uuid(),
+        'PermissionTypeId': data.PermissionType[10].Id,
+        'Value': false
+    }
 ];
 
 data.CoMIT_GroupTagPermission = [
@@ -559,6 +564,12 @@ data.CoMIT_GroupTagPermission = [
         'GroupId': data.CoMIT_Group[4].Id,
         'TagId': data.Tag[2].Id,
         'PermissionId': data.Permission[14].Id
+    },
+    {
+        'Id': uuid(),
+        'GroupId': data.CoMIT_Group[2].Id,
+        'TagId': data.Tag[1].Id,
+        'PermissionId': data.Permission[15].Id
     },
 ]
 
