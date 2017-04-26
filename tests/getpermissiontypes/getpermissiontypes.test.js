@@ -13,10 +13,6 @@ chai.use(require('sinon-chai'));
 
 const GetPermissionTypes = require('../../services/getpermissiontypes');
 
-const sleepFor = 250;
-const sleep = () =>
-    new Promise(resolve => setTimeout(resolve, sleepFor));
-
 describe('GetPermissionTypes', function () {
 
     // create mock data
@@ -28,7 +24,6 @@ describe('GetPermissionTypes', function () {
             .catch(err => console.log(err))
     );
 
-
     // destroy mock data
     after(() =>
         mockDb.connect()
@@ -39,7 +34,7 @@ describe('GetPermissionTypes', function () {
 
     describe('Calling GetPermissionTypes with a valid parameter', function () {
 
-        it('should return Status = 200 and only permission types belonging to Alpha when called with "Alpha"', (done) => {
+        it('should return Status = 200 and only permission types belonging to Alpha when called with "Alpha"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Alpha') {
@@ -53,14 +48,14 @@ describe('GetPermissionTypes', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -88,12 +83,11 @@ describe('GetPermissionTypes', function () {
                     ids.should.include(permissionType.id.toLowerCase());
                 }
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Beta when called with "Beta"', (done) => {
+        it('should return Status = 200 and only permission types belonging to Beta when called with "Beta"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Beta') {
@@ -107,14 +101,14 @@ describe('GetPermissionTypes', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -142,26 +136,25 @@ describe('GetPermissionTypes', function () {
                     ids.should.include(permissionType.id.toLowerCase());
                 }
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "Charlie"', (done) => {
+        it('should return Status = 200 and [] when called with "Charlie"', () => {
             const request = {
                 params: {
                     systemName: 'Charlie'
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -182,12 +175,11 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Old Beta when called with "Old Beta"', (done) => {
+        it('should return Status = 200 and only permission types belonging to Old Beta when called with "Old Beta"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Old Beta') {
@@ -201,14 +193,14 @@ describe('GetPermissionTypes', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -236,12 +228,11 @@ describe('GetPermissionTypes', function () {
                     ids.should.include(permissionType.id.toLowerCase());
                 }
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Alpha when called with "alpha"', (done) => {
+        it('should return Status = 200 and only permission types belonging to Alpha when called with "alpha"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Alpha') {
@@ -255,14 +246,14 @@ describe('GetPermissionTypes', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -290,12 +281,11 @@ describe('GetPermissionTypes', function () {
                     ids.should.include(permissionType.id.toLowerCase());
                 }
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Alpha when called with "AlPhA"', (done) => {
+        it('should return Status = 200 and only permission types belonging to Alpha when called with "AlPhA"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Alpha') {
@@ -309,14 +299,14 @@ describe('GetPermissionTypes', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -344,26 +334,25 @@ describe('GetPermissionTypes', function () {
                     ids.should.include(permissionType.id.toLowerCase());
                 }
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "aalpha"', (done) => {
+        it('should return Status = 200 and [] when called with "aalpha"', () => {
             const request = {
                 params: {
                     systemName: 'aalpha'
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -384,26 +373,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "alphaa"', (done) => {
+        it('should return Status = 200 and [] when called with "alphaa"', () => {
             const request = {
                 params: {
                     systemName: 'alphaa'
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -424,26 +412,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "Alpha123"', (done) => {
+        it('should return Status = 200 and [] when called with "Alpha123"', () => {
             const request = {
                 params: {
                     systemName: 'Alpha123'
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -464,26 +451,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with a SQL Statement', (done) => {
+        it('should return Status = 200 and [] when called with a SQL Statement', () => {
             const request = {
                 params: {
                     systemName: "; SELECT * FROM [PermissionType]"
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -504,26 +490,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with a "undefined"', (done) => {
+        it('should return Status = 200 and [] when called with a "undefined"', () => {
             const request = {
                 params: {
                     systemName: 'undefined'
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -544,26 +529,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with a "null"', (done) => {
+        it('should return Status = 200 and [] when called with a "null"', () => {
             const request = {
                 params: {
                     systemName: 'null'
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -584,26 +568,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with " " (blank space)', (done) => {
+        it('should return Status = 200 and [] when called with " " (blank space)', () => {
             const request = {
                 params: {
                     systemName: ' '
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -624,26 +607,25 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "" (empty string)', (done) => {
+        it('should return Status = 200 and [] when called with "" (empty string)', () => {
             const request = {
                 params: {
                     systemName: ''
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -664,7 +646,6 @@ describe('GetPermissionTypes', function () {
                 permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
-                done();
             });
 
         });
@@ -673,21 +654,21 @@ describe('GetPermissionTypes', function () {
 
     describe('Calling GetPermissionTypes with an invalid parameter', function () {
 
-        it('should return Status = 400 and Error when called with [] (empty array)', (done) => {
+        it('should return Status = 400 and Error when called with [] (empty array)', () => {
             const request = {
                 params: {
                     contains: []
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -709,26 +690,24 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with undefined', (done) => {
+        it('should return Status = 400 and Error when called with undefined', () => {
             const request = {
                 params: {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -750,27 +729,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with null', (done) => {
+        it('should return Status = 400 and Error when called with null', () => {
             const request = {
                 params: {
                     systemName: null
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -792,26 +769,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with 0', (done) => {
+        it('should return Status = 400 and Error when called with 0', () => {
             const request = {
                 params: {
                     systemName: 0
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -833,26 +809,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with 1', (done) => {
+        it('should return Status = 400 and Error when called with 1', () => {
             const request = {
                 params: {
                     systemName: 1
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -874,26 +849,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with false', (done) => {
+        it('should return Status = 400 and Error when called with false', () => {
             const request = {
                 params: {
                     systemName: false
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -915,26 +889,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with true', (done) => {
+        it('should return Status = 400 and Error when called with true', () => {
             const request = {
                 params: {
                     systemName: true
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -956,26 +929,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with an object', (done) => {
+        it('should return Status = 400 and Error when called with an object', () => {
             const request = {
                 params: {
                     systemName: { name: "alpha" }
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -997,26 +969,25 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with an array', (done) => {
+        it('should return Status = 400 and Error when called with an array', () => {
             const request = {
                 params: {
                     systemName: ["alpha", "beta", "charlie"]
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getPermissionTypes = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetPermissionTypes(request, response);
+            });
 
-            GetPermissionTypes(request, response);
-
-            sleep().then(() => {
+            return getPermissionTypes.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -1038,7 +1009,6 @@ describe('GetPermissionTypes', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });

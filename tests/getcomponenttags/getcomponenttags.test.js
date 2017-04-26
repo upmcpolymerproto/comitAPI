@@ -12,10 +12,6 @@ chai.use(require('sinon-chai'));
 
 const GetComponentTags = require('../../services/getcomponenttags');
 
-const sleepFor = 250;
-const sleep = () =>
-    new Promise(resolve => setTimeout(resolve, sleepFor));
-
 describe('GetComponentTags', function () {
 
     // create mock data
@@ -38,7 +34,7 @@ describe('GetComponentTags', function () {
 
     describe('Calling GetComponentTags with a valid parameter', function () {
 
-        it('should return Status = 200 and [West Virginia] when called with "west"', (done) => {
+        it('should return Status = 200 and [West Virginia] when called with "west"', () => {
             const states = ['West Virginia'];
             const request = {
                 params: {
@@ -46,14 +42,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -79,13 +75,11 @@ describe('GetComponentTags', function () {
                 should.exist(tag);
                 tag.should.be.an.instanceOf(Tag);
                 states.should.include(tag.name);
-
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [New Hampshire, New Jersey, New Mexico, New York] when called with "new"', (done) => {
+        it('should return Status = 200 and [New Hampshire, New Jersey, New Mexico, New York] when called with "new"', () => {
             let states = [];
             states.push('New Hampshire');
             states.push('New Jersey');
@@ -98,14 +92,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -131,13 +125,11 @@ describe('GetComponentTags', function () {
                     tag.should.be.an.instanceOf(Tag);
                     states.should.include(tag.name);
                 }
-
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "canada"', (done) => {
+        it('should return Status = 200 and [] when called with "canada"', () => {
             const states = [];
             const request = {
                 params: {
@@ -145,14 +137,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -174,12 +166,11 @@ describe('GetComponentTags', function () {
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [New Jersey] when called with " jersey"', (done) => {
+        it('should return Status = 200 and [New Jersey] when called with " jersey"', () => {
             const states = ['New Jersey'];
             const request = {
                 params: {
@@ -187,14 +178,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -221,12 +212,11 @@ describe('GetComponentTags', function () {
                 tag.should.be.an.instanceOf(Tag);
                 states.should.include(tag.name);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [Rhode Island] when called with "rhode "', (done) => {
+        it('should return Status = 200 and [Rhode Island] when called with "rhode "', () => {
             const states = ['Rhode Island'];
             const request = {
                 params: {
@@ -234,14 +224,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -268,12 +258,11 @@ describe('GetComponentTags', function () {
                 tag.should.be.an.instanceOf(Tag);
                 states.should.include(tag.name);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [Rhode Island] when called with "ode is"', (done) => {
+        it('should return Status = 200 and [Rhode Island] when called with "ode is"', () => {
             const states = ['Rhode Island'];
             const request = {
                 params: {
@@ -281,14 +270,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -315,12 +304,11 @@ describe('GetComponentTags', function () {
                 tag.should.be.an.instanceOf(Tag);
                 states.should.include(tag.name);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "undefined"', (done) => {
+        it('should return Status = 200 and [] when called with "undefined"', () => {
             const states = [];
             const request = {
                 params: {
@@ -328,14 +316,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -357,12 +345,11 @@ describe('GetComponentTags', function () {
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with "null"', (done) => {
+        it('should return Status = 200 and [] when called with "null"', () => {
             const states = [];
             const request = {
                 params: {
@@ -370,14 +357,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -399,12 +386,11 @@ describe('GetComponentTags', function () {
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and [] when called with a SQL statement', (done) => {
+        it('should return Status = 200 and [] when called with a SQL statement', () => {
             const states = [];
             const request = {
                 params: {
@@ -412,14 +398,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -441,7 +427,6 @@ describe('GetComponentTags', function () {
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
-                done();
             });
 
         });
@@ -450,21 +435,21 @@ describe('GetComponentTags', function () {
 
     describe('Calling GetComponentTags with an invalid parameter', function () {
 
-        it('should return Status = 400 and Error when called with " " (blank space)', (done) => {
+        it('should return Status = 400 and Error when called with " " (blank space)', () => {
             const request = {
                 params: {
                     contains: ' '
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -486,26 +471,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with "" (empty string)', (done) => {
+        it('should return Status = 400 and Error when called with "" (empty string)', () => {
             const request = {
                 params: {
                     contains: ''
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -527,26 +511,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with [] (empty array)', (done) => {
+        it('should return Status = 400 and Error when called with [] (empty array)', () => {
             const request = {
                 params: {
                     contains: []
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -568,26 +551,24 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with undefined', (done) => {
+        it('should return Status = 400 and Error when called with undefined', () => {
             const request = {
                 params: {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -609,27 +590,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with null', (done) => {
+        it('should return Status = 400 and Error when called with null', () => {
             const request = {
                 params: {
                     contains: null
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -651,26 +630,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with 0', (done) => {
+        it('should return Status = 400 and Error when called with 0', () => {
             const request = {
                 params: {
                     contains: 0
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -692,26 +670,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with 1', (done) => {
+        it('should return Status = 400 and Error when called with 1', () => {
             const request = {
                 params: {
                     contains: 1
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -733,26 +710,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with false', (done) => {
+        it('should return Status = 400 and Error when called with false', () => {
             const request = {
                 params: {
                     contains: false
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -774,26 +750,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with true', (done) => {
+        it('should return Status = 400 and Error when called with true', () => {
             const request = {
                 params: {
                     contains: true
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -815,26 +790,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with an object', (done) => {
+        it('should return Status = 400 and Error when called with an object', () => {
             const request = {
                 params: {
                     contains: { x: "pennsylvania" }
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -856,26 +830,25 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
 
-        it('should return Status = 400 and Error when called with an array', (done) => {
+        it('should return Status = 400 and Error when called with an array', () => {
             const request = {
                 params: {
                     contains: ["California", "Utah", "Nevada"]
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -897,7 +870,6 @@ describe('GetComponentTags', function () {
                 should.exist(error.description);
                 error.description.should.be.a('string');
 
-                done();
             });
 
         });
@@ -906,7 +878,7 @@ describe('GetComponentTags', function () {
 
     describe('Calling GetComponentTags with a parameter that contains SQL Server Wildcard characters', function () {
 
-        it('should return Status = 200 and ["[Testing^Escape-Characters]"] when called with "[Testing^Escape-Characters]"', (done) => {
+        it('should return Status = 200 and ["[Testing^Escape-Characters]"] when called with "[Testing^Escape-Characters]"', () => {
             const strings = ['[Testing^Escape-Characters]'];
             const request = {
                 params: {
@@ -914,14 +886,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -948,12 +920,11 @@ describe('GetComponentTags', function () {
                 tag.should.be.an.instanceOf(Tag);
                 strings.should.include(tag.name);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and ["Testing%Escape_Characters[]"] when called with "Testing%Escape_Characters[]"', (done) => {
+        it('should return Status = 200 and ["Testing%Escape_Characters[]"] when called with "Testing%Escape_Characters[]"', () => {
             const strings = ['Testing%Escape_Characters[]'];
             const request = {
                 params: {
@@ -961,14 +932,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -995,12 +966,11 @@ describe('GetComponentTags', function () {
                 tag.should.be.an.instanceOf(Tag);
                 strings.should.include(tag.name);
 
-                done();
             });
 
         });
 
-        it('should return Status = 200 and ["[Testing%Escape_Characters]"] when called with "[Testing%Escape_Characters]"', (done) => {
+        it('should return Status = 200 and ["[Testing%Escape_Characters]"] when called with "[Testing%Escape_Characters]"', () => {
             const strings = ['[Testing%Escape_Characters]'];
             const request = {
                 params: {
@@ -1008,14 +978,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let response = {};
-            response.send = sinon.spy();
-            response.json = sinon.spy();
-            response.status = sinon.stub().callsFake((n) => response);
+            let getComponentTags = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetComponentTags(request, response);
+            });
 
-            GetComponentTags(request, response);
-
-            sleep().then(() => {
+            return getComponentTags.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -1042,7 +1012,6 @@ describe('GetComponentTags', function () {
                 tag.should.be.an.instanceOf(Tag);
                 strings.should.include(tag.name);
 
-                done();
             });
 
         });
