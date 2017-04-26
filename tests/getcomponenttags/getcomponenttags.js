@@ -71,6 +71,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in states
@@ -122,6 +123,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 4
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(4);
 
                 // each tag should be a Tag and its name should be included in states
@@ -168,6 +170,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 0
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
@@ -209,6 +212,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in states
@@ -255,6 +259,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in states
@@ -301,6 +306,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in states
@@ -347,6 +353,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 0
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
@@ -388,6 +395,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 0
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
@@ -429,6 +437,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 0
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
                 tags.should.eql(states);
 
@@ -930,6 +939,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in strings
@@ -976,6 +986,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in strings
@@ -1022,6 +1033,7 @@ describe('GetComponentTags', function () {
                 // data.tags should exist and its length = 1
                 let tags = data.tags;
                 should.exist(tags);
+                tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
 
                 // tags[0] should be a Tag and its name should be included in strings

@@ -78,6 +78,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 8
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(8);
 
                 // each permission type should be a PermissionType 
@@ -131,6 +132,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 8
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(4);
 
                 // each permission type should be a PermissionType 
@@ -177,6 +179,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -223,6 +226,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 8
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(4);
 
                 // each permission type should be a PermissionType 
@@ -276,6 +280,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 8
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(8);
 
                 // each permission type should be a PermissionType 
@@ -329,6 +334,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 8
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(8);
 
                 // each permission type should be a PermissionType 
@@ -375,6 +381,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -414,6 +421,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -453,6 +461,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -492,6 +501,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -531,6 +541,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -570,6 +581,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -609,6 +621,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
@@ -648,6 +661,7 @@ describe('GetPermissionTypes', function () {
                 // data.permissionTypes should exist and its length = 0
                 let permissionTypes = data.permissionTypes;
                 should.exist(permissionTypes);
+                permissionTypes.should.be.an.instanceOf(Array);
                 permissionTypes.length.should.equal(0);
 
                 done();
