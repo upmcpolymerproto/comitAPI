@@ -5,11 +5,11 @@ const config = require('../../config/config.json').sql;
 const sql = require('mssql');
 const dummy = require('./mock');
 
-module.exports.connect = () => sql.connect(config);
+const connect = () => sql.connect(config);
 
-module.exports.close = () => sql.close();
+const close = () => sql.close();
 
-module.exports.create = () =>
+const create = () =>
     new Promise((resolve, reject) => {
         let promises = [];
         Promise.all(promises)
@@ -131,7 +131,7 @@ module.exports.create = () =>
             .catch((error) => reject(error));
     });
 
-module.exports.destroy = () =>
+const destroy = () =>
     new sql.Request()
         .query(
         'DELETE FROM [CoMIT_TagComponent] ' +
@@ -156,11 +156,10 @@ module.exports.destroy = () =>
         'DELETE FROM [TagType] '
         );
 
-if (String(process.argv[2]).toLowerCase() === 'debug') {
-    module.exports.connect()
-        .then(() => module.exports.destroy())
-        .then(() => module.exports.create())
-        .then(() => sql.close())
-        .then(() => console.log('done'))
-        .catch(err => console.log(err));
-}
+
+connect()
+    .then(() => destroy())
+    .then(() => create())
+    .then(() => close())
+    .then(() => console.log('mock galaxyDB loaded'))
+    .catch(err => console.log(err));

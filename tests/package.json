@@ -1,10 +1,11 @@
 {
-  "name": "getcomponenttags",
+  "name": "galaxyapi-unit-tests",
   "version": "1.0.0",
-  "description": "unit tests for getcomponenttags",
+  "description": "unit tests for galaxyAPI",
   "main": "index.js",
   "scripts": {
-    "test": "mocha getcomponenttags"
+    "mock": "node ./mock/mockdatabase.js",
+    "test": "mocha ./*/*.test.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +14,7 @@
     "mocha": "^3.2.0",
     "mssql": "^3.3.0",
     "sinon": "^2.1.0",
-    "sinon-chai": "^2.9.0"
+    "sinon-chai": "^2.9.0",
+    "uuid": "^3.0.1"
   }
 }
