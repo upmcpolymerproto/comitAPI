@@ -10,9 +10,9 @@ const GalaxyError = require('../models/galaxyerror');
 module.exports = (request, response, next) => {
     let token;
     let user = request.user;
-    let context = request.body.context;
+    let bodyContext = request.body.context;
 
-    context(user, context)
+    context(user, bodyContext)
         .then(userWithPermissions => jwt.encode(user = userWithPermissions))
         .then(jwtToken => jwt.decode(token = jwtToken))
         .then(obj => {
