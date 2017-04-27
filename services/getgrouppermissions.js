@@ -3,34 +3,12 @@
 const _ = require('lodash');
 _.mixin(require('lodash-uuid'));
 const db = require('../helpers/galaxydb');
+const utils = require('../helpers/galaxyutils');
 const log4galaxy = require('../helpers/galaxylog');
 const Permission = require('../models/permission');
 const PermissionTypes = require('./permissiontypes.json');
 const GalaxyReturn = require('../models/galaxyreturn');
 const GalaxyError = require('../models/galaxyerror');
-
-const mergePermissionsWithPermissionTypes = (permissions, permissionTypes) => {
-    let mergedPermissions = {};
-    for (let permission of permissions) {
-        mergedPermissions[permission.type.code] = permission;
-    }
-    for (let permissionType of permissionTypes) {
-        // if permission type doesnt exist yet, then add a new permission defaulted to false
-        if (!mergedPermissions[permission.type.code]) {
-            mergedPermissions[permission.type.code] = new Permission(null, permissionType, false);
-        }
-    }
-    //convert mergedPermissions from map to an array
-    return Object.keys(mergedPermissions).map(key => mergedPermissions[key]);
-}
-
-const mergeComponentTagPermissionsWithPermissionTypes = (componentTagPermissions, permissionTypes) => {
-    for (let componentTagPermission of componentTagPermissions) {
-        componentTagPermission.permissions =
-            mergePermissionsWithPermissionTypes(componentTagPermission.permissions, permissionTypes, PermissionTypes.Component);
-    }
-    return componentTagPermissions;
-}
 
 module.exports = (request, response, next) => {
     let groupId = request.params.groupId;
@@ -64,9 +42,9 @@ module.exports = (request, response, next) => {
                             }
 
                             data.systemPermissions =
-                                mergePermissionsWithPermissionTypes(group.systemPermissions, systemPermissionTypes);
+                                utils.mergePermissionsWithPermissionTypes(group.systemPermissions, systemPermissionTypes);
                             data.componentTagPermissions =
-                                mergeComponentTagPermissionsWithPermissionTypes(group.componentTagPermissions, componentTagPermissionTypes);
+                                utils.mergeComponentTagPermissionsWithPermissionTypes(group.componentTagPermissions, componentTagPermissionTypes);
                             return data;
                         });
                 }
