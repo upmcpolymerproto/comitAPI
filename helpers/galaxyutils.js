@@ -88,7 +88,7 @@ module.exports.mergePermissionsWithPermissionTypes = (permissions, permissionTyp
 module.exports.mergeComponentTagPermissionsWithPermissionTypes = (componentTagPermissions, permissionTypes) => {
     for (let componentTagPermission of componentTagPermissions) {
         componentTagPermission.permissions =
-            module.exports.mergePermissionsWithPermissionTypes(componentTagPermission.permissions, permissionTypes, PermissionTypes.Component);
+            module.exports.mergePermissionsWithPermissionTypes(componentTagPermission.permissions, permissionTypes);
     }
     return componentTagPermissions;
 }
