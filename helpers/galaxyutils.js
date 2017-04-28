@@ -1,5 +1,7 @@
 'use strict';
 
+const Permission = require('../models/permission');
+
 /**
  * Collapses multiple arrays of Permission into a single array. 
  * Permissions will be distinguised by their code.
@@ -53,10 +55,10 @@ module.exports.collapseComponentTagPermissions = (componentTagPermissionSets) =>
 }
 
 /**
- * Merges an array of Permissions with any array of all possible Permission Types.
- * When a Permission Type is not found in the Permissions
- * A new Permission will be appended with an id of null, a type of the new Permission Type, and a hasPermission value of false.
- * @param {ComponentTagPermission[]} permissions An array of Permissions.
+ * Merges an array of Permissions with an array of all possible Permission Types.
+ * When a Permission Type is not found in the Permissions,
+ * a new Permission will be appended with an id of null, a type of the new Permission Type, and a hasPermission value of false.
+ * @param {Permission[]} permissions An array of Permissions.
  * @param {PermissionType[]} componentTagPermissions An array of PermissionTypes.
  * @return {ComponentTagPermission[]}
  */
@@ -67,8 +69,8 @@ module.exports.mergePermissionsWithPermissionTypes = (permissions, permissionTyp
     }
     for (let permissionType of permissionTypes) {
         // if permission type doesnt exist yet, then add a new permission defaulted to false
-        if (!mergedPermissions[permission.type.id]) {
-            mergedPermissions[permission.type.id] = new Permission(null, permissionType, false);
+        if (!mergedPermissions[permissionType.id]) {
+            mergedPermissions[permissionType.id] = new Permission(null, permissionType, false);
         }
     }
     //convert mergedPermissions from map to an array
@@ -76,9 +78,9 @@ module.exports.mergePermissionsWithPermissionTypes = (permissions, permissionTyp
 }
 
 /**
- * Merges an array of Component Tag Permissions with any array of all possible Permission Types.
- * When a Permission Type is not found in a Component Tag Permission's Permissions
- * A new Permission will be appended with an id of null, a type of the new Permission Type, and a hasPermission value of false.
+ * Merges an array of Component Tag Permissions with an array of all possible Permission Types.
+ * When a Permission Type is not found in a Component Tag Permission's Permissions,
+ * a new Permission will be appended with an id of null, a type of the new Permission Type, and a hasPermission value of false.
  * @param {ComponentTagPermission[]} componentTagPermissions An array of ComponentTagPermissions.
  * @param {PermissionType[]} componentTagPermissions An array of PermissionTypes.
  * @return {ComponentTagPermission[]}
