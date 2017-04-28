@@ -38,7 +38,7 @@ app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
 app.get('/getadgroups/:startsWith', passport.authenticate('authorization', { session: false }), getadgroups);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
 app.get('/getpermissiontypes/:systemName', passport.authenticate('authorization', { session: false }), getpermissiontypes);
-app.post('/email', email);
+app.post('/email', passport.authenticate('authorization', { session: false }), email);
 
 app.listen(port, (error => {
     console.log('Galaxy API listening on port ' + port);

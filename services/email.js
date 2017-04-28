@@ -11,6 +11,9 @@ let smtpConfig = {
     auth: {
         user: 'upmcproto@gmail.com',
         pass: 'p@ssW0rd'
+    },
+    tls: {
+        rejectUnauthorized: false
     }    
 };
 
@@ -27,16 +30,14 @@ let defaultOptions = {
 
 module.exports = (request, response, next) => {
     var email = new emailMessage(request.body.from, request.body.to, request.body.subject, request.body.text);
-           
+    console.log(email);
     // send mail with defined transport object
     transporter.sendMail(email, (error, info) => {
         if (error) {                
             return response.status(500).send({error: error});
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
+        } else {
+            console.log('Message %s sent: %s', info.messageId, info.response);
+            return response.status(200).send('email sent');
+        } 
     });
-    
-    response.status(200).send('email sent');
-
-    next();
 }
