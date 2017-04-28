@@ -5,10 +5,9 @@ _.mixin(require('lodash-uuid'));
 const db = require('../helpers/galaxydb');
 const utils = require('../helpers/galaxyutils');
 const log4galaxy = require('../helpers/galaxylog');
-const Permission = require('../models/permission');
-const PermissionTypes = require('./permissiontypes.json');
 const GalaxyReturn = require('../models/galaxyreturn');
 const GalaxyError = require('../models/galaxyerror');
+const PermissionTypes = require('../models/permissiontypes.json');
 
 module.exports = (request, response, next) => {
     let groupId = request.params.groupId;
@@ -28,12 +27,12 @@ module.exports = (request, response, next) => {
                     data.isAdmin = true;
                     return data;
                 } else {
-                    db.getPermissionTypesBySystemName('comit')
+                    return db.getPermissionTypesBySystemName('comit')
                         .then(permissionTypes => {
                             let systemPermissionTypes = [];
                             let componentTagPermissionTypes = [];
 
-                            for (permissionType of permissionTypes) {
+                            for (let permissionType of permissionTypes) {
                                 if (permissionType.type === PermissionTypes.System) {
                                     systemPermissionTypes.push(permissionType);
                                 } else if (permissionType.type === PermissionTypes.Component) {
