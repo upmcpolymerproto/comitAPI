@@ -3,7 +3,8 @@
 const Tag = require('../../models/tag');
 const GalaxyReturn = require('../../models/galaxyreturn');
 const GalaxyError = require('../../models/galaxyerror');
-const mockDb = require('./mockdatabase');
+const mockDb = require('../mock/mockdatabase');
+const mockData = require('./mock.json')
 const chai = require('chai');
 const sinon = require('sinon');
 
@@ -17,8 +18,8 @@ describe('GetComponentTags', function () {
     // create mock data
     before(() =>
         mockDb.connect()
-            .then(() => mockDb.destroy())
-            .then(() => mockDb.create())
+            .then(() => mockDb.destroy(mockData))
+            .then(() => mockDb.create(mockData))
             .then(() => mockDb.close())
             .catch(err => console.log(err))
     );
@@ -27,7 +28,7 @@ describe('GetComponentTags', function () {
     // destroy mock data
     after(() =>
         mockDb.connect()
-            .then(() => mockDb.destroy())
+            .then(() => mockDb.destroy(mockData))
             .then(() => mockDb.close())
             .catch(err => console.log(err))
     );
