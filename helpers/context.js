@@ -8,12 +8,12 @@ const utils = require('./galaxyutils');
  * 
  * In the case where a User belongs to a Group that is marked as administrative in galaxyDB, 
  * user.isAdmin will be set to true and 
- * both user.systemPermissions and user.componenetTagPermissions will be an empty array.
+ * both user.systemPermissions and user.componentTagPermissions will be an empty array.
  * 
  * In the case where a User does not belong to a Group that is marked as administrative in galaxyDB,
  * user.isAdmin will be set to false,
  * user.systemPermissions will contain an array of System Permissions, and 
- * user.componenetTagPermissions will contain an array of Component Tag Permissions.
+ * user.componentTagPermissions will contain an array of Component Tag Permissions.
  * 
  * @param {User} user The User to fetch permissions for, where user.groups contains a string array of UPMC AD Group (friendly) names
  * in which the User belongs to.
@@ -27,22 +27,22 @@ const comit = (user) => {
     return Promise.all(promises)
         .then(groups => {
             let systemPermissionSets = [];
-            let componenetTagPermissionSets = [];
+            let componentTagPermissionSets = [];
             for (let group of groups) {
                 if (group.isAdmin) {
                     //user is administrator, ignore permissions
                     user.isAdmin = true;
                     user.systemPermissions = [];
-                    user.componenetTagPermissions = [];
+                    user.componentTagPermissions = [];
                     return user;
                 }
                 systemPermissionSets.push(group.systemPermissions);
-                componenetTagPermissionSets.push(group.componenetTagPermissions);
+                componentTagPermissionSets.push(group.componentTagPermissions);
             }
             //user is not an administrator, merge all permissions
             user.isAdmin = false;
             user.systemPermissions = utils.collapsePermissions(systemPermissionSets);
-            user.componenetTagPermissions = utils.collapseComponentTagPermissions(componenetTagPermissionSets)
+            user.componentTagPermissions = utils.collapseComponentTagPermissions(componentTagPermissionSets)
             return user;
         });
 }

@@ -108,7 +108,7 @@ const getComitGroupById = (groupId) =>
                 return Promise.all(promises)
                     .then(results => {
                         group.systemPermissions = results[0];
-                        group.componenetTagPermissions = results[1];
+                        group.componentTagPermissions = results[1];
                         return group;
                     });
             }
@@ -147,7 +147,7 @@ const getComitGroupByName = (groupName) =>
                 return Promise.all(promises)
                     .then(results => {
                         group.systemPermissions = results[0];
-                        group.componenetTagPermissions = results[1];
+                        group.componentTagPermissions = results[1];
                         return group;
                     });
             }
@@ -283,6 +283,7 @@ const getPermissionTypesBySystemName = (systemName) =>
         });
 
 module.exports = {
+    getComitGroupById: getComitGroupById,
     getComitGroupByName: getComitGroupByName,
     getComitTagsByGroupId: getComitTagsByGroupId,
     getComitTagsByContains: getComitTagsByContains,

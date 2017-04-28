@@ -19,6 +19,6 @@ module.exports = (request, response, next) => {
         .catch(error => {
             log4galaxy.logMessage(error);
             let friendly = "An error occurred while renewing the user's JWT token.";
-            response.status(500).send(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
+            response.status(500).json(new GalaxyReturn(null, new GalaxyError(friendly, error.stack)));
         });
 }
