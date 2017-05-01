@@ -15,10 +15,7 @@ module.exports = (request, response, next) => {
     } else {
         db.getComitTagsByContains(contains.trim().toLowerCase())
             .then(tags => {
-                let data = {
-                    tags: tags
-                };
-                response.status(200).json(new GalaxyReturn(data, null));
+                response.status(200).json(new GalaxyReturn(tags, null));
             })
             .catch(error => {
                 log4galaxy.logMessage(error);
