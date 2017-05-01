@@ -35,7 +35,7 @@ describe('GetComponentTags', function () {
 
     describe('Calling GetComponentTags with a valid parameter', function () {
 
-        it('should return Status = 200 and [West Virginia] when called with "west"', () => {
+        it('should return 200 and [West Virginia] when called with "west"', () => {
             const states = ['West Virginia'];
             const request = {
                 params: {
@@ -80,7 +80,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [New Hampshire, New Jersey, New Mexico, New York] when called with "new"', () => {
+        it('should return 200 and [New Hampshire, New Jersey, New Mexico, New York] when called with "new"', () => {
             let states = [];
             states.push('New Hampshire');
             states.push('New Jersey');
@@ -130,7 +130,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "canada"', () => {
+        it('should return 200 and [] when called with "canada"', () => {
             const states = [];
             const request = {
                 params: {
@@ -171,7 +171,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [New Jersey] when called with " jersey"', () => {
+        it('should return 200 and [New Jersey] when called with " jersey"', () => {
             const states = ['New Jersey'];
             const request = {
                 params: {
@@ -217,7 +217,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [Rhode Island] when called with "rhode "', () => {
+        it('should return 200 and [Rhode Island] when called with "rhode "', () => {
             const states = ['Rhode Island'];
             const request = {
                 params: {
@@ -263,7 +263,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [Rhode Island] when called with "ode is"', () => {
+        it('should return 200 and [Rhode Island] when called with "ode is"', () => {
             const states = ['Rhode Island'];
             const request = {
                 params: {
@@ -309,7 +309,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "undefined"', () => {
+        it('should return 200 and [] when called with "undefined"', () => {
             const states = [];
             const request = {
                 params: {
@@ -350,7 +350,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "null"', () => {
+        it('should return 200 and [] when called with "null"', () => {
             const states = [];
             const request = {
                 params: {
@@ -391,7 +391,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with a SQL statement', () => {
+        it('should return 200 and [] when called with a SQL statement', () => {
             const states = [];
             const request = {
                 params: {
@@ -436,7 +436,7 @@ describe('GetComponentTags', function () {
 
     describe('Calling GetComponentTags with an invalid parameter', function () {
 
-        it('should return Status = 400 and Error when called with " " (blank space)', () => {
+        it('should return 400 and Error when called with " " (blank space)', () => {
             const request = {
                 params: {
                     contains: ' '
@@ -476,7 +476,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with "" (empty string)', () => {
+        it('should return 400 and Error when called with "" (empty string)', () => {
             const request = {
                 params: {
                     contains: ''
@@ -516,7 +516,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with [] (empty array)', () => {
+        it('should return 400 and Error when called with [] (empty array)', () => {
             const request = {
                 params: {
                     contains: []
@@ -556,7 +556,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with undefined', () => {
+        it('should return 400 and Error when called with undefined', () => {
             const request = {
                 params: {
                 }
@@ -595,7 +595,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with null', () => {
+        it('should return 400 and Error when called with null', () => {
             const request = {
                 params: {
                     contains: null
@@ -635,7 +635,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with 0', () => {
+        it('should return 400 and Error when called with 0', () => {
             const request = {
                 params: {
                     contains: 0
@@ -675,7 +675,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with 1', () => {
+        it('should return 400 and Error when called with 1', () => {
             const request = {
                 params: {
                     contains: 1
@@ -715,7 +715,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with false', () => {
+        it('should return 400 and Error when called with false', () => {
             const request = {
                 params: {
                     contains: false
@@ -755,7 +755,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with true', () => {
+        it('should return 400 and Error when called with true', () => {
             const request = {
                 params: {
                     contains: true
@@ -795,7 +795,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with an object', () => {
+        it('should return 400 and Error when called with an object', () => {
             const request = {
                 params: {
                     contains: { x: "pennsylvania" }
@@ -835,7 +835,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with an array', () => {
+        it('should return 400 and Error when called with an array', () => {
             const request = {
                 params: {
                     contains: ["California", "Utah", "Nevada"]
@@ -879,7 +879,7 @@ describe('GetComponentTags', function () {
 
     describe('Calling GetComponentTags with a parameter that contains SQL Server Wildcard characters', function () {
 
-        it('should return Status = 200 and ["[Testing^Escape-Characters]"] when called with "[Testing^Escape-Characters]"', () => {
+        it('should return 200 and ["[Testing^Escape-Characters]"] when called with "[Testing^Escape-Characters]"', () => {
             const strings = ['[Testing^Escape-Characters]'];
             const request = {
                 params: {
@@ -925,7 +925,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and ["Testing%Escape_Characters[]"] when called with "Testing%Escape_Characters[]"', () => {
+        it('should return 200 and ["Testing%Escape_Characters[]"] when called with "Testing%Escape_Characters[]"', () => {
             const strings = ['Testing%Escape_Characters[]'];
             const request = {
                 params: {
@@ -971,7 +971,7 @@ describe('GetComponentTags', function () {
 
         });
 
-        it('should return Status = 200 and ["[Testing%Escape_Characters]"] when called with "[Testing%Escape_Characters]"', () => {
+        it('should return 200 and ["[Testing%Escape_Characters]"] when called with "[Testing%Escape_Characters]"', () => {
             const strings = ['[Testing%Escape_Characters]'];
             const request = {
                 params: {

@@ -35,7 +35,7 @@ describe('GetPermissionTypes', function () {
 
     describe('Calling GetPermissionTypes with a valid parameter', function () {
 
-        it('should return Status = 200 and only permission types belonging to Alpha when called with "Alpha"', () => {
+        it('should return 200 and only permission types belonging to Alpha when called with "Alpha"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Alpha') {
@@ -88,7 +88,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Beta when called with "Beta"', () => {
+        it('should return 200 and only permission types belonging to Beta when called with "Beta"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Beta') {
@@ -141,7 +141,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "Charlie"', () => {
+        it('should return 200 and [] when called with "Charlie"', () => {
             const request = {
                 params: {
                     systemName: 'Charlie'
@@ -180,7 +180,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Old Beta when called with "Old Beta"', () => {
+        it('should return 200 and only permission types belonging to Old Beta when called with "Old Beta"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Old Beta') {
@@ -233,7 +233,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Alpha when called with "alpha"', () => {
+        it('should return 200 and only permission types belonging to Alpha when called with "alpha"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Alpha') {
@@ -286,7 +286,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and only permission types belonging to Alpha when called with "AlPhA"', () => {
+        it('should return 200 and only permission types belonging to Alpha when called with "AlPhA"', () => {
             let ids = [];
             for (let mockPermissionType of mockPermissionTypes) {
                 if (mockPermissionType.SystemName === 'Alpha') {
@@ -339,7 +339,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "aalpha"', () => {
+        it('should return 200 and [] when called with "aalpha"', () => {
             const request = {
                 params: {
                     systemName: 'aalpha'
@@ -378,7 +378,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "alphaa"', () => {
+        it('should return 200 and [] when called with "alphaa"', () => {
             const request = {
                 params: {
                     systemName: 'alphaa'
@@ -417,7 +417,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "Alpha123"', () => {
+        it('should return 200 and [] when called with "Alpha123"', () => {
             const request = {
                 params: {
                     systemName: 'Alpha123'
@@ -456,7 +456,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with a SQL Statement', () => {
+        it('should return 200 and [] when called with a SQL Statement', () => {
             const request = {
                 params: {
                     systemName: "; SELECT * FROM [PermissionType]"
@@ -495,7 +495,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with a "undefined"', () => {
+        it('should return 200 and [] when called with a "undefined"', () => {
             const request = {
                 params: {
                     systemName: 'undefined'
@@ -534,7 +534,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with a "null"', () => {
+        it('should return 200 and [] when called with a "null"', () => {
             const request = {
                 params: {
                     systemName: 'null'
@@ -573,7 +573,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with " " (blank space)', () => {
+        it('should return 200 and [] when called with " " (blank space)', () => {
             const request = {
                 params: {
                     systemName: ' '
@@ -612,7 +612,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 200 and [] when called with "" (empty string)', () => {
+        it('should return 200 and [] when called with "" (empty string)', () => {
             const request = {
                 params: {
                     systemName: ''
@@ -655,7 +655,7 @@ describe('GetPermissionTypes', function () {
 
     describe('Calling GetPermissionTypes with an invalid parameter', function () {
 
-        it('should return Status = 400 and Error when called with [] (empty array)', () => {
+        it('should return 400 and Error when called with [] (empty array)', () => {
             const request = {
                 params: {
                     contains: []
@@ -695,7 +695,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with undefined', () => {
+        it('should return 400 and Error when called with undefined', () => {
             const request = {
                 params: {
                 }
@@ -734,7 +734,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with null', () => {
+        it('should return 400 and Error when called with null', () => {
             const request = {
                 params: {
                     systemName: null
@@ -774,7 +774,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with 0', () => {
+        it('should return 400 and Error when called with 0', () => {
             const request = {
                 params: {
                     systemName: 0
@@ -814,7 +814,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with 1', () => {
+        it('should return 400 and Error when called with 1', () => {
             const request = {
                 params: {
                     systemName: 1
@@ -854,7 +854,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with false', () => {
+        it('should return 400 and Error when called with false', () => {
             const request = {
                 params: {
                     systemName: false
@@ -894,7 +894,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with true', () => {
+        it('should return 400 and Error when called with true', () => {
             const request = {
                 params: {
                     systemName: true
@@ -934,7 +934,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with an object', () => {
+        it('should return 400 and Error when called with an object', () => {
             const request = {
                 params: {
                     systemName: { name: "alpha" }
@@ -974,7 +974,7 @@ describe('GetPermissionTypes', function () {
 
         });
 
-        it('should return Status = 400 and Error when called with an array', () => {
+        it('should return 400 and Error when called with an array', () => {
             const request = {
                 params: {
                     systemName: ["alpha", "beta", "charlie"]

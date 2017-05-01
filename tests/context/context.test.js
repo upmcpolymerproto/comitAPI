@@ -33,6 +33,142 @@ describe('context', function () {
             .catch(err => console.log(err))
     );
 
+    describe('Invalid Context', function () {
+        it('should return an error when called with " " (blank space)', function () {
+            const system = ' ';
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with "" (empty string)', function () {
+            const system = '';
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with undefined', function () {
+            const system = undefined;
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with null', function () {
+            const system = null;
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with 0', function () {
+            const system = 0;
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with 1', function () {
+            const system = 1;
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with false', function () {
+            const system = false;
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with true', function () {
+            const system = true;
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with an object', function () {
+            const system = {
+                system: "comit"
+            };
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with an array', function () {
+            const system = ['comit', 'galaxy', 'mars'];
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with an empty array', function () {
+            const system = [];
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+        it('should return an error when called with a string "galaxy" (context doesnt exist)', function () {
+            const system = 'galaxy';
+            const user = {
+                groups: []
+            };
+
+            return context(user, system)
+                .catch(error => {
+                    should.exist(error);
+                });
+        });
+    });
     describe('CoMIT', function () {
 
         describe('User belongs to an Administrative Group', function () {
@@ -593,9 +729,7 @@ describe('context', function () {
                     });
             });
         });
-
-        describe('MARS', function () {
-        });
-
+    });
+    describe('MARS', function () {
     });
 });
