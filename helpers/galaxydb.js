@@ -73,7 +73,30 @@ const getComitComponentsByTagId = (tagId) =>
                 }
             }
             return components;
-        })
+        });
+
+/**
+ * Queries the CoMIT_Component table of galaxyDB for Component names including or equal to the value of the given string.
+ * @param {string} contains The value used to query the Component names.
+ * @return {Promise} A promise that will either resolve to an array of Components, or reject with an error.
+ */
+const getComitComponentsByContains = (contains) => {
+    const escapeCharacter = '\\';
+    contains = escapeWildcard(contains, escapeCharacter);
+    return connect()
+        .then(pool =>
+            pool.request()
+                .input('component', '%' + contains + '%')
+                .input('escape', escapeCharacter)
+                .query('SELECT [Id], [Name] FROM [CoMIT_Component] WHERE [Name] LIKE @component ESCAPE @escape'))
+        .then(rows => {
+            let components = [];
+            for (let row of rows) {
+                components.push(new Component(row.Id, row.Name))
+            }
+            return components;
+        });
+}
 
 /**
  * Queries the CoMIT_Group table of galaxyDB for a Group Id equal to the value of the given uuid.
@@ -288,6 +311,7 @@ module.exports = {
     getComitTagsByGroupId: getComitTagsByGroupId,
     getComitTagsByContains: getComitTagsByContains,
     getComitComponentsByTagId: getComitComponentsByTagId,
+    getComitComponentsByContains: getComitComponentsByContains,
     getComitTagPermissions: getComitTagPermissions,
     getComitSystemPermissionsByGroupId: getComitSystemPermissionsByGroupId,
     getComitComponentTagPermissionsByGroupId: getComitComponentTagPermissionsByGroupId,
