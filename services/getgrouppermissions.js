@@ -10,15 +10,17 @@ const GalaxyError = require('../models/galaxyerror');
 const PermissionTypes = require('../models/permissiontypes.json');
 
 module.exports = (request, response, next) => {
-    let groupId = request.params.groupId;
-    if (!_.isString(groupId) || !_.isUuid(groupId.trim())) {
-        let error = new Error('"' + groupId + '" is an invalid uuid');
+    let groupName = request.params.groupName;
+    if (!_.isString(groupName)) {
+        let error = new Error('"' + groupName + '" is an invalid string.');
         log4galaxy.logMessage(error);
         response.status(400).json(new GalaxyReturn(null, new GalaxyError(error.message, error.stack)));
     } else {
-        db.getComitGroupById(groupId)
+        db.getComitGroupByName(groupName)
             .then(group => {
                 let data = {
+                    name: group.name,
+                    id: group.id,
                     componentTagPermissions: [],
                     systemPermissions: [],
                     isAdmin: false
