@@ -1,3 +1,4 @@
+const fs = require('fs');
 const uuid = require('uuid/v4');
 
 let data = {};
@@ -601,6 +602,13 @@ data.CoMIT_GroupSystemPermission = [
     },
 ];
 
-data.Role = [];
-
 module.exports = data;
+
+//Generates mock.json file
+fs.writeFile('mock.json', JSON.stringify(data), function (err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('exported to mock.json');
+    }
+});

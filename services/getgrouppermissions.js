@@ -35,9 +35,9 @@ module.exports = (request, response, next) => {
                             let componentTagPermissionTypes = [];
 
                             for (let permissionType of permissionTypes) {
-                                if (permissionType.type === PermissionTypes.System) {
+                                if (permissionType.type === PermissionTypes.SYSTEM) {
                                     systemPermissionTypes.push(permissionType);
-                                } else if (permissionType.type === PermissionTypes.Component) {
+                                } else if (permissionType.type === PermissionTypes.COMPONENT) {
                                     componentTagPermissionTypes.push(permissionType);
                                 }
                             }

@@ -1,6 +1,6 @@
 'use strict';
 
-const Tag = require('../../models/tag');
+const Component = require('../../models/component');
 const GalaxyReturn = require('../../models/galaxyreturn');
 const GalaxyError = require('../../models/galaxyerror');
 const mockDb = require('../mock/mockdatabase');
@@ -11,9 +11,9 @@ const sinon = require('sinon');
 const should = require('chai').should();
 chai.use(require('sinon-chai'));
 
-const GetComponentTags = require('../../services/getcomponenttags');
+const GetComponents = require('../../services/getcomponents');
 
-describe('GetComponentTags', function () {
+describe('GetComponents', function () {
 
     // create mock data
     before(() =>
@@ -33,7 +33,7 @@ describe('GetComponentTags', function () {
             .catch(err => console.log(err))
     );
 
-    describe('Calling GetComponentTags with a valid parameter', function () {
+    describe('Calling GetComponents with a valid parameter', function () {
 
         it('should return 200 and [West Virginia] when called with "west"', () => {
             const states = ['West Virginia'];
@@ -43,14 +43,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -65,17 +65,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in states
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                states.should.include(tag.name);
+                // components[0] should be a component and its name should be included in states
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                states.should.include(component.name);
             });
 
         });
@@ -93,14 +93,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -115,16 +115,16 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 4
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(4);
+                // data.components should exist and its length = 4
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(4);
 
-                // each tag should be a Tag and its name should be included in states
-                for (let tag of tags) {
-                    tag.should.be.an.instanceOf(Tag);
-                    states.should.include(tag.name);
+                // each component should be a component and its name should be included in states
+                for (let component of components) {
+                    component.should.be.an.instanceOf(Component);
+                    states.should.include(component.name);
                 }
             });
 
@@ -138,14 +138,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -160,12 +160,12 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 0
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
+                // data.components should exist and its length = 0
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(0);
+                components.should.eql(states);
 
             });
 
@@ -179,14 +179,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -201,17 +201,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in states
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                states.should.include(tag.name);
+                // components[0] should be a component and its name should be included in states
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                states.should.include(component.name);
 
             });
 
@@ -225,14 +225,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -247,17 +247,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in states
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                states.should.include(tag.name);
+                // components[0] should be a component and its name should be included in states
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                states.should.include(component.name);
 
             });
 
@@ -271,14 +271,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -293,17 +293,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in states
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                states.should.include(tag.name);
+                // components[0] should be a component and its name should be included in states
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                states.should.include(component.name);
 
             });
 
@@ -317,14 +317,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -339,12 +339,12 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 0
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
+                // data.components should exist and its length = 0
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(0);
+                components.should.eql(states);
 
             });
 
@@ -358,14 +358,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -380,12 +380,12 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 0
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
+                // data.components should exist and its length = 0
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(0);
+                components.should.eql(states);
 
             });
 
@@ -395,18 +395,18 @@ describe('GetComponentTags', function () {
             const states = [];
             const request = {
                 params: {
-                    contains: "; SELECT * FROM [ComponentTag]"
+                    contains: "; SELECT * FROM [CoMIT_Component]"
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -421,12 +421,12 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 0
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(0);
-                tags.should.eql(states);
+                // data.components should exist and its length = 0
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(0);
+                components.should.eql(states);
 
             });
 
@@ -434,7 +434,7 @@ describe('GetComponentTags', function () {
 
     });
 
-    describe('Calling GetComponentTags with an invalid parameter', function () {
+    describe('Calling GetComponent with an invalid parameter', function () {
 
         it('should return 400 and Error when called with " " (blank space)', () => {
             const request = {
@@ -443,14 +443,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -483,14 +483,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -523,14 +523,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -562,14 +562,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -602,14 +602,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -642,14 +642,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -682,14 +682,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -722,14 +722,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -762,14 +762,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -802,14 +802,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -842,14 +842,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 400
                 response.status.should.have.been.calledWith(400);
 
@@ -877,7 +877,7 @@ describe('GetComponentTags', function () {
 
     });
 
-    describe('Calling GetComponentTags with a parameter that contains SQL Server Wildcard characters', function () {
+    describe('Calling GetComponents with a parameter that contains SQL Server Wildcard characters', function () {
 
         it('should return 200 and ["[Testing^Escape-Characters]"] when called with "[Testing^Escape-Characters]"', () => {
             const strings = ['[Testing^Escape-Characters]'];
@@ -887,14 +887,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -909,17 +909,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in strings
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                strings.should.include(tag.name);
+                // components[0] should be a component and its name should be included in strings
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                strings.should.include(component.name);
 
             });
 
@@ -933,14 +933,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -955,17 +955,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in strings
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                strings.should.include(tag.name);
+                // components[0] should be a component and its name should be included in strings
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                strings.should.include(component.name);
 
             });
 
@@ -979,14 +979,14 @@ describe('GetComponentTags', function () {
                 }
             };
 
-            let getComponentTags = new Promise((resolve, reject) => {
+            let getComponents = new Promise((resolve, reject) => {
                 let response = {};
                 response.json = sinon.stub().callsFake((d) => resolve(response));
                 response.status = sinon.stub().callsFake((n) => response);
-                GetComponentTags(request, response);
+                GetComponents(request, response);
             });
 
-            return getComponentTags.then(response => {
+            return getComponents.then(response => {
                 // status should be 200
                 response.status.should.have.been.calledWith(200);
 
@@ -1001,17 +1001,17 @@ describe('GetComponentTags', function () {
                 should.exist(data);
                 should.not.exist(error);
 
-                // data.tags should exist and its length = 1
-                let tags = data;
-                should.exist(tags);
-                tags.should.be.an.instanceOf(Array);
-                tags.length.should.equal(1);
+                // data.components should exist and its length = 1
+                let components = data;
+                should.exist(components);
+                components.should.be.an.instanceOf(Array);
+                components.length.should.equal(1);
 
-                // tags[0] should be a Tag and its name should be included in strings
-                let tag = tags[0];
-                should.exist(tag);
-                tag.should.be.an.instanceOf(Tag);
-                strings.should.include(tag.name);
+                // components[0] should be a component and its name should be included in strings
+                let component = components[0];
+                should.exist(component);
+                component.should.be.an.instanceOf(Component);
+                strings.should.include(component.name);
 
             });
 

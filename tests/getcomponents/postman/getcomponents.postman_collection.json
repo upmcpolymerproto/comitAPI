@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "GetComponentTags",
+		"name": "GetComponents",
 		"_postman_id": "1dbeda3e-8053-3776-aa36-f359f74a4423",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
@@ -33,7 +33,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/a",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/a",
 						"method": "GET",
 						"header": [
 							{
@@ -203,7 +203,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/a",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/a",
 						"method": "GET",
 						"header": [
 							{
@@ -373,7 +373,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/a",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/a",
 						"method": "GET",
 						"header": [
 							{
@@ -543,7 +543,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/a",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/a",
 						"method": "GET",
 						"header": [
 							{
@@ -711,7 +711,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/a",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/a",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -876,12 +876,12 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 1'] = tags.length === 1;",
-									"    tests['Tag name is \"West Virginia\"'] = tags[0].name === \"West Virginia\";",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 1'] = components.length === 1;",
+									"    tests['Component name is \"West Virginia\"'] = components[0].name === \"West Virginia\";",
 									"}",
 									"catch (e) { ",
 									"    responseJSON = {}; ",
@@ -892,7 +892,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/west",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/west",
 						"method": "GET",
 						"header": [
 							{
@@ -927,13 +927,13 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 3'] = tags.length === 3;",
-									"    tags.forEach(tag => {",
-									"        tests['Tag name: ' + tag.name + ' was expected'] = names.includes(tag.name)",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 3'] = components.length === 3;",
+									"    components.forEach(component => {",
+									"        tests['Component name: ' + component.name + ' was expected'] = names.includes(component.name)",
 									"    })",
 									"}",
 									"catch (e) { ",
@@ -946,7 +946,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/north",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/north",
 						"method": "GET",
 						"header": [
 							{
@@ -982,13 +982,13 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 2'] = tags.length === 2;",
-									"    tags.forEach(tag => {",
-									"        tests['Tag name: ' + tag.name + ' was expected'] = names.includes(tag.name)",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 2'] = components.length === 2;",
+									"    components.forEach(component => {",
+									"        tests['Component name: ' + component.name + ' was expected'] = names.includes(component.name)",
 									"    })",
 									"}",
 									"catch (e) { ",
@@ -1002,7 +1002,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/south",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/south",
 						"method": "GET",
 						"header": [
 							{
@@ -1036,11 +1036,11 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 0'] = tags.length === 0;",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 0'] = components.length === 0;",
 									"}",
 									"catch (e) { ",
 									"    responseJSON = {}; ",
@@ -1051,7 +1051,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/east",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/east",
 						"method": "GET",
 						"header": [
 							{
@@ -1104,7 +1104,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/%20",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/%20",
 						"method": "GET",
 						"header": [
 							{
@@ -1157,7 +1157,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/%20%20%20%20%20",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/%20%20%20%20%20",
 						"method": "GET",
 						"header": [
 							{
@@ -1191,12 +1191,12 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 1'] = tags.length === 1;",
-									"    tests['Tag name is \"New Jersey\"'] = tags[0].name === \"New Jersey\";",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 1'] = components.length === 1;",
+									"    tests['Component name is \"New Jersey\"'] = components[0].name === \"New Jersey\";",
 									"}",
 									"catch (e) { ",
 									"    responseJSON = {}; ",
@@ -1207,7 +1207,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/%20jersey",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/%20jersey",
 						"method": "GET",
 						"header": [
 							{
@@ -1241,12 +1241,12 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 1'] = tags.length === 1;",
-									"    tests['Tag name is \"New Jersey\"'] = tags[0].name === \"Rhode Island\";",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 1'] = components.length === 1;",
+									"    tests['Component name is \"New Jersey\"'] = components[0].name === \"Rhode Island\";",
 									"}",
 									"catch (e) { ",
 									"    responseJSON = {}; ",
@@ -1257,7 +1257,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/rhode%20",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/rhode%20",
 						"method": "GET",
 						"header": [
 							{
@@ -1291,12 +1291,12 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 1'] = tags.length === 1;",
-									"    tests['Tag name is \"New Jersey\"'] = tags[0].name === \"New Jersey\";",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 1'] = components.length === 1;",
+									"    tests['Component name is \"New Jersey\"'] = components[0].name === \"New Jersey\";",
 									"}",
 									"catch (e) { ",
 									"    responseJSON = {}; ",
@@ -1307,7 +1307,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/ew%20jer",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/ew%20jer",
 						"method": "GET",
 						"header": [
 							{
@@ -1341,11 +1341,11 @@
 									"    tests['GalaxyReturn.error is null'] = response.error === null;",
 									"    tests['GalaxyReturn.data is not null'] = response.data !== null;",
 									"    ",
-									"    var tags = response.data;",
+									"    var components = response.data;",
 									"    ",
-									"    tests['GalaxyReturn.data.tags is not null'] = tags !== null;",
-									"    tests['Tags is an array'] = Array.isArray(tags);",
-									"    tests['Tags array length is = 0'] = tags.length === 0;",
+									"    tests['GalaxyReturn.data.components is not null'] = components !== null;",
+									"    tests['Components is an array'] = Array.isArray(components);",
+									"    tests['Components array length is = 0'] = components.length === 0;",
 									"}",
 									"catch (e) { ",
 									"    responseJSON = {}; ",
@@ -1356,7 +1356,7 @@
 						}
 					],
 					"request": {
-						"url": "http://{{hostname}}:{{port}}/GetComponentTags/supercalifragilisticexpialidocious",
+						"url": "http://{{hostname}}:{{port}}/GetComponents/supercalifragilisticexpialidocious",
 						"method": "GET",
 						"header": [
 							{
