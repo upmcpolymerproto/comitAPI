@@ -1,0 +1,590 @@
+{
+    "CoMIT_Group": [
+        {
+            "Id": "97995974-d4ea-4d5e-a7bc-13d9633c8be3",
+            "Name": "ETI - Software Integration",
+            "IsSystemAdmin": true
+        },
+        {
+            "Id": "f3913f8e-3fec-4fac-909b-85986909154f",
+            "Name": "System Integration Analysts",
+            "IsSystemAdmin": true
+        },
+        {
+            "Id": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "Name": "Interoperability Application Analysts",
+            "IsSystemAdmin": false
+        },
+        {
+            "Id": "c0f0c3f5-0fd3-4927-83cb-183820e98107",
+            "Name": "IOC Support",
+            "IsSystemAdmin": false
+        },
+        {
+            "Id": "85fd4969-43f9-4ec3-987a-4f392a4ef77c",
+            "Name": "Medipac Admins",
+            "IsSystemAdmin": false
+        },
+        {
+            "Id": "e5af5b04-3d38-4cf1-a9e4-62167e6c012e",
+            "Name": "Epic Admins",
+            "IsSystemAdmin": false
+        }
+    ],
+    "TagType": [
+        {
+            "Id": "5eb62820-7769-48d3-a52c-21c476091f27",
+            "Name": "type1",
+            "SystemName": "comit"
+        },
+        {
+            "Id": "9d55b69b-75c5-4a9c-93de-ce070c149f20",
+            "Name": "type2",
+            "SystemName": "comit"
+        }
+    ],
+    "Tag": [
+        {
+            "Id": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "Name": "dbMotion",
+            "Description": "",
+            "TagTypeId": "5eb62820-7769-48d3-a52c-21c476091f27"
+        },
+        {
+            "Id": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "Name": "Epic",
+            "Description": "",
+            "TagTypeId": "9d55b69b-75c5-4a9c-93de-ce070c149f20"
+        },
+        {
+            "Id": "cce55bcc-21f9-4c54-8ae5-6744a6bf5f38",
+            "Name": "Eligibility",
+            "Description": "",
+            "TagTypeId": "5eb62820-7769-48d3-a52c-21c476091f27"
+        },
+        {
+            "Id": "77619230-0235-4b47-b948-278749b9c534",
+            "Name": "Medipac",
+            "Description": "",
+            "TagTypeId": "9d55b69b-75c5-4a9c-93de-ce070c149f20"
+        }
+    ],
+    "CoMIT_ComponentType": [
+        {
+            "Id": "bef36757-9f00-4777-87b4-25a379d96e71",
+            "Name": "send"
+        },
+        {
+            "Id": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c",
+            "Name": "transform"
+        },
+        {
+            "Id": "59594f5f-69a4-466a-b341-3bb074a07691",
+            "Name": "receive"
+        }
+    ],
+    "CoMIT_Component": [
+        {
+            "Id": "8827ee69-5179-4b6d-8e76-9cb260974dbb",
+            "Name": "T_EPICDM_DBMOTION",
+            "Description": "",
+            "ComponentTypeId": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c"
+        },
+        {
+            "Id": "82b97f68-5723-48cf-8922-a5c8eb546fbd",
+            "Name": "D_DBMOTION_MDM_SENDER",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        },
+        {
+            "Id": "e29bd3cd-1793-4469-b7f2-ed82084fd2e3",
+            "Name": "D_DBMOTION_ADT_EPIC_SENDER",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        },
+        {
+            "Id": "f53f868f-21fc-4ed9-8ce8-a0693a4b7b60",
+            "Name": "D_DBMOTION_ADT_MEDIPAC_SENDER",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        },
+        {
+            "Id": "2d5c2c26-7df3-471f-bd16-06eae94cb620",
+            "Name": "T_EPIC_ADT_DBMOTION",
+            "Description": "",
+            "ComponentTypeId": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c"
+        },
+        {
+            "Id": "c44bdee5-3e84-4725-b8bd-6e2e9f0378cf",
+            "Name": "T_MEDIPAC_DBMOTION",
+            "Description": "",
+            "ComponentTypeId": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c"
+        },
+        {
+            "Id": "e45dd3c3-78b8-4d13-a5f6-816609d9fdd6",
+            "Name": "S_EPICDM_MDM_RECEIVER",
+            "Description": "",
+            "ComponentTypeId": "bef36757-9f00-4777-87b4-25a379d96e71"
+        },
+        {
+            "Id": "f5381b8e-30e6-45c0-b5c5-9435c5695fe7",
+            "Name": "S_EPIC_ADT_RECEIVER",
+            "Description": "",
+            "ComponentTypeId": "bef36757-9f00-4777-87b4-25a379d96e71"
+        },
+        {
+            "Id": "af2208f0-9ec5-4894-a410-bb1ccd84f218",
+            "Name": "S_EPIC_SIU_RECEIVER",
+            "Description": "",
+            "ComponentTypeId": "bef36757-9f00-4777-87b4-25a379d96e71"
+        },
+        {
+            "Id": "40ec1e7d-24c9-4fe8-9e20-ad99af6eab40",
+            "Name": "S_EPIC_RAD_SIU_RECEIVER",
+            "Description": "",
+            "ComponentTypeId": "bef36757-9f00-4777-87b4-25a379d96e71"
+        },
+        {
+            "Id": "66fd6f06-d118-4a2a-88c2-b390c4720fcc",
+            "Name": "T_QUEST_ORU_EPIC",
+            "Description": "",
+            "ComponentTypeId": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c"
+        },
+        {
+            "Id": "bde14e6c-b5c1-4a0d-afda-b5fd0a7cdfee",
+            "Name": "D_EPIC_ORU_QUEST_SENDER",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        },
+        {
+            "Id": "d5879ae3-496a-4ace-8f3f-c73fafe450bf",
+            "Name": "T_EPIC_270",
+            "Description": "",
+            "ComponentTypeId": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c"
+        },
+        {
+            "Id": "24baa331-9986-4fe7-a399-466314c8023d",
+            "Name": "D_HIGHMARK_270",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        },
+        {
+            "Id": "ce81cd14-1931-41ca-b44b-7f236a7ef9bc",
+            "Name": "D_MEDIPAC_271",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        },
+        {
+            "Id": "a0376119-fa2b-49bd-ae79-40d9b95843df",
+            "Name": "S_MEDIPAC10_ADT_RECEIVER",
+            "Description": "",
+            "ComponentTypeId": "bef36757-9f00-4777-87b4-25a379d96e71"
+        },
+        {
+            "Id": "85060b6f-7e35-43c6-8091-c7cb9aca719f",
+            "Name": "S_MEDIPAC9_ADT_RECEIVER",
+            "Description": "",
+            "ComponentTypeId": "bef36757-9f00-4777-87b4-25a379d96e71"
+        },
+        {
+            "Id": "1faca99b-6fc9-4be8-a1ff-30fa09a3e14e",
+            "Name": "T_ARIA_DFT_MEDIPAC",
+            "Description": "",
+            "ComponentTypeId": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c"
+        },
+        {
+            "Id": "ea234a37-3cac-40b8-8904-0551a923dbaf",
+            "Name": "D_MEDIPAC_ADT_ARIA",
+            "Description": "",
+            "ComponentTypeId": "59594f5f-69a4-466a-b341-3bb074a07691"
+        }
+    ],
+    "CoMIT_TagComponent": [
+        {
+            "Id": "ffc2f186-4c08-4ce9-9f1a-5f6a4d6e1b52",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "ComponentId": "8827ee69-5179-4b6d-8e76-9cb260974dbb"
+        },
+        {
+            "Id": "20392d9a-3561-41f9-afa2-8ff5c182b5c7",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "ComponentId": "82b97f68-5723-48cf-8922-a5c8eb546fbd"
+        },
+        {
+            "Id": "dab4697b-a26c-4746-8cf0-2b6c738e22f6",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "ComponentId": "e29bd3cd-1793-4469-b7f2-ed82084fd2e3"
+        },
+        {
+            "Id": "4557e474-4242-4f9f-accc-4f8eabe15681",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "ComponentId": "f53f868f-21fc-4ed9-8ce8-a0693a4b7b60"
+        },
+        {
+            "Id": "06c43113-cac5-4c54-822a-f50788037547",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "ComponentId": "2d5c2c26-7df3-471f-bd16-06eae94cb620"
+        },
+        {
+            "Id": "af56e5ff-97b5-4910-9f03-dfed91c6410a",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "ComponentId": "c44bdee5-3e84-4725-b8bd-6e2e9f0378cf"
+        },
+        {
+            "Id": "bd2b3c61-65f3-4609-963c-8985e2f984be",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "ComponentId": "e45dd3c3-78b8-4d13-a5f6-816609d9fdd6"
+        },
+        {
+            "Id": "feea8afa-4899-481c-8738-e86e103f3266",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "ComponentId": "f5381b8e-30e6-45c0-b5c5-9435c5695fe7"
+        },
+        {
+            "Id": "b0243241-e48e-46f6-b3c5-0a8a34cb8d86",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "ComponentId": "af2208f0-9ec5-4894-a410-bb1ccd84f218"
+        },
+        {
+            "Id": "f22d9412-2a71-4481-aa2f-3b7694c0aa52",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "ComponentId": "40ec1e7d-24c9-4fe8-9e20-ad99af6eab40"
+        },
+        {
+            "Id": "24ef8882-2b0f-4cad-b585-da2e51b83799",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "ComponentId": "66fd6f06-d118-4a2a-88c2-b390c4720fcc"
+        },
+        {
+            "Id": "a9211995-9561-4e4c-ac0c-3a8a6ab0e2e4",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "ComponentId": "bde14e6c-b5c1-4a0d-afda-b5fd0a7cdfee"
+        },
+        {
+            "Id": "3258aaf4-a811-417d-86a4-0c488529384d",
+            "TagId": "cce55bcc-21f9-4c54-8ae5-6744a6bf5f38",
+            "ComponentId": "d5879ae3-496a-4ace-8f3f-c73fafe450bf"
+        },
+        {
+            "Id": "5bd87ee4-3192-4efe-a4c1-a189e30fac47",
+            "TagId": "cce55bcc-21f9-4c54-8ae5-6744a6bf5f38",
+            "ComponentId": "24baa331-9986-4fe7-a399-466314c8023d"
+        },
+        {
+            "Id": "b6252ffc-e8af-41f3-aebc-29596f667cd6",
+            "TagId": "cce55bcc-21f9-4c54-8ae5-6744a6bf5f38",
+            "ComponentId": "ce81cd14-1931-41ca-b44b-7f236a7ef9bc"
+        },
+        {
+            "Id": "6ec2d849-6dc2-40b9-b0a7-348c48e29ec4",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "ComponentId": "a0376119-fa2b-49bd-ae79-40d9b95843df"
+        },
+        {
+            "Id": "fcc0d515-987f-44bd-9775-7bc848e09cf2",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "ComponentId": "85060b6f-7e35-43c6-8091-c7cb9aca719f"
+        },
+        {
+            "Id": "86e6ce1c-21fa-4bb9-a209-2a3c106994be",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "ComponentId": "1faca99b-6fc9-4be8-a1ff-30fa09a3e14e"
+        },
+        {
+            "Id": "b9a01967-0133-4869-8154-59d417bacb87",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "ComponentId": "ea234a37-3cac-40b8-8904-0551a923dbaf"
+        }
+    ],
+    "PermissionType": [
+        {
+            "Id": "9a0b1cd5-87bc-4396-9baa-b095fdffd31f",
+            "Code": "Administrator",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "0020d643-a95b-43b9-a2dd-cdac562c4fd6",
+            "Code": "View All Components",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "75831bde-753d-4b1f-9620-e4b2cce087c7",
+            "Code": "Start/Stop All Components",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "e70f32ca-aebc-4cf9-a4c7-2cac72394767",
+            "Code": "Show Stage Components",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "72043d57-3a59-4848-b8f2-2718ef1e4571",
+            "Code": "Create Categories",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "1bd1bae4-e65d-4881-925e-1016a4d9cca1",
+            "Code": "Modify Categories",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "e9b127fe-dde0-4ea5-abeb-2ee8ed8c4ac1",
+            "Code": "Modify Permissions",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "4ca74f8b-02a3-4620-8e73-ec8721cd790c",
+            "Code": "Modify Roles",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": true
+        },
+        {
+            "Id": "f01b5eb1-a321-451f-9d63-b2605a913e58",
+            "Code": "Modify Component Information",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Code": "View Components",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "3d13a088-2302-4a89-9cbf-c6df6a0b5e31",
+            "Code": "Start/Stop Components",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "9514c562-347e-491e-bbe3-e4e0fc52417c",
+            "Code": "Clear Queues",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "72b724f6-a0f5-4322-8c23-6e81c845c741",
+            "Code": "Delete First Message in Queue",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "7dfc6908-4c5c-4821-aa3b-49bde30b5bc3",
+            "Code": "View Queue Message Data",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "8ccd1a8f-24b4-4031-81db-05908afe1fcf",
+            "Code": "View Messages",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        },
+        {
+            "Id": "4aed3323-f580-4993-8ecf-a05b1c64a72d",
+            "Code": "Replay Messages",
+            "Name": "",
+            "SystemName": "comit",
+            "IsSystemPermission": false
+        }
+    ],
+    "Permission": [
+        {
+            "Id": "97c3502a-5917-499e-affe-eb631bb6e9d6",
+            "PermissionTypeId": "9a0b1cd5-87bc-4396-9baa-b095fdffd31f",
+            "Value": false
+        },
+        {
+            "Id": "d86ae672-ff18-4196-8c21-a23ceb588701",
+            "PermissionTypeId": "0020d643-a95b-43b9-a2dd-cdac562c4fd6",
+            "Value": true
+        },
+        {
+            "Id": "0a9703ee-5571-4bea-bbd9-8d4a89912dc2",
+            "PermissionTypeId": "72043d57-3a59-4848-b8f2-2718ef1e4571",
+            "Value": true
+        },
+        {
+            "Id": "bb2dddfd-a85c-42ba-bdce-65740141a5a9",
+            "PermissionTypeId": "9a0b1cd5-87bc-4396-9baa-b095fdffd31f",
+            "Value": true
+        },
+        {
+            "Id": "85f46b6c-2d7d-4b65-891c-f74a86b16dfb",
+            "PermissionTypeId": "9a0b1cd5-87bc-4396-9baa-b095fdffd31f",
+            "Value": true
+        },
+        {
+            "Id": "d9f43c01-eb6a-491f-954c-4aaffd284558",
+            "PermissionTypeId": "f01b5eb1-a321-451f-9d63-b2605a913e58",
+            "Value": true
+        },
+        {
+            "Id": "db0de324-0da8-4819-b5de-563959cec210",
+            "PermissionTypeId": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Value": true
+        },
+        {
+            "Id": "a19238c0-c751-4fea-96f3-d431a0156b27",
+            "PermissionTypeId": "3d13a088-2302-4a89-9cbf-c6df6a0b5e31",
+            "Value": true
+        },
+        {
+            "Id": "e3da0215-58ea-4392-9e29-bdcdad8c3685",
+            "PermissionTypeId": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Value": true
+        },
+        {
+            "Id": "2186dfb7-215b-4a8c-8cc9-558cd9da6fed",
+            "PermissionTypeId": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Value": true
+        },
+        {
+            "Id": "eaa35085-37d4-4854-afdb-0502024e5684",
+            "PermissionTypeId": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Value": true
+        },
+        {
+            "Id": "a5de2a82-8cd1-4c83-a9a5-b81a16725f26",
+            "PermissionTypeId": "3d13a088-2302-4a89-9cbf-c6df6a0b5e31",
+            "Value": true
+        },
+        {
+            "Id": "e06c6a3c-c633-434a-86f1-7cb3850de944",
+            "PermissionTypeId": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Value": true
+        },
+        {
+            "Id": "55fd762d-cca9-4af2-8128-e582bc4d641f",
+            "PermissionTypeId": "3d13a088-2302-4a89-9cbf-c6df6a0b5e31",
+            "Value": true
+        },
+        {
+            "Id": "202629f1-fd40-4638-9452-142419475919",
+            "PermissionTypeId": "e9744103-25a7-4ebe-bfd0-6484964fe718",
+            "Value": true
+        },
+        {
+            "Id": "4c3563a5-f780-4381-b456-ce5b0ed1c8a1",
+            "PermissionTypeId": "3d13a088-2302-4a89-9cbf-c6df6a0b5e31",
+            "Value": false
+        }
+    ],
+    "CoMIT_GroupTagPermission": [
+        {
+            "Id": "e9131bdc-3429-446a-a16a-7f615edaf816",
+            "GroupId": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "PermissionId": "d9f43c01-eb6a-491f-954c-4aaffd284558"
+        },
+        {
+            "Id": "f785eb84-059a-4445-87ce-158d4b2f6a2b",
+            "GroupId": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "PermissionId": "db0de324-0da8-4819-b5de-563959cec210"
+        },
+        {
+            "Id": "5e23ea57-1c3f-4794-a333-6b10f58a356d",
+            "GroupId": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "TagId": "82f59fc9-3276-44f2-bcfa-096be0788db3",
+            "PermissionId": "a19238c0-c751-4fea-96f3-d431a0156b27"
+        },
+        {
+            "Id": "45c4c43d-c7cc-498b-9320-8769b1f0e034",
+            "GroupId": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "PermissionId": "e3da0215-58ea-4392-9e29-bdcdad8c3685"
+        },
+        {
+            "Id": "88891846-22fa-4393-aac6-274f29cfd1e7",
+            "GroupId": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "PermissionId": "2186dfb7-215b-4a8c-8cc9-558cd9da6fed"
+        },
+        {
+            "Id": "951f302a-5f8a-417f-a69e-e1880dc1f04f",
+            "GroupId": "e5af5b04-3d38-4cf1-a9e4-62167e6c012e",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "PermissionId": "eaa35085-37d4-4854-afdb-0502024e5684"
+        },
+        {
+            "Id": "705037b9-2e30-4441-b164-8c973fbe9dc4",
+            "GroupId": "e5af5b04-3d38-4cf1-a9e4-62167e6c012e",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "PermissionId": "a5de2a82-8cd1-4c83-a9a5-b81a16725f26"
+        },
+        {
+            "Id": "62b82196-8796-444e-94b9-9b33a6ccf230",
+            "GroupId": "85fd4969-43f9-4ec3-987a-4f392a4ef77c",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "PermissionId": "e06c6a3c-c633-434a-86f1-7cb3850de944"
+        },
+        {
+            "Id": "a717e8bf-282b-4133-9847-cb424e705523",
+            "GroupId": "85fd4969-43f9-4ec3-987a-4f392a4ef77c",
+            "TagId": "77619230-0235-4b47-b948-278749b9c534",
+            "PermissionId": "55fd762d-cca9-4af2-8128-e582bc4d641f"
+        },
+        {
+            "Id": "116fb8a7-0533-45f9-8064-b279927cd4f7",
+            "GroupId": "85fd4969-43f9-4ec3-987a-4f392a4ef77c",
+            "TagId": "cce55bcc-21f9-4c54-8ae5-6744a6bf5f38",
+            "PermissionId": "202629f1-fd40-4638-9452-142419475919"
+        },
+        {
+            "Id": "36eac7ba-1ebd-415f-b682-c16979dec560",
+            "GroupId": "13e66829-b93f-41d5-806d-4c6533404c11",
+            "TagId": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
+            "PermissionId": "4c3563a5-f780-4381-b456-ce5b0ed1c8a1"
+        }
+    ],
+    "CoMIT_GroupSystemPermission": [
+        {
+            "Id": "0a6f23dc-cfc1-485b-8bbc-4ff657d4938b",
+            "GroupId": "c0f0c3f5-0fd3-4927-83cb-183820e98107",
+            "PermissionId": "97c3502a-5917-499e-affe-eb631bb6e9d6"
+        },
+        {
+            "Id": "d3f51600-2807-480f-9d9d-a797929ddd87",
+            "GroupId": "c0f0c3f5-0fd3-4927-83cb-183820e98107",
+            "PermissionId": "d86ae672-ff18-4196-8c21-a23ceb588701"
+        },
+        {
+            "Id": "bac8b947-25a3-4284-b316-72eec03b3799",
+            "GroupId": "c0f0c3f5-0fd3-4927-83cb-183820e98107",
+            "PermissionId": "0a9703ee-5571-4bea-bbd9-8d4a89912dc2"
+        },
+        {
+            "Id": "599ae95f-40a0-48d9-a00e-a02a972a0c82",
+            "GroupId": "97995974-d4ea-4d5e-a7bc-13d9633c8be3",
+            "PermissionId": "bb2dddfd-a85c-42ba-bdce-65740141a5a9"
+        },
+        {
+            "Id": "0ab0e7b8-1005-41c9-ab66-e5dfe25662d6",
+            "GroupId": "f3913f8e-3fec-4fac-909b-85986909154f",
+            "PermissionId": "85f46b6c-2d7d-4b65-891c-f74a86b16dfb"
+        }
+    ]
+}
