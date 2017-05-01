@@ -28,6 +28,8 @@ module.exports = (request, response, next) => {
                 if (group.isAdmin) {
                     data.isAdmin = true;
                     return data;
+                } else if (_.isEmpty(group.systemPermissions) && _.isEmpty(group.componentTagPermissions)) {
+                    return data;
                 } else {
                     return db.getPermissionTypesBySystemName('comit')
                         .then(permissionTypes => {
@@ -42,10 +44,14 @@ module.exports = (request, response, next) => {
                                 }
                             }
 
-                            data.systemPermissions =
-                                utils.mergePermissionsWithPermissionTypes(group.systemPermissions, systemPermissionTypes);
-                            data.componentTagPermissions =
-                                utils.mergeComponentTagPermissionsWithPermissionTypes(group.componentTagPermissions, componentTagPermissionTypes);
+                            if (!_.isEmpty(group.systemPermissions)) {
+                                data.systemPermissions =
+                                    utils.mergePermissionsWithPermissionTypes(group.systemPermissions, systemPermissionTypes);
+                            }
+                            if (!_.isEmpty(group.componentTagPermissions)) {
+                                data.componentTagPermissions =
+                                    utils.mergeComponentTagPermissionsWithPermissionTypes(group.componentTagPermissions, componentTagPermissionTypes);
+                            }
                             return data;
                         });
                 }
