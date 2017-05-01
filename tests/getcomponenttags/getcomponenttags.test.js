@@ -66,7 +66,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
@@ -116,7 +116,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 4
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(4);
@@ -161,7 +161,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 0
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
@@ -202,7 +202,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
@@ -248,7 +248,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
@@ -294,7 +294,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
@@ -340,7 +340,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 0
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
@@ -381,7 +381,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 0
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
@@ -422,7 +422,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 0
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(0);
@@ -910,7 +910,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
@@ -956,7 +956,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
@@ -1002,7 +1002,7 @@ describe('GetComponentTags', function () {
                 should.not.exist(error);
 
                 // data.tags should exist and its length = 1
-                let tags = data.tags;
+                let tags = data;
                 should.exist(tags);
                 tags.should.be.an.instanceOf(Array);
                 tags.length.should.equal(1);
