@@ -432,477 +432,476 @@ describe('GetGroupPermissions', function () {
                 });
             });
         });
+    });
+    describe('Calling GetGroupPermissions with an invalid parameter', function () {
+        it('should return 400 and Error when called with " " (blank space)', () => {
+            const request = {
+                params: {
+                    groupId: ' '
+                }
+            };
 
-        describe('Calling GetGroupPermissions with an invalid parameter', function () {
-            it('should return 400 and Error when called with " " (blank space)', () => {
-                const request = {
-                    params: {
-                        groupId: ' '
-                    }
-                };
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
-
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
-
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with "" (empty string)', () => {
-                const request = {
-                    params: {
-                        groupId: ''
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with "" (empty string)', () => {
+            const request = {
+                params: {
+                    groupId: ''
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
-
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
-
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
-
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
-
-                });
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
             });
-            it('should return 400 and Error when called with [] (empty array)', () => {
-                const request = {
-                    params: {
-                        groupId: []
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
-
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
-
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with undefined', () => {
-                const request = {
-                    params: {
-                        groupId: undefined
-                    }
-                };
+        });
+        it('should return 400 and Error when called with [] (empty array)', () => {
+            const request = {
+                params: {
+                    groupId: []
+                }
+            };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
-
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with null', () => {
-                const request = {
-                    params: {
-                        groupId: null
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with undefined', () => {
+            const request = {
+                params: {
+                    groupId: undefined
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with 0', () => {
-                const request = {
-                    params: {
-                        groupId: 0
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with null', () => {
+            const request = {
+                params: {
+                    groupId: null
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with 1', () => {
-                const request = {
-                    params: {
-                        groupId: 1
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with 0', () => {
+            const request = {
+                params: {
+                    groupId: 0
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with true', () => {
-                const request = {
-                    params: {
-                        groupId: true
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with 1', () => {
+            const request = {
+                params: {
+                    groupId: 1
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with false', () => {
-                const request = {
-                    params: {
-                        groupId: false
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with true', () => {
+            const request = {
+                params: {
+                    groupId: true
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with an object', () => {
-                const request = {
-                    params: {
-                        groupId: {
-                            groudId: "abc"
-                        }
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with false', () => {
+            const request = {
+                params: {
+                    groupId: false
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with an array', () => {
-                const request = {
-                    params: {
-                        groupId: ['a', 'b', 'c']
+
+        });
+        it('should return 400 and Error when called with an object', () => {
+            const request = {
+                params: {
+                    groupId: {
+                        groudId: "abc"
                     }
-                };
+                }
+            };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
-
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
-            it('should return 400 and Error when called with a string (non-uuid)', () => {
-                const request = {
-                    params: {
-                        groupId: '123-456-789'
-                    }
-                };
 
-                let getGroupPermissions = new Promise((resolve, reject) => {
-                    let response = {};
-                    response.json = sinon.stub().callsFake((d) => resolve(response));
-                    response.status = sinon.stub().callsFake((n) => response);
-                    GetGroupPermissions(request, response);
-                });
+        });
+        it('should return 400 and Error when called with an array', () => {
+            const request = {
+                params: {
+                    groupId: ['a', 'b', 'c']
+                }
+            };
 
-                return getGroupPermissions.then(response => {
-                    // status should be 400
-                    response.status.should.have.been.calledWith(400);
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
 
-                    // response should be a GalaxyReturn
-                    response.json.should.have.been.calledOnce;
-                    let calledWith = response.json.firstCall.args[0];
-                    calledWith.should.be.an.instanceOf(GalaxyReturn);
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
 
-                    // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
-                    let data = calledWith.data;
-                    let error = calledWith.error;
-                    should.not.exist(data);
-                    should.exist(error);
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
 
-                    // error should be a GalaxyError
-                    error.should.be.an.instanceOf(GalaxyError);
-                    should.exist(error.friendlyMsg);
-                    error.friendlyMsg.should.be.a('string');
-                    should.exist(error.description);
-                    error.description.should.be.a('string');
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
 
-                });
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
 
             });
+
+        });
+        it('should return 400 and Error when called with a string (non-uuid)', () => {
+            const request = {
+                params: {
+                    groupId: '123-456-789'
+                }
+            };
+
+            let getGroupPermissions = new Promise((resolve, reject) => {
+                let response = {};
+                response.json = sinon.stub().callsFake((d) => resolve(response));
+                response.status = sinon.stub().callsFake((n) => response);
+                GetGroupPermissions(request, response);
+            });
+
+            return getGroupPermissions.then(response => {
+                // status should be 400
+                response.status.should.have.been.calledWith(400);
+
+                // response should be a GalaxyReturn
+                response.json.should.have.been.calledOnce;
+                let calledWith = response.json.firstCall.args[0];
+                calledWith.should.be.an.instanceOf(GalaxyReturn);
+
+                // GalaxyReturn.data should not exist and GalaxyReturn.error should exist
+                let data = calledWith.data;
+                let error = calledWith.error;
+                should.not.exist(data);
+                should.exist(error);
+
+                // error should be a GalaxyError
+                error.should.be.an.instanceOf(GalaxyError);
+                should.exist(error.friendlyMsg);
+                error.friendlyMsg.should.be.a('string');
+                should.exist(error.description);
+                error.description.should.be.a('string');
+
+            });
+
         });
     });
 });
