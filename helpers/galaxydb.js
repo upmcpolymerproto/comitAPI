@@ -88,11 +88,14 @@ const getComitComponentsByContains = (contains) => {
             pool.request()
                 .input('component', '%' + contains + '%')
                 .input('escape', escapeCharacter)
-                .query('SELECT [Id], [Name] FROM [CoMIT_Component] WHERE [Name] LIKE @component ESCAPE @escape'))
+                .query( 'SELECT [CoMIT_Component].[Id], [CoMIT_Component].[Name], [CoMIT_ComponentType].[Name] AS Type ' + 
+                        'FROM [CoMIT_Component] JOIN [CoMIT_ComponentType] ' +
+                        'ON [CoMIT_Component].[ComponentTypeId]=[CoMIT_ComponentType].[Id] ' + 
+                        'WHERE [CoMIT_Component].[Name] LIKE @component ESCAPE @escape'))
         .then(rows => {
             let components = [];
             for (let row of rows) {
-                components.push(new Component(row.Id, row.Name))
+                components.push(new Component(row.Id, row.Name, row.Type));
             }
             return components;
         });

@@ -39,6 +39,7 @@ app.post('/login', passport.authenticate('authentication', { session: false }), 
 app.post('/renew', passport.authenticate('renewal', { session: false }), renew);
 app.get('/getadgroups/:startsWith', passport.authenticate('authorization', { session: false }), getadgroups);
 app.get('/getcomponents/:contains', passport.authenticate('authorization', { session: false }), getcomponents);
+app.get('/getcomponents/:contains/:noCategory/:stageOnly', passport.authenticate('authorization', { session: false }), getcomponents);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
 app.get('/getgrouppermissions/:groupName', passport.authenticate('authorization', { session: false }), getgrouppermissions);
 app.get('/getpermissiontypes/:systemName', passport.authenticate('authorization', { session: false }), getpermissiontypes);
