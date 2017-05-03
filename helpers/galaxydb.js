@@ -10,6 +10,7 @@ const Permission = require('../models/permission');
 const PermissionType = require('../models/permissiontype');
 const Component = require('../models/component');
 const ComponentTagPermission = require('../models/componenttagpermission');
+const MessageQuery = require('../models/messagequery.js');
 
 const connect = () => sql.connect(config.sql);
 
@@ -180,6 +181,28 @@ const getComitGroupByName = (groupName) =>
         })
 
 /**
+ * Queries the CoMIT_MessageQuery table for all saved queries that match the user's ID.
+ * @param {String} userId User's ID from ADAL, passed in from the client.
+ * @return {Promise} A promise that will either resolve to an array of MessageQuery, or reject with an error.
+ */
+const getComitMessageQueriesById = (userId) => {
+    return connect()
+        .then(pool => 
+            pool.request()
+                .input('userId', userId) 
+                .query( 'SELECT [Id], [Name], [UserId], [QueryData] ' + 
+                        'FROM [CoMIT_MessageQuery] ' + 
+                        'WHERE [UserId] = @userId' )
+        ).then(rows => {
+            let queries = [];
+            for(let row of rows) {
+                queries.push(new MessageQuery(row.Id, row.Name, row.UserId, JSON.parse(row.QueryData)));
+            }
+            return queries;
+        });
+}
+
+/**
  * Queries the Tag table of galaxyDB for Tag names including or equal to the value of the given string.
  * @param {string} contains The value used to query the tag names.
  * @return {Promise} A promise that will either resolve to an array of Tags, or reject with an error.
@@ -315,6 +338,7 @@ module.exports = {
     getComitTagsByContains: getComitTagsByContains,
     getComitComponentsByTagId: getComitComponentsByTagId,
     getComitComponentsByContains: getComitComponentsByContains,
+    getComitMessageQueriesById: getComitMessageQueriesById,
     getComitTagPermissions: getComitTagPermissions,
     getComitSystemPermissionsByGroupId: getComitSystemPermissionsByGroupId,
     getComitComponentTagPermissionsByGroupId: getComitComponentTagPermissionsByGroupId,

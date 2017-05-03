@@ -19,6 +19,7 @@ const getcomponents = require('./services/getcomponents');
 const getcomponenttags = require('./services/getcomponenttags');
 const getgrouppermissions = require('./services/getgrouppermissions');
 const getpermissiontypes = require('./services/getpermissiontypes');
+const getmessagequeries = require('./services/getmessagequeries');
 const email = require('./services/email');
 
 // create express
@@ -41,6 +42,7 @@ app.get('/getadgroups/:startsWith', passport.authenticate('authorization', { ses
 app.get('/getcomponents/:contains', passport.authenticate('authorization', { session: false }), getcomponents);
 app.get('/getcomponents/:contains/:noCategory/:stageOnly', passport.authenticate('authorization', { session: false }), getcomponents);
 app.get('/getcomponenttags/:contains', passport.authenticate('authorization', { session: false }), getcomponenttags);
+app.get('/getmessagequeries/:userid', passport.authenticate('authorization', { session: false }), getmessagequeries);
 app.get('/getgrouppermissions/:groupName', passport.authenticate('authorization', { session: false }), getgrouppermissions);
 app.get('/getpermissiontypes/:systemName', passport.authenticate('authorization', { session: false }), getpermissiontypes);
 app.post('/email', passport.authenticate('authorization', { session: false }), email);
