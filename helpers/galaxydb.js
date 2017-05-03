@@ -6,7 +6,6 @@ const config = require('../config/config.json');
 // import models
 const Group = require('../models/group');
 const Tag = require('../models/tag');
-const TagType = require('../models/tagtype');
 const Permission = require('../models/permission');
 const PermissionType = require('../models/permissiontype');
 const Component = require('../models/component');
@@ -195,15 +194,14 @@ const getComitTagsByContains = (contains) => {
                 .input('tag', '%' + contains + '%')
                 .input('escape', escapeCharacter)
                 .query(
-                'SELECT Tag.Id, Tag.Name, TagType.Id AS TypeId, TagType.Name AS TypeName ' +
+                'SELECT Tag.Id, Tag.Name, TagType.Name AS Type ' +
                 'FROM Tag JOIN TagType ' +
                 'ON Tag.TagTypeId = TagType.Id ' +
                 'WHERE Tag.Name LIKE @tag ESCAPE @escape'))
         .then(rows => {
             let tags = [];
             for (let row of rows) {
-                let tagType = new TagType(row.TypeId, row.TypeName);
-                tags.push(new Tag(row.Id, row.Name, tagType));
+                tags.push(new Tag(row.Id, row.Name, row.Type));
             }
             return tags;
         });
@@ -226,8 +224,7 @@ const getComitTagsByGroupId = (groupId) =>
             let rows = result[0];
             if (rows) {
                 for (let row of rows) {
-                    let tagType = new TagType(row.TypeId, row.TypeName);
-                    tags.push(new Tag(row.Id, row.Name, tagType));
+                    tags.push(new Tag(row.Id, row.Name, row.Type));
                 }
             }
             return tags;

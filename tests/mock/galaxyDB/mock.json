@@ -34,12 +34,7 @@
     "TagType": [
         {
             "Id": "5eb62820-7769-48d3-a52c-21c476091f27",
-            "Name": "type1",
-            "SystemName": "comit"
-        },
-        {
-            "Id": "9d55b69b-75c5-4a9c-93de-ce070c149f20",
-            "Name": "type2",
+            "Name": "COMPONENT",
             "SystemName": "comit"
         }
     ],
@@ -54,7 +49,7 @@
             "Id": "b4de9808-cb4d-4558-98cf-d83a7091b6e3",
             "Name": "Epic",
             "Description": "",
-            "TagTypeId": "9d55b69b-75c5-4a9c-93de-ce070c149f20"
+            "TagTypeId": "5eb62820-7769-48d3-a52c-21c476091f27"
         },
         {
             "Id": "cce55bcc-21f9-4c54-8ae5-6744a6bf5f38",
@@ -66,21 +61,21 @@
             "Id": "77619230-0235-4b47-b948-278749b9c534",
             "Name": "Medipac",
             "Description": "",
-            "TagTypeId": "9d55b69b-75c5-4a9c-93de-ce070c149f20"
+            "TagTypeId": "5eb62820-7769-48d3-a52c-21c476091f27"
         }
     ],
     "CoMIT_ComponentType": [
         {
             "Id": "bef36757-9f00-4777-87b4-25a379d96e71",
-            "Name": "send"
+            "Name": "S"
         },
         {
             "Id": "d6d41129-0694-46f7-8bf4-ef1ffcb47d1c",
-            "Name": "transform"
+            "Name": "T"
         },
         {
             "Id": "59594f5f-69a4-466a-b341-3bb074a07691",
-            "Name": "receive"
+            "Name": "R"
         }
     ],
     "CoMIT_Component": [

@@ -1,7 +1,7 @@
 'use strict';
 
 const BaseModel = require('./basemodel');
-const types = require('./permissiontypes.json');
+const types = require('./enums/permissiontypes.json');
 
 class PermissionType extends BaseModel {
 
