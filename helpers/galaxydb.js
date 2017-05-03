@@ -336,6 +336,25 @@ const getPermissionTypesBySystemName = (systemName) =>
             return permissionTypes;
         });
 
+/**
+ * Inserts the given MessageQuery object into the database.
+ * @param {Object} messageQuery MessageQuery object handed to GalaxyAPI from the client.
+ * @return {Promise} A promise that will return any possible errors from the database.
+ */
+const saveComitMessageQuery = (messageQuery) => {
+    return connect()
+        .then(pool => 
+            pool.request()
+                .input('userId', messageQuery.userId)
+                .input('name', messageQuery.name)
+                .input('queryData', JSON.stringify(messageQuery.queryData) ) 
+                .query( 'INSERT INTO [CoMIT_MessageQuery]([UserId], [Name], [QueryData]) ' + 
+                        'VALUES (@userId,@name,@queryData)' )
+        ).then(result => {
+            return result;
+        });
+}
+
 module.exports = {
     getComitGroupById: getComitGroupById,
     getComitGroupByName: getComitGroupByName,
@@ -347,5 +366,6 @@ module.exports = {
     getComitTagPermissions: getComitTagPermissions,
     getComitSystemPermissionsByGroupId: getComitSystemPermissionsByGroupId,
     getComitComponentTagPermissionsByGroupId: getComitComponentTagPermissionsByGroupId,
-    getPermissionTypesBySystemName: getPermissionTypesBySystemName
+    getPermissionTypesBySystemName: getPermissionTypesBySystemName,
+    saveComitMessageQuery: saveComitMessageQuery
 }

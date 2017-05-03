@@ -20,6 +20,7 @@ const getcomponenttags = require('./services/getcomponenttags');
 const getgrouppermissions = require('./services/getgrouppermissions');
 const getpermissiontypes = require('./services/getpermissiontypes');
 const getmessagequeries = require('./services/getmessagequeries');
+const savemessagequery = require('./services/savemessagequery');
 const email = require('./services/email');
 
 // create express
@@ -46,6 +47,7 @@ app.get('/getmessagequeries/:userid', passport.authenticate('authorization', { s
 app.get('/getgrouppermissions/:groupName', passport.authenticate('authorization', { session: false }), getgrouppermissions);
 app.get('/getpermissiontypes/:systemName', passport.authenticate('authorization', { session: false }), getpermissiontypes);
 app.post('/email', passport.authenticate('authorization', { session: false }), email);
+app.post('/savemessagequery', passport.authenticate('authorization', { session: false }), savemessagequery);
 
 app.listen(port, (error => {
     console.log('Galaxy API listening on port ' + port);
