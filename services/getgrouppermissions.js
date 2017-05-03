@@ -7,7 +7,7 @@ const utils = require('../helpers/galaxyutils');
 const log4galaxy = require('../helpers/galaxylog');
 const GalaxyReturn = require('../models/galaxyreturn');
 const GalaxyError = require('../models/galaxyerror');
-const PermissionTypes = require('../models/permissiontypes.json');
+const PermissionTypes = require('../models/enums/permissiontypes.json');
 
 module.exports = (request, response, next) => {
     let groupName = request.params.groupName;

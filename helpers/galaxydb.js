@@ -89,10 +89,11 @@ const getComitComponentsByContains = (contains) => {
             pool.request()
                 .input('component', '%' + contains + '%')
                 .input('escape', escapeCharacter)
-                .query( 'SELECT Components.Id, Components.Name, Types.Name AS Type ' + 
-                        'FROM [CoMIT_Component] AS Components JOIN [CoMIT_ComponentType] AS Types ' +
-                        'ON Components.ComponentTypeId=Types.Id ' + 
-                        'WHERE Components.Name LIKE @component ESCAPE @escape'))
+                .query(
+                'SELECT Components.Id, Components.Name, Types.Name AS Type ' +
+                'FROM [CoMIT_Component] AS Components JOIN [CoMIT_ComponentType] AS Types ' +
+                'ON Components.ComponentTypeId=Types.Id ' +
+                'WHERE Components.Name LIKE @component ESCAPE @escape'))
         .then(rows => {
             let components = [];
             for (let row of rows) {
@@ -215,11 +216,15 @@ const getComitTagsByContains = (contains) => {
             pool.request()
                 .input('tag', '%' + contains + '%')
                 .input('escape', escapeCharacter)
-                .query('SELECT [Id], [Name] FROM [Tag] WHERE [Name] LIKE @tag ESCAPE @escape'))
+                .query(
+                'SELECT Tag.Id, Tag.Name, TagType.Name AS Type ' +
+                'FROM Tag JOIN TagType ' +
+                'ON Tag.TagTypeId = TagType.Id ' +
+                'WHERE Tag.Name LIKE @tag ESCAPE @escape'))
         .then(rows => {
             let tags = [];
             for (let row of rows) {
-                tags.push(new Tag(row.Id, row.Name))
+                tags.push(new Tag(row.Id, row.Name, row.Type));
             }
             return tags;
         });
@@ -242,7 +247,7 @@ const getComitTagsByGroupId = (groupId) =>
             let rows = result[0];
             if (rows) {
                 for (let row of rows) {
-                    tags.push(new Tag(row.Id, row.Name));
+                    tags.push(new Tag(row.Id, row.Name, row.Type));
                 }
             }
             return tags;
