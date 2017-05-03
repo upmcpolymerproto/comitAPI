@@ -6,6 +6,7 @@ const config = require('../config/config.json');
 // import models
 const Group = require('../models/group');
 const Tag = require('../models/tag');
+const TagType = require('../models/tagtype');
 const Permission = require('../models/permission');
 const PermissionType = require('../models/permissiontype');
 const Component = require('../models/component');
@@ -88,10 +89,11 @@ const getComitComponentsByContains = (contains) => {
             pool.request()
                 .input('component', '%' + contains + '%')
                 .input('escape', escapeCharacter)
-                .query( 'SELECT Components.Id, Components.Name, Types.Name AS Type ' + 
-                        'FROM [CoMIT_Component] AS Components JOIN [CoMIT_ComponentType] AS Types ' +
-                        'ON Components.ComponentTypeId=Types.Id ' + 
-                        'WHERE Components.Name LIKE @component ESCAPE @escape'))
+                .query(
+                'SELECT Components.Id, Components.Name, Types.Name AS Type ' +
+                'FROM [CoMIT_Component] AS Components JOIN [CoMIT_ComponentType] AS Types ' +
+                'ON Components.ComponentTypeId=Types.Id ' +
+                'WHERE Components.Name LIKE @component ESCAPE @escape'))
         .then(rows => {
             let components = [];
             for (let row of rows) {
@@ -192,11 +194,16 @@ const getComitTagsByContains = (contains) => {
             pool.request()
                 .input('tag', '%' + contains + '%')
                 .input('escape', escapeCharacter)
-                .query('SELECT [Id], [Name] FROM [Tag] WHERE [Name] LIKE @tag ESCAPE @escape'))
+                .query(
+                'SELECT Tag.Id, Tag.Name, TagType.Id AS TypeId, TagType.Name AS TypeName ' +
+                'FROM Tag JOIN TagType ' +
+                'ON Tag.TagTypeId = TagType.Id ' +
+                'WHERE Tag.Name LIKE @tag ESCAPE @escape'))
         .then(rows => {
             let tags = [];
             for (let row of rows) {
-                tags.push(new Tag(row.Id, row.Name))
+                let tagType = new TagType(row.TypeId, row.TypeName);
+                tags.push(new Tag(row.Id, row.Name, tagType));
             }
             return tags;
         });
@@ -219,7 +226,8 @@ const getComitTagsByGroupId = (groupId) =>
             let rows = result[0];
             if (rows) {
                 for (let row of rows) {
-                    tags.push(new Tag(row.Id, row.Name));
+                    let tagType = new TagType(row.TypeId, row.TypeName);
+                    tags.push(new Tag(row.Id, row.Name, tagType));
                 }
             }
             return tags;
