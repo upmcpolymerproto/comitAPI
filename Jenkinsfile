@@ -1,5 +1,6 @@
 
-node { 
+pipeline { 
+    agent any
     echo 'Hello World' 
     stages {
         stage('Build-Docker') {
