@@ -1,10 +1,11 @@
 
 pipeline { 
     agent any
-    echo 'Hello World' 
+
     stages {
         stage('Build-Docker') {
             steps {
+                echo 'Hello World' 
                 sh('docker-build.sh')
             }
         }
