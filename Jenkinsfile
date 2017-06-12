@@ -6,7 +6,7 @@ pipeline {
         stage('Build-Docker') {
             steps {
                 echo 'Hello World' 
-                sh('docker-build.sh')
+                docker build -t hello-node:v1 .
             }
         }
     }
