@@ -1,6 +1,6 @@
 node {
     stage ("docker-build"){
         echo "reached"
-        def app = docker.build "galaxyAPI"
+        docker ("build -t hello-node:v1 .")
     }    
 }
