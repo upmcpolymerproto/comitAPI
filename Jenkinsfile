@@ -4,7 +4,7 @@ node {
     stages {
         stage('Build-Docker') {
             steps {
-                ./docker-build.sh
+                sh('docker-build.sh')
             }
         }
     }
