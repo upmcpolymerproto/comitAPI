@@ -1,13 +1,5 @@
-
-pipeline { 
-    agent any
-
-    stages {
-        stage('Build-Docker') {
-            steps {
-                echo 'Hello World' 
-                docker 'bild -t hello-node:v1 .'
-            }
-        }
-    }
+node("docker") {
+    stage "docker-build"
+    def app = docker.build "galaxyAPI"
+    
 }
