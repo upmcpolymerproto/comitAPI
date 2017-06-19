@@ -1,6 +1,8 @@
 node {
     stage ("docker-build"){
         echo "reached"
-        docker.build ("hello-node:v1", '.')
+        sh ("docker version")
+        echo "reached2"
+        docker.build ("helloNode:v1", '.')
     }    
 }
